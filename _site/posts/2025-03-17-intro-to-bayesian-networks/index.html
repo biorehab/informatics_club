@@ -1151,6 +1151,43 @@
     // arm3LinkParams.origin = {x: arm3LinkParams.width / 2,
     //                          y: arm3LinkParams.height / 2};
 </script>
+<p>Almost all real-world problems we deal with require us to deal with: (a) deal with multiple variables with complex interactions, (b) each variable has some uncertainity associated with, and (c) require us to make some decision based on some partially observed or available information. Bayesian networks are a powerful tool that can help us represents such complex systems, and provide pricipled approaches for make informed decisions. In this post, we will provide a short introduction to Bayesian networks, and show how they can be used to model complex systems and make decisions. Bayesian networks are a type of probabilistic graphical model and are a stepping stone to causal inference --  a topic of great interest to the author.</p>
+<!-- Note in small text in a box -->
+<div class="note">
+    <p><b>Note:</b> This post is a work in progress. Please check back later for more content.</p>
+</div>
+<h2 class="post-subtitle">Some basic probability concepts</h2>
+Let's start by stating some basic probabilistic concepts. Let a random variable $X$ which takes on some values from its domain $\text{dom}(X)$. Let $0 \leq p(X = x) \leq 1$ is the probability that the random variable $X$ takes on the value $x \in \text{dom}(X)$.
+<p>$$
+\sum_{x_i \in \text{dom}(X)} p(x_i) = 1
+$$</p>
+<p>This is the normalization condition. If $X$ is a continuous random variable, this condition is $$\int_{-\infty}^{\infty} p(x) dX = 1$$</p>
+<p>When we have two random variables $X$ and $Y$, the <i>joint probability distribution</i> is denoted by $p(X=x, Y=y)$ or $p(x, y)$. The joint probability distribution is the probability that both $X$ and $Y$ take on the values $x$ and $y$, respectively.</p>
+<p>The <i>marginal</i> of a joint distribution is given by,</p>
+<p>$$
+p(x) = \sum_{y} p(x, y) \quad \text{and} \quad p(y) = \sum_{x} p(x, y)
+$$</p>
+<p>While the marginal probabilities tell us the probability of the individual random variables, irrespective of the other. <i>Conditional probability</i> tells us the probability of one random variable, when the value of another random variable is known. The conditional probability of $X$ given $Y$ is denoted by $p(X=x \vert Y=y)$ or $p(x \vert y)$ and is given by,</p>
+<p>$$
+p\left(x \, \vert \, y\right) = \frac{p\left(x, y\right)}{p\left( y \right)}, \quad p(y) \neq 0
+$$</p>
+<p>The reader must note the following points.</p>
+<ol>
+<li>$p( x \vert y)$ can be thought of a function of $x$ for a given vaues of $y$.</li>
+<li>$\sum_{x} p( x \, \vert \, y) = 1$, which mean that $p(x \, \vert \, y)$ is a valid probability distribution. This property is due to the normalization of the joint probability distribution by $p( y )$.</li>
+<li>$p(y) \neq 0$ is necessary because, if $p(y) = 0$ then then the random variable $Y$ cannot take on the value, so the conditional probability is not defined. Here is a simple example to understand conditional probability.</li>
+</ol>
+<div class = "example-box">
+<strong>Example 1:</strong> Let's assume we have two indentical bags - $B1$ and $B2$. $B1$ contains 10 red balls and $B2$ contains 10 blue balls. If we randomly choose between $B1$ and $B2$, with equal probability, and choose a ball from the chosen bag. What is the probability that the chosen ball is red? This would be $p( \text{ball} = red) = 0.5$. Why? 
+<p>Now if you are told that the chosen bag is $B1$, then what is the proability that the ball is red with chosen bag being $B1$? $p( \text{ball} = red \, \vert \, \text{bag} = B1) = 1$! Why?</p>
+<p>Note what happened. If we had not information about anything in this problem, the probability of choosing a red ball is 0.5. That is we are equally uncertain about which ball was chosen. However, if we find out which bag was chosen, then our uncertainity changes. In fact, in this case we are certain that the choen ball is red, since the bag $B1$ was chosen.</p>
+<p>What would happen if we learned instead that the chosen bag is $B2$?</p>
+</div>
+<p><strong> Baye's Rule </strong> is a very important concept in probability theory, and a crucial part of Bayesian networks. The names Bayesian networks comes from the fact that they are based on Baye's rule. Baye's rule is given by,</p>
+<p>$$
+p( x \, \vert \, y) = \frac{p( y \, \vert \, x) p(x)}{p(y)} \quad, p( y ) \neq 0
+$$</p>
+<p>This very simple rule has numerous applications, and in fact has an intuitive interpretation. The rule tells us how to update our belief or the uncertainity about an event $x$ given some evidence $y$. $p(x)$ is called the <i>prior</i> probability, which is a measure of belief about the event $x$ without any other information. $p(y \, \vert \, x)$ is the <i>likelihood</i> of the evidence $y$ given $x$, which is out belief about observing the data or information $y$ if event $x$ happens. $p(y)$ is the <i>marginal likelihood</i> of the evidence, and $p(x \, \vert \, y)$ is the <i>posterior</i> probability of $x$ given $y$. The posterior probability is our updated belief about the event $x$ given the evidence $y$.</p>
 <p>In progress ...</p>
 
         </div>

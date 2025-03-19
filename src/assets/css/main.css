@@ -117,6 +117,16 @@ hr {
     color: rgb(0, 0, 220);
 }
 
+.post-subsubtitle {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 1.0rem;
+    text-align: left;
+    font-weight: 700;
+    line-height: 1.0;   /* Line spacing */
+    margin: 10px 5px 0px 0px;    /* Add space above and below */
+    color: rgb(0, 0, 220);
+}
+
 .post-meta {
     text-align: left;
     color: rgb(128, 128, 128);
@@ -207,3 +217,33 @@ label[for^="fig4-3LA-"] {
 #fig4-3LA-svg-container3 {
     flex-grow: 1;           /* Allows SVG to take up remaining space */
 }
+
+.example-box {
+    border-left: 2px solid rgb(0, 0, 220); /* Adds a colored left border */
+    background: #f9f9f9; /* Light gray background */
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 0px;
+    margin: 2px;
+    border-radius: 20px; /* Rounded corners */
+    font-family: 'Roboto', 'Comfortaa', sans-serif;
+}
+
+.inline-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: list-counter;
+    color: rgb(100, 100, 100);
+}
+
+.inline-list li {
+    display: inline;
+    counter-increment: list-counter;
+}
+
+.inline-list li::before {
+    content: "(" counter(list-counter, lower-alpha) ") ";
+}
+
