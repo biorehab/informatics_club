@@ -165,7 +165,7 @@ hr {
     font-family: 'Comfortaa', sans-serif;
     font-size: 0.75em;
     color: rgb(0, 0, 0);
-    background-color: rgba(200, 0, 0, 0.05);
+    background-color: rgba(0, 0, 200, 0.05);
     padding: 1px;
     border-left: 5px solid rgb(0, 0, 220);
     margin: 0px 0; /* Add space above and below */

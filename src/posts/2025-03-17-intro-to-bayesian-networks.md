@@ -16,1116 +16,88 @@ tags: ["blog"]
     justify-content: center; /* Center-align buttons horizontally */
     align-items: center;     /* Center-align buttons vertically (if needed) */
     margin-top: 20px;        /* Add some space above the buttons */
-}
+  }
 </style>
+<link rel="stylesheet" href="{{ '/assets/css/2025-03-17-bn.css' | url }}">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.1/math.min.js"></script>
 
 <script>
-    // // Some utility functions
-    // function mapPositionsToCoordinates(positions, origin) {
-    //     return positions.map(pos => [origin.x + pos[0],
-    //                                  origin.y - pos[1]]);
-    // }
-
-    // function degreesToRadians(degreesArray) {
-    //     return degreesArray.map(deg => deg * Math.PI / 180);
-    // }
-    
-    // function radiansToDegrees(radiansArray) {
-    //     return radiansArray.map(rad => rad * 180 / Math.PI);
-    // }
-
-    // function cummulativeSum(array) {
-    //     return array.reduce((acc, curr) => {
-    //         acc.push(acc[acc.length - 1] + curr);
-    //         return acc;
-    //     }, [0]).slice(1);
-    // }
-
-    // function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
-    //     const angleInRadians = angleInDegrees;
-    //     return {
-    //         x: centerX + (radius * Math.cos(angleInRadians)),
-    //         y: centerY - (radius * Math.sin(angleInRadians))
-    //     };
-    // }
-
-    // function describeArc(x, y, radius, startAngle, endAngle) {
-    //     const start = polarToCartesian(x, y, radius, startAngle);
-    //     const end = polarToCartesian(x, y, radius, endAngle);
-    //     const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
-    //     const sweetDir = endAngle - startAngle >= 0 ? "0" : "1";
-    //     return `
-    //         M ${start.x} ${start.y}
-    //         A ${radius} ${radius} 0 ${largeArcFlag} ${sweetDir} ${end.x} ${end.y}
-    //     `;
-    // }
-
-    // function polToCart(r, theta) {
-    //     return { x: r * Math.cos(theta), y: r * Math.sin(theta) };
-    // }
-
-    // function cartToPol(x, y) {
-    //     return { r: Math.hypot(x, y), theta: Math.atan2(y, x) };
-    // }
-
-    // // Two link arm class.
-    // class TwoLinkArm {
-    //     #jacobian = math.zeros(2, 2);
-
-    //     constructor(lengths, angles) {
-    //         this.lengths = lengths;
-    //         this.angles = angles;
-    //         this.#updateJacobian();
-    //     }
-    
-    //     setAngles(newAngles) {
-    //         this.angles = newAngles;
-    //         this.#updateJacobian();
-    //     }
-
-    //     setLengths(newLengths) {
-    //         this.lengths = newLengths;
-    //         this.#updateJacobian();
-    //     }
-    
-    //     #updateJacobian() {
-    //         const _sterms = cummulativeSum(this.angles).map(angle => Math.sin(angle));
-    //         const _cterms = cummulativeSum(this.angles).map(angle => Math.cos(angle));
-    //         this.#jacobian.set([0, 0], -this.lengths[0] * _sterms[0] - this.lengths[1] * _sterms[1]);
-    //         this.#jacobian.set([0, 1], -this.lengths[1] * _sterms[1]);
-    //         this.#jacobian.set([1, 0], this.lengths[0] * _cterms[0] + this.lengths[1] * _cterms[1]);
-    //         this.#jacobian.set([1, 1], this.lengths[1] * _cterms[1]);
-    //     }
-
-    //     getJacobian() {
-    //         return this.#jacobian;
-    //     }
-
-    //     getEndPointVelocity(angVel) {
-    //         return math.multiply(this.#jacobian, math.reshape(angVel, [-1, 1])).toArray().flat();
-    //     }
-
-    //     getArmPositions() {
-    //         const cusumtheta = cummulativeSum(this.angles);
-    //         const x1 = 0, y1 = 0;
-    //         const x2 = this.lengths[0] * Math.cos(cusumtheta[0]);
-    //         const y2 = this.lengths[0] * Math.sin(cusumtheta[0]);
-    //         const x3 = x2 + this.lengths[1] * Math.cos(cusumtheta[1]);
-    //         const y3 = y2 + this.lengths[1] * Math.sin(cusumtheta[1]);
-    //         return [[x1, y1], [x2, y2], [x3, y3]];
-    //     }
-
-    //     forwardStatics(torque) {
-    //         try {
-    //             const pinvJ = math.pinv(math.transpose(this.getJacobian()));
-    //             return math.multiply(pinvJ, math.reshape(torque, [-1, 1])).toArray().flat();
-    //         } catch (error) {
-    //             return null;
-    //         }
-    //     }
-    // }
-
-    // // Three link arm class.
-    // class ThreeLinkArm {
-    //     #jacobian = math.zeros(3, 3);
-
-    //     constructor(lengths, angles) {
-    //         this.lengths = lengths;
-    //         this.angles = angles;
-    //         this.#updateJacobian();
-    //     }
-    
-    //     setAngles(newAngles) {
-    //         this.angles = newAngles;
-    //         this.#updateJacobian();
-    //     }
-
-    //     setLengths(newLengths) {
-    //         this.lengths = newLengths;
-    //         this.#updateJacobian();
-    //     }
-    
-    //     #updateJacobian() {
-    //         const _sterms = cummulativeSum(this.angles).map(angle => Math.sin(angle));
-    //         const _cterms = cummulativeSum(this.angles).map(angle => Math.cos(angle));
-    //         this.#jacobian.set([0, 0], -this.lengths[0] * _sterms[0] - this.lengths[1] * _sterms[1] - this.lengths[2] * _sterms[2]);
-    //         this.#jacobian.set([0, 1], -this.lengths[1] * _sterms[1] - this.lengths[2] * _sterms[2]);
-    //         this.#jacobian.set([0, 2], -this.lengths[2] * _sterms[2]);
-    //         this.#jacobian.set([1, 0], this.lengths[0] * _cterms[0] + this.lengths[1] * _cterms[1] + this.lengths[2] * _cterms[2]);
-    //         this.#jacobian.set([1, 1], this.lengths[1] * _cterms[1] + this.lengths[2] * _cterms[2]);
-    //         this.#jacobian.set([1, 2], this.lengths[2] * _cterms[2]);
-    //         this.#jacobian.set([2, 0], 1);
-    //         this.#jacobian.set([2, 1], 1);
-    //         this.#jacobian.set([2, 2], 1);
-    //     }
-
-    //     getJacobian() {
-    //         return this.#jacobian;
-    //     }
-
-    //     getEndPointVelocity(angVel) {
-    //         console.log("Ang Vel: ", angVel);
-    //         console.log(math.multiply(this.#jacobian, math.reshape(angVel, [-1, 1])).toArray().flat());
-    //         return math.multiply(this.#jacobian, math.reshape(angVel, [-1, 1])).toArray().flat();
-    //     }
-
-    //     getArmPositions() {
-    //         const cusumtheta = cummulativeSum(this.angles);
-    //         const x1 = 0, y1 = 0;
-    //         const x2 = this.lengths[0] * Math.cos(cusumtheta[0]);
-    //         const y2 = this.lengths[0] * Math.sin(cusumtheta[0]);
-    //         const x3 = x2 + this.lengths[1] * Math.cos(cusumtheta[1]);
-    //         const y3 = y2 + this.lengths[1] * Math.sin(cusumtheta[1]);
-    //         const x4 = x3 + this.lengths[2] * Math.cos(cusumtheta[2]);
-    //         const y4 = y3 + this.lengths[2] * Math.sin(cusumtheta[2]);
-    //         return [[x1, y1], [x2, y2], [x3, y3], [x4, y4]];
-    //     }
-
-    //     forwardStatics(torque) {
-    //         try {
-    //             const pinvJ = math.pinv(math.transpose(this.getJacobian()));
-    //             return math.multiply(pinvJ, math.reshape(torque, [-1, 1])).toArray().flat();
-    //         } catch (error) {
-    //             return null;
-    //         }
-    //     }
-    // }
-
-    // // Four link arm class
-    // class FourLinkArm {
-    //     #jacobian = math.zeros(4, 4);
-
-    //     constructor(lengths, angles) {
-    //         this.lengths = lengths;
-    //         this.angles = angles;
-    //         // this.angles = [0.88, 0.32, 2.05, 1.25];
-    //         this.#updateJacobian();
-    //     }
-
-    //     setAngles(newAngles) {
-    //         this.angles = newAngles;
-    //         this.#updateJacobian();
-    //     }
-
-    //     setLengths(newLengths) {
-    //         this.lengths = newLengths;
-    //         this.#updateJacobian();
-    //     }
-
-    //     #updateJacobian() {
-    //         const _sterms = cummulativeSum(this.angles).map(angle => Math.sin(angle));
-    //         const _cterms = cummulativeSum(this.angles).map(angle => Math.cos(angle));
-    //         this.#jacobian.set([0, 0], -this.lengths[0] * _sterms[0] - this.lengths[1] * _sterms[1] - this.lengths[2] * _sterms[2] - this.lengths[3] * _sterms[3]);
-    //         this.#jacobian.set([0, 1], -this.lengths[1] * _sterms[1] - this.lengths[2] * _sterms[2] - this.lengths[3] * _sterms[3]);
-    //         this.#jacobian.set([0, 2], -this.lengths[2] * _sterms[2] - this.lengths[3] * _sterms[3]);
-    //         this.#jacobian.set([0, 3], -this.lengths[3] * _sterms[3]);
-    //         this.#jacobian.set([1, 0], this.lengths[0] * _cterms[0] + this.lengths[1] * _cterms[1] + this.lengths[2] * _cterms[2] + this.lengths[3] * _cterms[3]);
-    //         this.#jacobian.set([1, 1], this.lengths[1] * _cterms[1] + this.lengths[2] * _cterms[2] + this.lengths[3] * _cterms[3]);
-    //         this.#jacobian.set([1, 2], this.lengths[2] * _cterms[2] + this.lengths[3] * _cterms[3]);
-    //         this.#jacobian.set([1, 3], this.lengths[3] * _cterms[3]);
-    //         this.#jacobian.set([2, 0], 1);
-    //         this.#jacobian.set([2, 1], 1);
-    //         this.#jacobian.set([2, 2], 1);
-    //         this.#jacobian.set([2, 3], 1);
-    //     }
-
-    //     getJacobian() {
-    //         return this.#jacobian;
-    //     }
-
-    //     getArmPositions() {
-    //         const cusumtheta = cummulativeSum(this.angles);
-    //         const x1 = 0, y1 = 0;
-    //         const x2 = this.lengths[0] * Math.cos(cusumtheta[0]);
-    //         const y2 = this.lengths[0] * Math.sin(cusumtheta[0]);
-    //         const x3 = x2 + this.lengths[1] * Math.cos(cusumtheta[1]);
-    //         const y3 = y2 + this.lengths[1] * Math.sin(cusumtheta[1]);
-    //         const x4 = x3 + this.lengths[2] * Math.cos(cusumtheta[2]);
-    //         const y4 = y3 + this.lengths[2] * Math.sin(cusumtheta[2]);
-    //         const x5 = x4 + this.lengths[3] * Math.cos(cusumtheta[3]);
-    //         const y5 = y4 + this.lengths[3] * Math.sin(cusumtheta[3]);
-    //         return [[x1, y1], [x2, y2], [x3, y3], [x4, y4], [x5, y5]];
-    //     }
-
-    //     getEndpointAngle() {
-    //         return math.sum(this.angles);
-    //     }
-
-    //     forwardStatics(torque) {
-    //         try {
-    //             const pinvJ = math.pinv(math.transpose(this.getJacobian()));
-    //             return math.multiply(pinvJ, math.reshape(torque, [-1, 1])).toArray().flat();
-    //         } catch (error) {
-    //             return null;
-    //         }
-    //     }
-    // }
-
-    // // Button callbacks.
-    // // Generate a random pose
-    // function generateRandomPose() {
-    //     const randomAngles = [
-    //         Math.random() * Math.PI,
-    //         Math.random() * Math.PI * 0.75,
-    //         Math.random() * Math.PI * 0.75,
-    //         Math.random() * Math.PI * 0.5,
-    //     ];
-    //     arm4Link.setAngles(randomAngles);
-    //     draw4LinkArm(arm4Link, arm4LinkParams);
-    // }
-
-    // // Find other solutions (inverse kinematics)
-    // function findOtherIKSolutions() {
-    //     function getArcAngles(interAngles, jPos, l) {
-    //         // Get an angle from the minor and major arc.
-    //         let minAngle, majAngle;
-    //         if (interAngles[1] - interAngles[0] > Math.PI) {
-    //             majAngle = (interAngles[1] + interAngles[0]) / 2;
-    //             minAngle = majAngle + Math.PI;
-    //         } else {
-    //             minAngle = (interAngles[1] + interAngles[0]) / 2;
-    //             majAngle = minAngle + Math.PI;
-    //         }
-    //         // Find positions of the points corresponding to these angles.
-    //         const minPos = [jPos[0] + l * Math.cos(minAngle),
-    //                         jPos[1] + l * Math.sin(minAngle)];
-    //         const majPos = [jPos[0] + l * Math.cos(majAngle),
-    //                         jPos[1] + l * Math.sin(majAngle)];
-    //         // Check which one is closer to the origin.
-    //         if (Math.hypot(minPos[0], minPos[1]) > Math.hypot(majPos[0], majPos[1])) {
-    //             // Choose the major arc.
-    //             if (Math.abs(interAngles[1] - interAngles[0]) < Math.PI) {
-    //                 interAngles[0] = 2 * Math.PI + interAngles[0];
-    //             }
-    //         } else {
-    //             // Choose the minor arc.
-    //             if (Math.abs(interAngles[1] - interAngles[0]) > Math.PI) {
-    //                 interAngles[0] = 2 * Math.PI + interAngles[0];
-    //             }
-    //         }
-    //         return interAngles;
-    //     }
-
-    //     // Function to compute joint 3 position when joint 4 is not fully within
-    //     // the workspace of the first two links.
-    //     function getJoint3Position1(arm, j4pos) {
-    //         // Find the intersection of the circle centered at j4Pos with radius l3 
-    //         // and the circle centered at j1 with radius l1 + l2.
-    //         const intersections = findCircleIntersections(0, 0, arm.lengths[0] + arm.lengths[1], j4Pos[0], j4Pos[1], arm.lengths[2]);
-    //         // Find the angles corresponding to the intersection points.
-    //         let interAngles = intersections.map(intpos => Math.atan2(intpos[1] - j4Pos[1], intpos[0] - j4Pos[0]));
-    //         // Sort the interAngles
-    //         interAngles.sort((a, b) => a - b);
-    //         // Get the corrected arc angles.
-    //         interAngles = getArcAngles(interAngles, j4Pos, arm4Link.lengths[2]);
-    //         // Choose the angle of the third joint to be a number between the intersection angles.
-    //         let j3Angle = interAngles.length > 1 ? interAngles[0] + Math.random() * (interAngles[1] - interAngles[0]) : interAngles[0];
-    //         // Find the position on the arc.
-    //         return {
-    //             pos:[j4Pos[0] + arm.lengths[2] * Math.cos(j3Angle),
-    //                  j4Pos[1] + arm.lengths[2] * Math.sin(j3Angle)],
-    //             angle: j3Angle
-    //         };
-    //     }
-
-    //     // Function to compute joint 3 position when joint 4 is fully within
-    //     // the workspace of the first two links.
-    //     function getJoint3Position2(arm, j4pos) {
-    //         // Choose the angle of the third joint to be a number between the intersection angles.
-    //         let j3Angle = Math.random() * Math.PI * 2;
-    //         // Find the position on the arc.
-    //         return {
-    //             pos:[j4Pos[0] + arm.lengths[2] * Math.cos(j3Angle),
-    //                  j4Pos[1] + arm.lengths[2] * Math.sin(j3Angle)],
-    //             angle: j3Angle
-    //         };
-    //     }
-
-    //     // Get the endpoint position
-    //     const j4Pos = arm4Link.getArmPositions()[3];
-    //     let _tempos = mapPositionsToCoordinates([j4Pos], arm4LinkParams.origin);
-    //     // Relative distance of the third joint.
-    //     const delpos = arm4Link.lengths[0] + arm4Link.lengths[1] - Math.hypot(j4Pos[0], j4Pos[1]);
-    //     let j3 = null;
-    //     if (delpos > arm4Link.lengths[2]) {
-    //         j3 = getJoint3Position2(arm4Link, j4Pos);
-    //     } else {
-    //         j3 = getJoint3Position1(arm4Link, j4Pos);
-    //     }
-    //     const j3Pos = j3.pos;
-    //     const j3Angle = j3.angle;
-    //     _tempos = mapPositionsToCoordinates([j3Pos], arm4LinkParams.origin);
-
-    //     // Find intersection of the circle centered at j3Pos with radius l2 and the circle centered at j1 with radius l1.
-    //     let intersections2 = findCircleIntersections(0, 0, arm4Link.lengths[0],
-    //                                                  j3Pos[0], j3Pos[1], arm4Link.lengths[1]);
-    //     // Find the joint1 and joint2 angles corresponding to the intersection points.
-    //     const j1Angles = intersections2.map(intpos => Math.atan2(intpos[1], intpos[0]));
-    //     const phiAngles = intersections2.map(intpos => Math.PI + Math.atan2(intpos[1] - j3Pos[1], intpos[0] - j3Pos[0]));
-    //     // We want the point with a positive elbow angle.
-    //     let newAngles = [0, 0, 0, 0];
-    //     if (j1Angles.length == 1) {
-    //         newAngles[0] = j1Angles[0];
-    //         newAngles[1] = phiAngles[0] - j1Angles[0];
-    //     } else {
-    //         if (phiAngles[0] - j1Angles[0] > 0) {
-    //             newAngles[0] = j1Angles[0];
-    //             newAngles[1] = phiAngles[0] - j1Angles[0];
-    //         } else {
-    //             newAngles[0] = j1Angles[1];
-    //             newAngles[1] = phiAngles[1] - j1Angles[1];
-    //         }
-    //     }
-    //     // Update angles 3 and 4.
-    //     newAngles[2] = Math.PI + j3Angle - newAngles[0] - newAngles[1];
-    //     newAngles[3] = arm4Link.getEndpointAngle() - newAngles[0] - newAngles[1] - newAngles[2];
-    //     // Update angles and draw
-    //     arm4Link.setAngles(newAngles);
-    //     draw4LinkArm(arm4Link, arm4LinkParams);
-    // }
-
-    // function findCircleIntersections(x1, y1, r1, x2, y2, r2) {
-    //     const d = Math.hypot(x2 - x1, y2 - y1); // Distance between centers
-
-    //     // No solutions if the circles do not intersect or one circle is inside the other
-    //     if (d > r1 + r2 || d < Math.abs(r1 - r2)) {
-    //         return null;
-    //     }
-
-    //     // Find the midpoint of the intersection line
-    //     const a = (r1 * r1 - r2 * r2 + d * d) / (2 * d);
-    //     const h = Math.sqrt(r1 * r1 - a * a);
-        
-    //     // Base point of the perpendicular line
-    //     const x0 = x1 + a * (x2 - x1) / d;
-    //     const y0 = y1 + a * (y2 - y1) / d;
-
-    //     // Intersection points
-    //     const rx = -(y2 - y1) * (h / d);
-    //     const ry = (x2 - x1) * (h / d);
-
-    //     const intersection1 = [x0 + rx, y0 + ry];
-    //     const intersection2 = [x0 - rx, y0 - ry];
-
-    //     return d === r1 + r2 || d === Math.abs(r1 - r2) ? [intersection1] : [intersection1, intersection2];
-    // }
-
-    // // Figure 1: 3 link arm plotting function.
-    // function draw3LinkArm() {
-    //     const width = 300, height = 300;
-    //     const origin = {x: 50, y: 250};
-    //     const viewpad = 25;
-
-    //     // Create the arm object once and reuse it
-    //     const arm = new ThreeLinkArm(
-    //         [100, 100, 75], // Initial lengths
-    //         degreesToRadians([30, 30, 60]) // Initial angles
-    //     );
-
-    //     const svg = d3.select("#svg-container")
-    //                   .append("svg")
-    //                   .attr("width", width)
-    //                   .attr("height", height)
-    //                   .attr("viewBox", `-${viewpad} -${viewpad} ${width + 50} ${height + 50}`)
-    //                   .attr("preserveAspectRatio", "xMidYMid meet");
-
-    //     // Plot the x and y axes
-    //     svg.append("line")
-    //        .attr("x1", 0).attr("y1", origin.y)
-    //        .attr("x2", width).attr("y2", origin.y)
-    //        .attr("stroke", "gray")
-    //        .attr("stroke-width", 0.25);
-    //     svg.append("line")
-    //        .attr("x1", origin.x).attr("y1", 0)
-    //        .attr("x2", origin.x).attr("y2", height)
-    //        .attr("stroke", "gray")
-    //        .attr("stroke-width", 0.25);
-
-    //     // Plot the links.
-    //     const linkpos = mapPositionsToCoordinates(arm.getArmPositions(), origin);
-    //     for (let i = 0; i < linkpos.length - 1; i++) {
-    //         let x1 = linkpos[i][0];
-    //         let y1 = linkpos[i][1];
-    //         let x2 = linkpos[i + 1][0];
-    //         let y2 = linkpos[i + 1][1];
-    //         // Plot the line
-    //         svg.append("line")
-    //             .attr("x1", linkpos[i][0])
-    //             .attr("y1", linkpos[i][1])
-    //             .attr("x2", linkpos[i+1][0])
-    //             .attr("y2", linkpos[i+1][1])
-    //             .attr("stroke", "black")
-    //             .attr("stroke-width", 2);
-    //         // Display the link lengths
-    //         let midx = (x1 + x2) / 2;
-    //         let midy = (y1 + y2) / 2;
-    //         let shiftx = (y2 - y1) / arm.lengths[i];
-    //         let shifty = -(x2 - x1) / arm.lengths[i];
-    //         let shiftscalex = shiftx > 0 ? -1 : 1;
-    //         let shiftscaley = shiftx > 0 ? -1 : 1;
-    //         svg.append("text")
-    //             .attr("x", midx + shiftscalex * 15 * shiftx)
-    //             .attr("y", midy + shiftscaley * 15 * shifty)
-    //             .attr("text-anchor", "middle")
-    //             .attr("font-size", "14px")
-    //             .attr("fill", "#00c")
-    //             .text(`l${i + 1}`);
-    //     }
-    //     // Extend links for annotating the joint angles.
-    //     for (let i = 1; i < linkpos.length; i++) {
-    //         svg.append("line")
-    //            .attr("x1", linkpos[i][0])
-    //            .attr("y1", linkpos[i][1])
-    //            .attr("x2", linkpos[i][0] + 0.5 * (linkpos[i][0] - linkpos[i - 1][0]))
-    //            .attr("y2", linkpos[i][1] + 0.5 * (linkpos[i][1] - linkpos[i - 1][1]))
-    //            .attr("stroke", "gray")
-    //            .attr("stroke-width", "1")
-    //            .attr("stroke-dasharray", "2,2");
-    //     }
-    //     // Plot the joints.
-    //     linkpos.slice(0, -1).forEach(pos => {
-    //         svg.append("circle")
-    //             .attr("cx", pos[0])
-    //             .attr("cy", pos[1])
-    //             .attr("r", 5)
-    //             .attr("stroke", "black")
-    //             .attr("stroke-width", "1")
-    //             .attr("fill", "#ffffff");
-    //     });
-    //     // Plot the endpoint.
-    //     svg.append("circle")
-    //         .attr("cx", linkpos.at(-1)[0])
-    //         .attr("cy", linkpos.at(-1)[1])
-    //         .attr("r", 2)
-    //         .attr("stroke", "black")
-    //         .attr("stroke-width", "1")
-    //         .attr("fill", "black");
-    //     // Draw the arc for the joint angles.
-    //     arm.angles.map((_t, i) => {
-    //         let startAngle = math.sum(arm.angles.slice(0, i));
-    //         let endAngle = math.sum(arm.angles.slice(0, i + 1));
-    //         let midAngle = (startAngle + endAngle) / 2;  // Midpoint for label
-    //         svg.append("path")
-    //             .attr("d", describeArc(linkpos[i][0], linkpos[i][1], 0.4 * arm.lengths[i], startAngle, endAngle))
-    //             .attr("stroke", "black")
-    //             .attr("fill", "none")
-    //             .attr("stroke-width", 1.0);
-    //         // Convert midAngle to radians
-    //         let midAngleRad = midAngle;
-    //         // Compute text position
-    //         let textX = linkpos[i][0] + 0.6 * arm.lengths[i] * Math.cos(midAngleRad);
-    //         let textY = linkpos[i][1] - 0.5 * arm.lengths[i] * Math.sin(midAngleRad);
-    //         // Append the angle label
-    //         svg.append("text")
-    //             .attr("x", textX)
-    //             .attr("y", textY)
-    //             .attr("font-size", "14px")
-    //             .attr("fill", "#c00")
-    //             .attr("text-anchor", "middle")
-    //             .text(`θ${i + 1}`);
-    //     });
-    //     // Display endpoint text.
-    //     svg.append("text")
-    //        .attr("x", linkpos.at(-1)[0] - 25)
-    //        .attr("y", linkpos.at(-1)[1])
-    //        .attr("font-size", "18px")
-    //        .attr("fill", "#080")
-    //        .attr("text-anchor", "middle")
-    //        .text(`x, y`);
-    //     // Plot the endpoint orientation arc and text
-    //     svg.append("line")
-    //        .attr("x1", linkpos.at(-1)[0])
-    //        .attr("y1", linkpos.at(-1)[1])
-    //        .attr("x2", linkpos.at(-1)[0] + 40)
-    //        .attr("y2", linkpos.at(-1)[1])
-    //        .attr("stroke", "gray")
-    //        .attr("stroke-width", "1")
-    //        .attr("stroke-dasharray", "2,2");
-    //     // Angle arc
-    //     svg.append("path")
-    //         .attr("d", describeArc(linkpos.at(-1)[0], linkpos.at(-1)[1], 0.25 * arm.lengths.at(-1), 0, math.sum(arm.angles)))
-    //         .attr("stroke", "black")
-    //         .attr("fill", "none")
-    //         .attr("stroke-width", 1.0);
-    //     // Compute text position
-    //     let textX = linkpos.at(-1)[0] + 0.4 * arm.lengths.at(-1) * Math.cos(math.sum(arm.angles) / 2);
-    //     let textY = linkpos.at(-1)[1] - 0.3 * arm.lengths.at(-1) * Math.sin(math.sum(arm.angles) / 2);
-    //     // Append the angle label
-    //     svg.append("text")
-    //         .attr("x", textX)
-    //         .attr("y", textY)
-    //         .attr("font-size", "18px")
-    //         .attr("fill", "#080")
-    //         .attr("text-anchor", "middle")
-    //         .text(`ϕ`);
-    // }
-
-    // // Draw the four link arm.
-    // function draw4LinkArm(arm, params) {
-    //     svg4Link.selectAll("*").remove(); // Clear previous drawing
-
-    //     // Plot the x and y axes
-    //     svg4Link.append("line")
-    //         .attr("x1", 0).attr("y1", params.origin.y)
-    //         .attr("x2", params.width).attr("y2", params.origin.y)
-    //         .attr("stroke", "gray")
-    //         .attr("stroke-width", 0.25);
-    //     svg4Link.append("line")
-    //         .attr("x1", params.origin.x).attr("y1", 0)
-    //         .attr("x2", params.origin.x).attr("y2", params.height)
-    //         .attr("stroke", "gray")
-    //         .attr("stroke-width", 0.25);
-
-    //     // Plot the links
-    //     const linkpos = mapPositionsToCoordinates(arm.getArmPositions(), params.origin);
-    //     for (let i = 0; i < linkpos.length - 1; i++) {
-    //         svg4Link.append("line")
-    //             .attr("x1", linkpos[i][0])
-    //             .attr("y1", linkpos[i][1])
-    //             .attr("x2", linkpos[i + 1][0])
-    //             .attr("y2", linkpos[i + 1][1])
-    //             .attr("stroke", "black")
-    //             .attr("stroke-width", 2);
-    //     }
-
-    //     // Plot the joints.
-    //     linkpos.slice(0, -1).forEach(pos => {
-    //         svg4Link.append("circle")
-    //                 .attr("cx", pos[0])
-    //                 .attr("cy", pos[1])
-    //                 .attr("r", 3)
-    //                 .attr("stroke", "black")
-    //                 .attr("stroke-width", "1")
-    //                 .attr("fill", "#ffffff");
-    //     });
-    //     // Plot the endpoint.
-    //     svg4Link.append("circle")
-    //             .attr("cx", linkpos.at(-1)[0])
-    //             .attr("cy", linkpos.at(-1)[1])
-    //             .attr("r", 2)
-    //             .attr("stroke", "black")
-    //             .attr("stroke-width", "1")
-    //             .attr("fill", "black");
-
-    //     // Display endpoint position and orientation.
-    //     const _epstr = `x = ${arm.getArmPositions().at(-1)[0].toFixed(2)}, y = ${arm.getArmPositions().at(-1)[1].toFixed(2)}, ϕ = ${((180 / Math.PI) * math.sum(arm.angles)).toFixed(2)}`;
-    //     svg4Link.append("text")
-    //             .attr("x", 0)
-    //             .attr("y", 10)
-    //             .attr("font-size", "12px")
-    //             .attr("fill", "#000")
-    //             .text(_epstr);
-    //     const jointAnglesString = radiansToDegrees(arm.angles).map((angle, i) => `θ${i + 1} = ${angle.toFixed(2)}°`).join(", ");    
-    //     svg4Link.append("text")
-    //             .attr("x", 0)
-    //             .attr("y", 30)
-    //             .attr("font-size", "12px")
-    //             .attr("fill", "#000")
-    //             .text(jointAnglesString);
-    // }
-    
-    // // Draw the two link arm.
-    // function updateDraw2LinkArm(arm, params, angles=null, velocities=[0, 0]) {
-    //     // Joint angle arc information.
-    //     function getJoinVelocityArcInfo(angle, velocity, scale=0.25) {
-    //         const velstrtang = angle;
-    //         const velendang = angle + velocity * Math.PI * scale;
-    //         console.log("velarcangles", angle, velocity, velendang);
-    //         return [velstrtang, velendang];
-    //     }
-
-    //     // Describe an arc.
-    //     function describeArc(x, y, radius, startAngle, endAngle) {
-    //         const start = polarToCartesian(x, y, radius, startAngle);
-    //         const end = polarToCartesian(x, y, radius, endAngle);
-    //         const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
-    //         const sweetDir = endAngle - startAngle >= 0 ? "0" : "1";
-    //         return `
-    //             M ${start.x} ${start.y}
-    //             A ${radius} ${radius} 0 ${largeArcFlag} ${sweetDir} ${end.x} ${end.y}
-    //         `;
-    //     }
-
-    //     // Check if angles and velocities are provided.
-    //     if (angles !== null) {
-    //         arm.setAngles(angles);
-    //     } else {
-    //         angles = arm.angles;
-    //     }
-    //     svg2LinkVelDemo.selectAll("*").remove(); // Clear previous drawing
-
-    //     // Plot the x and y axes
-    //     svg2LinkVelDemo.append("line")
-    //         .attr("x1", 0).attr("y1", params.origin.y)
-    //         .attr("x2", params.width).attr("y2", params.origin.y)
-    //         .attr("stroke", "gray")
-    //         .attr("stroke-width", 0.25);
-    //     svg2LinkVelDemo.append("line")
-    //         .attr("x1", params.origin.x).attr("y1", 0)
-    //         .attr("x2", params.origin.x).attr("y2", params.height)
-    //         .attr("stroke", "gray")
-    //         .attr("stroke-width", 0.25);
-
-    //     // Plot the links
-    //     const linkpos = mapPositionsToCoordinates(arm.getArmPositions(), params.origin);
-    //     for (let i = 0; i < linkpos.length - 1; i++) {
-    //         svg2LinkVelDemo.append("line")
-    //             .attr("x1", linkpos[i][0])
-    //             .attr("y1", linkpos[i][1])
-    //             .attr("x2", linkpos[i + 1][0])
-    //             .attr("y2", linkpos[i + 1][1])
-    //             .attr("stroke", "black")
-    //             .attr("stroke-width", 2);
-    //     }
-
-    //     // Plot the joints.
-    //     linkpos.slice(0, -1).forEach(pos => {
-    //         svg2LinkVelDemo.append("circle")
-    //                 .attr("cx", pos[0])
-    //                 .attr("cy", pos[1])
-    //                 .attr("r", 3)
-    //                 .attr("stroke", "black")
-    //                 .attr("stroke-width", "1")
-    //                 .attr("fill", "#ffffff");
-    //     });
-    //     // Plot the endpoint.
-    //     svg2LinkVelDemo.append("circle")
-    //             .attr("cx", linkpos.at(-1)[0])
-    //             .attr("cy", linkpos.at(-1)[1])
-    //             .attr("r", 2)
-    //             .attr("stroke", "black")
-    //             .attr("stroke-width", "1")
-    //             .attr("fill", "black");
-        
-    //     // Draw the joint angular velocity arcs.
-    //     const cusumangles = cummulativeSum(angles);
-    //     const velArcAngles = cusumangles.map((angle, i) => getJoinVelocityArcInfo(angle, velocities[i]));
-    //     const compcolors = ["blue", "red"]
-    //     velArcAngles.forEach((angles, i) => {
-    //         const arcPath = describeArc(linkpos[i][0], linkpos[i][1], 20, angles[0], angles[1]);
-    //         svg2LinkVelDemo.append("path")
-    //                        .attr("d", arcPath)
-    //                        .attr("stroke", compcolors[i])
-    //                        .attr("fill", "none")
-    //                        .attr("stroke-width", 1.5);
-    //     });
-
-    //     // Compute the endpoint velocity.
-    //     const epvel = arm.getEndPointVelocity(velocities);
-    //     const epvelcom = [
-    //         arm.getEndPointVelocity([velocities[0], 0]),
-    //         arm.getEndPointVelocity([0, velocities[1]])
-    //     ];
-    //     // Show the endpoint velocity as an arrow.
-    //     // Let's draw the force components with thinner and lighter arrows.
-    //     // Do the above computation for all components.
-    //     const _vcomps = epvelcom.map((vcomp) => [
-    //         linkpos[2][0] + vcomp[0] * 0.1,
-    //         linkpos[2][1] - vcomp[1] * 0.1
-    //     ]);
-    //     _vcomps.forEach((_vc, i) => {
-    //         if (math.norm(epvel) > 5 && math.norm(epvelcom[i]) > 5) {
-    //             // Define the arrow marker
-    //             svg2LinkVelDemo.append("defs").append("marker")
-    //                            .attr("id", "arrow")
-    //                            .attr("viewBox", "0 0 10 10")
-    //                            .attr("refX", 9)
-    //                            .attr("refY", 5)
-    //                            .attr("markerWidth", 6)
-    //                            .attr("markerHeight", 6)
-    //                            .attr("orient", "auto-start-reverse")
-    //                            .append("path")
-    //                            .attr("d", "M 0 0 L 10 5 L 0 10 z")
-    //                            .attr("fill", compcolors[i])
-    //                            .attr("stroke", compcolors[i]);
-
-    //             // Draw the line with the arrow
-    //             svg2LinkVelDemo.append("line")
-    //                            .attr("x1", linkpos[2][0])
-    //                            .attr("y1", linkpos[2][1])
-    //                            .attr("x2", _vc[0])
-    //                            .attr("y2", _vc[1])
-    //                            .attr("fill", compcolors[i])
-    //                            .attr("stroke", compcolors[i])
-    //                            .attr("marker-end", "url(#arrow)")
-    //                            .attr("stroke-width", 1);
-    //         }
-    //     });
-    //     // Endpoint velocity arrow in black.
-    //     // Define the arrow marker
-    //     const _vdisp = [
-    //         linkpos[2][0] + epvel[0] * 0.1,
-    //         linkpos[2][1] - epvel[1] * 0.1
-    //     ];
-    //     if (math.norm(epvel) > 5) {
-    //         svg2LinkVelDemo.append("defs").append("marker")
-    //                     .attr("id", "arrow")
-    //                     .attr("viewBox", "0 0 10 10")
-    //                     .attr("refX", 9)
-    //                     .attr("refY", 5)
-    //                     .attr("markerWidth", 6)
-    //                     .attr("markerHeight", 6)
-    //                     .attr("orient", "auto-start-reverse")
-    //                     .append("path")
-    //                     .attr("d", "M 0 0 L 10 5 L 0 10 z")
-    //                     .attr("fill", "black")
-    //                     .attr("stroke", "black");
-    //         // Draw the line with the arrow
-    //         svg2LinkVelDemo.append("line")
-    //                         .attr("x1", linkpos[2][0])
-    //                         .attr("y1", linkpos[2][1])
-    //                         .attr("x2", _vdisp[0])
-    //                         .attr("y2", _vdisp[1])
-    //                         .attr("fill", "black")
-    //                         .attr("stroke", "black")
-    //                         .attr("marker-end", "url(#arrow)")
-    //                         .attr("stroke-width", 1);
-    //     }
-
-    //     // Display endpoint position and orientation.
-    //     const _epstr = `x vel = ${epvel[0].toFixed(2)} y vel = ${epvel[1].toFixed(2)}`;
-    //     svg2LinkVelDemo.append("text")
-    //             .attr("x", 0)
-    //             .attr("y", 10)
-    //             .attr("font-size", "12px")
-    //             .attr("fill", "#000")
-    //             .text(_epstr);
-    // }
-
-    // // Figure 4: Draw the three link arm.
-    // function updateDraw3LinkArmFig4(arm, params, angles=null, velocities=[0, 0, 0]) {
-    //     // Joint angle arc information.
-    //     function getJoinVelocityArcInfo(angle, velocity, scale=0.15) {
-    //         const velstrtang = angle;
-    //         const velendang = angle + velocity * Math.PI * scale;
-    //         return [velstrtang, velendang];
-    //     }
-
-    //     // Describe an arc.
-    //     function describeArc(x, y, radius, startAngle, endAngle) {
-    //         const start = polarToCartesian(x, y, radius, startAngle);
-    //         const end = polarToCartesian(x, y, radius, endAngle);
-    //         const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
-    //         const sweetDir = endAngle - startAngle >= 0 ? "0" : "1";
-    //         return `
-    //             M ${start.x} ${start.y}
-    //             A ${radius} ${radius} 0 ${largeArcFlag} ${sweetDir} ${end.x} ${end.y}
-    //         `;
-    //     }
-
-    //     // Check if angles and velocities are provided.
-    //     if (angles !== null) {
-    //         arm.setAngles(angles);
-    //     } else {
-    //         angles = arm.angles;
-    //     }
-    //     svg3LinkVelDemo.selectAll("*").remove(); // Clear previous drawing
-
-    //     // Plot the x and y axes
-    //     svg3LinkVelDemo.append("line")
-    //         .attr("x1", 0).attr("y1", params.origin.y)
-    //         .attr("x2", params.width).attr("y2", params.origin.y)
-    //         .attr("stroke", "gray")
-    //         .attr("stroke-width", 0.25);
-    //     svg3LinkVelDemo.append("line")
-    //         .attr("x1", params.origin.x).attr("y1", 0)
-    //         .attr("x2", params.origin.x).attr("y2", params.height)
-    //         .attr("stroke", "gray")
-    //         .attr("stroke-width", 0.25);
-
-    //     // Plot the links
-    //     const linkpos = mapPositionsToCoordinates(arm.getArmPositions(), params.origin);
-    //     for (let i = 0; i < linkpos.length - 1; i++) {
-    //         svg3LinkVelDemo.append("line")
-    //             .attr("x1", linkpos[i][0])
-    //             .attr("y1", linkpos[i][1])
-    //             .attr("x2", linkpos[i + 1][0])
-    //             .attr("y2", linkpos[i + 1][1])
-    //             .attr("stroke", "black")
-    //             .attr("stroke-width", 2);
-    //     }
-
-    //     // Plot the joints.
-    //     linkpos.slice(0, -1).forEach(pos => {
-    //         svg3LinkVelDemo.append("circle")
-    //                 .attr("cx", pos[0])
-    //                 .attr("cy", pos[1])
-    //                 .attr("r", 3)
-    //                 .attr("stroke", "black")
-    //                 .attr("stroke-width", "1")
-    //                 .attr("fill", "#ffffff");
-    //     });
-    //     // Plot the endpoint.
-    //     svg3LinkVelDemo.append("circle")
-    //             .attr("cx", linkpos.at(-1)[0])
-    //             .attr("cy", linkpos.at(-1)[1])
-    //             .attr("r", 2)
-    //             .attr("stroke", "black")
-    //             .attr("stroke-width", "1")
-    //             .attr("fill", "black");
-        
-    //     // Draw the joint angular velocity arcs.
-    //     const cusumangles = cummulativeSum(angles);
-    //     const velArcAngles = cusumangles.map((angle, i) => getJoinVelocityArcInfo(angle, velocities[i]));
-    //     const compcolors = ["blue", "red", "brown"]
-    //     velArcAngles.forEach((angles, i) => {
-    //         const arcPath = describeArc(linkpos[i][0], linkpos[i][1], 15, angles[0], angles[1]);
-    //         svg3LinkVelDemo.append("path")
-    //                        .attr("d", arcPath)
-    //                        .attr("stroke", compcolors[i])
-    //                        .attr("fill", "none")
-    //                        .attr("stroke-width", 1.5);
-    //     });
-
-    //     // Compute the endpoint velocity.
-    //     const epvel = arm.getEndPointVelocity(velocities);
-    //     const epvelcom = [
-    //         arm.getEndPointVelocity([velocities[0], 0, 0]),
-    //         arm.getEndPointVelocity([0, velocities[1], 0]),
-    //         arm.getEndPointVelocity([0, 0, velocities[2]])
-    //     ];
-    //     // Show the endpoint velocity as an arrow.
-    //     // Let's draw the force components with thinner and lighter arrows.
-    //     // Do the above computation for all components.
-    //     const _vcomps = epvelcom.map((vcomp) => [
-    //         linkpos[3][0] + vcomp[0] * 0.25,
-    //         linkpos[3][1] - vcomp[1] * 0.25
-    //     ]);
-    //     _vcomps.forEach((_vc, i) => {
-    //         if (math.norm(epvel) > 5 && math.norm(epvelcom[i]) > 5) {
-    //             // Define the arrow marker
-    //             svg3LinkVelDemo.append("defs").append("marker")
-    //                            .attr("id", "arrow")
-    //                            .attr("viewBox", "0 0 10 10")
-    //                            .attr("refX", 9)
-    //                            .attr("refY", 5)
-    //                            .attr("markerWidth", 6)
-    //                            .attr("markerHeight", 6)
-    //                            .attr("orient", "auto-start-reverse")
-    //                            .append("path")
-    //                            .attr("d", "M 0 0 L 10 5 L 0 10 z")
-    //                            .attr("fill", compcolors[i])
-    //                            .attr("stroke", compcolors[i]);
-
-    //             // Draw the line with the arrow
-    //             svg3LinkVelDemo.append("line")
-    //                            .attr("x1", linkpos[3][0])
-    //                            .attr("y1", linkpos[3][1])
-    //                            .attr("x2", _vc[0])
-    //                            .attr("y2", _vc[1])
-    //                            .attr("fill", compcolors[i])
-    //                            .attr("stroke", compcolors[i])
-    //                            .attr("marker-end", "url(#arrow)")
-    //                            .attr("stroke-width", 1);
-    //         }
-    //     });
-    //     // Endpoint velocity arrow in black.
-    //     // Define the arrow marker
-    //     const _vdisp = [
-    //         linkpos[3][0] + epvel[0] * 0.1,
-    //         linkpos[3][1] - epvel[1] * 0.1
-    //     ];
-    //     if (math.norm(epvel) > 5) {
-    //         svg3LinkVelDemo.append("defs").append("marker")
-    //                     .attr("id", "arrow")
-    //                     .attr("viewBox", "0 0 10 10")
-    //                     .attr("refX", 9)
-    //                     .attr("refY", 5)
-    //                     .attr("markerWidth", 6)
-    //                     .attr("markerHeight", 6)
-    //                     .attr("orient", "auto-start-reverse")
-    //                     .append("path")
-    //                     .attr("d", "M 0 0 L 10 5 L 0 10 z")
-    //                     .attr("fill", "black")
-    //                     .attr("stroke", "black");
-    //         // Draw the line with the arrow
-    //         svg3LinkVelDemo.append("line")
-    //                         .attr("x1", linkpos[3][0])
-    //                         .attr("y1", linkpos[3][1])
-    //                         .attr("x2", _vdisp[0])
-    //                         .attr("y2", _vdisp[1])
-    //                         .attr("fill", "black")
-    //                         .attr("stroke", "black")
-    //                         .attr("marker-end", "url(#arrow)")
-    //                         .attr("stroke-width", 1);
-    //     }
-
-    //     // Display endpoint position and orientation.
-    //     const _epstr = `x vel = ${epvel[0].toFixed(2)} y vel = ${epvel[1].toFixed(2)}`;
-    //     svg3LinkVelDemo.append("text")
-    //             .attr("x", 0)
-    //             .attr("y", 10)
-    //             .attr("font-size", "12px")
-    //             .attr("fill", "#000")
-    //             .text(_epstr);
-    // }
-
-    // // Automatically number items.
-    // function autoNumberItems() {
-    //     let count = 1; // Start numbering from 1
-    //     // Query ol with class "question".
-    //     document.querySelectorAll("ol.question").forEach((ol) => {
-    //         ol.setAttribute("start", count);
-    //         count += ol.children.length;
-    //     });
-    // }
-
-    // // Draw the the three link figure when the document is loaded.
-    // document.addEventListener("DOMContentLoaded", function() {
-    //     draw3LinkArm();
-    //     // Initialize the 4link SVG
-    //     svg4Link = d3.select("#svg-4link-interactive")
-    //                  .append("svg")
-    //                  .attr("width", arm4LinkParams.width)
-    //                  .attr("height", arm4LinkParams.height)
-    //                  .attr("viewBox", `-${0} -${0} ${arm4LinkParams.width} ${arm4LinkParams.height}`)
-    //                  .attr("preserveAspectRatio", "xMidYMid meet");
-    //     draw4LinkArm(arm4Link, arm4LinkParams);
-
-    //     // Initilize the 2link SVG
-    //     svg2LinkVelDemo = d3.select("#fig3-2LA-svg-container3")
-    //                         .append("svg")
-    //                         .attr("width", arm2LinkParams.width)
-    //                         .attr("height", arm2LinkParams.height)
-    //                         .attr("viewBox", `-${0} -${0} ${arm2LinkParams.width} ${arm2LinkParams.height}`)
-    //                         .attr("preserveAspectRatio", "xMidYMid meet");
-    //     updateDraw2LinkArm(arm2Link, arm2LinkParams);
-    //     // Auto number items.
-    //     autoNumberItems();
-
-    //     // Attach callbacks.
-    //     // Attach event listeners
-    //     document.getElementById("fig3-2LA-joint1-angle").addEventListener("input", updateJointVelocitiesFig32LA);
-    //     document.getElementById("fig3-2LA-joint2-angle").addEventListener("input", updateJointVelocitiesFig32LA);
-    //     document.getElementById("fig3-2LA-joint1-vel").addEventListener("input", updateJointVelocitiesFig32LA);
-    //     document.getElementById("fig3-2LA-joint2-vel").addEventListener("input", updateJointVelocitiesFig32LA);
-        
-    //     // Figure 4: Initilize the 3link SVG
-    //     // ---------------------------------
-    //     svg3LinkVelDemo = d3.select("#fig4-3LA-svg-container3")
-    //                         .append("svg")
-    //                         .attr("width", arm3LinkParams.width)
-    //                         .attr("height", arm3LinkParams.height)
-    //                         .attr("viewBox", `-${0} -${0} ${arm3LinkParams.width} ${arm3LinkParams.height}`)
-    //                         .attr("preserveAspectRatio", "xMidYMid meet");
-    //     updateDraw3LinkArmFig4(arm3Link, arm3LinkParams);
-
-    //     // Attach callbacks.
-    //     // Attach event listeners
-    //     document.getElementById("fig4-3LA-joint1-angle").addEventListener("input", updateJointVelocitiesFig4);
-    //     document.getElementById("fig4-3LA-joint2-angle").addEventListener("input", updateJointVelocitiesFig4);
-    //     document.getElementById("fig4-3LA-joint3-angle").addEventListener("input", updateJointVelocitiesFig4);
-    //     document.getElementById("fig4-3LA-joint1-vel").addEventListener("input", updateJointVelocitiesFig4);
-    //     document.getElementById("fig4-3LA-joint2-vel").addEventListener("input", updateJointVelocitiesFig4);
-    //     document.getElementById("fig4-3LA-joint3-vel").addEventListener("input", updateJointVelocitiesFig4);
-    // });
-    
-    // // Two link arm sliders callback.
-    // // ------------------------------
-    // function updateJointVelocitiesFig32LA() {
-    //     // Update the joint velocities labels.
-    //     updateJointVelocitiesLabels2LA();
-    //     // Update the arm.
-    //     const angles = degreesToRadians([
-    //         parseFloat(document.getElementById("fig3-2LA-joint1-angle").value),
-    //         parseFloat(document.getElementById("fig3-2LA-joint2-angle").value)
-    //     ]);
-    //     const velocities = degreesToRadians([
-    //         parseFloat(document.getElementById("fig3-2LA-joint1-vel").value),
-    //         parseFloat(document.getElementById("fig3-2LA-joint2-vel").value)
-    //     ]);
-    //     updateDraw2LinkArm(arm2Link, arm2LinkParams, angles, velocities);
-    // }
-
-    // // Update two link arm labels.
-    // function updateJointVelocitiesLabels2LA() {
-    //     const theta1 = parseFloat(document.getElementById("fig3-2LA-joint1-angle").value);
-    //     const theta2 = parseFloat(document.getElementById("fig3-2LA-joint2-angle").value);
-    //     const thetaDot1 = parseFloat(document.getElementById("fig3-2LA-joint1-vel").value);
-    //     const thetaDot2 = parseFloat(document.getElementById("fig3-2LA-joint2-vel").value);
-    //     document.getElementById("fig3-2LA-label-joint1-angle").textContent = `${theta1.toFixed(0)}°`;
-    //     document.getElementById("fig3-2LA-label-joint2-angle").textContent = `${theta2.toFixed(0)}°`;
-    //     document.getElementById("fig3-2LA-label-joint1-vel").textContent = `${thetaDot1.toFixed(0)}°/s`;
-    //     document.getElementById("fig3-2LA-label-joint2-vel").textContent = `${thetaDot2.toFixed(0)}°/s`;
-    // }
-
-    // // Figure 4: Three link arm sliders callback.
-    // // ------------------------------------------
-    // function updateJointVelocitiesFig4() {
-    //     // Update the joint velocities labels.
-    //     updateJointVelocitiesLabelsFig4();
-    //     // Update the arm.
-    //     const angles = degreesToRadians([
-    //         parseFloat(document.getElementById("fig4-3LA-joint1-angle").value),
-    //         parseFloat(document.getElementById("fig4-3LA-joint2-angle").value),
-    //         parseFloat(document.getElementById("fig4-3LA-joint3-angle").value)
-    //     ]);
-    //     const velocities = degreesToRadians([
-    //         parseFloat(document.getElementById("fig4-3LA-joint1-vel").value),
-    //         parseFloat(document.getElementById("fig4-3LA-joint2-vel").value),
-    //         parseFloat(document.getElementById("fig4-3LA-joint3-vel").value)
-    //     ]);
-    //     updateDraw3LinkArmFig4(arm3Link, arm3LinkParams, angles, velocities);
-    // }
-
-    // // Figure 4: Update two link arm labels.
-    // function updateJointVelocitiesLabelsFig4() {
-    //     const theta1 = parseFloat(document.getElementById("fig4-3LA-joint1-angle").value);
-    //     const theta2 = parseFloat(document.getElementById("fig4-3LA-joint2-angle").value);
-    //     const theta3 = parseFloat(document.getElementById("fig4-3LA-joint3-angle").value);
-    //     const thetaDot1 = parseFloat(document.getElementById("fig4-3LA-joint1-vel").value);
-    //     const thetaDot2 = parseFloat(document.getElementById("fig4-3LA-joint2-vel").value);
-    //     const thetaDot3 = parseFloat(document.getElementById("fig4-3LA-joint3-vel").value);
-    //     document.getElementById("fig4-3LA-label-joint1-angle").textContent = `${theta1.toFixed(0)}°`;
-    //     document.getElementById("fig4-3LA-label-joint2-angle").textContent = `${theta2.toFixed(0)}°`;
-    //     document.getElementById("fig4-3LA-label-joint3-angle").textContent = `${theta3.toFixed(0)}°`;
-    //     document.getElementById("fig4-3LA-label-joint1-vel").textContent = `${thetaDot1.toFixed(0)}°/s`;
-    //     document.getElementById("fig4-3LA-label-joint2-vel").textContent = `${thetaDot2.toFixed(0)}°/s`;
-    //     document.getElementById("fig4-3LA-label-joint3-vel").textContent = `${thetaDot3.toFixed(0)}°/s`;
-    // }
-
-    // // Global variables.
-    // // Four link arm
-    // let svg4Link = null;
-    // const arm4Link = new FourLinkArm(
-    //     [50, 50, 50, 30], // Initial lengths
-    //     degreesToRadians([30, 30, 30, 60])
-    // );
-    // const arm4LinkParams = {
-    //     width:400,
-    //     height: 400,
-    //     origin: null
-    // };
-    // arm4LinkParams.origin = {x: arm4LinkParams.width / 2,
-    //                          y: arm4LinkParams.height / 2};
-    // // Figure 3: Two link arm
-    // let svg2LinkVelDemo = null;
-    // const arm2Link = new TwoLinkArm(
-    //     [75, 75], // Initial lengths
-    //     degreesToRadians([30, 30])
-    // );
-    // const arm2LinkParams = {
-    //     width: 300,
-    //     height: 300,
-    //     origin: null
-    // };
-    // arm2LinkParams.origin = {x: arm2LinkParams.width / 2,
-    //                          y: arm2LinkParams.height / 2};
-    // // Figure 4: Three link arm
-    // let svg3LinkVelDemo = null;
-    // const arm3Link = new ThreeLinkArm(
-    //     [50, 50, 37], // Initial lengths
-    //     degreesToRadians([30, 30, 30])
-    // );
-    // const arm3LinkParams = {
-    //     width: 300,
-    //     height: 300,
-    //     origin: null
-    // };
-    // arm3LinkParams.origin = {x: arm3LinkParams.width / 2,
-    //                          y: arm3LinkParams.height / 2};
+  // Event handlers
+  // Function to update the corresponding span label
+  function updateSliderLabel(slider) {
+      const valueDisplay = document.getElementById(slider.id + "-value");
+      if (valueDisplay) {
+          valueDisplay.textContent = slider.value;
+      }
+  }
+
+  // Function to handle checkbox state change
+  function updateTestCheckboxLabel(checkBox) {
+      document.getElementById("binary-test-result-value").textContent = checkBox.checked ? "Test is +ve" : "Test is -ve";
+  }
+
+  // Posterior probability calculation
+  function updatePosteriorProbability() {
+      // Get the slider values
+      const pPrior = parseFloat(document.getElementById("prior-prob-slider").value);
+      const pTruePos = parseFloat(document.getElementById("true-positive-slider").value);
+      const pFalsePos = parseFloat(document.getElementById("false-positive-slider").value);
+      const testResult = document.getElementById("binaryTestResult").checked ? 1 : 0;
+
+      // Compute proability of the test result.
+      pTest = calculateTestProbability(testResult);
+
+      // Calculate the posterior probability
+      var pPosterior = testResult == 1 ?  (pTruePos * pPrior) / pTest : (pFalsePos * pPrior) / pTest;
+      document.getElementById("posterior-prob-value").textContent = `p(D=1 | T=${testResult}) = ${pPosterior.toFixed(5)}`;
+  }
+
+  // Compute test probability
+  function calculateTestProbability(testResult) {
+      // Get the slider values
+      const pPrior = parseFloat(document.getElementById("prior-prob-slider").value);
+      const pTruePos = parseFloat(document.getElementById("true-positive-slider").value);
+      const pFalsePos = parseFloat(document.getElementById("false-positive-slider").value);
+
+      // Calculate the probability of the test result
+      const pTest = pTruePos * pPrior + pFalsePos * (1 - pPrior);
+      return testResult == 1 ? pTest : 1 - pTest;
+  }
+
+  // Functions to read and update the Baye rule demo div segment's controls.
+  document.addEventListener("DOMContentLoaded", function () {
+      // Select all sliders
+      const sliders = document.querySelectorAll(".slider");
+      // Select the checkbox
+      const testResultCheckbox = document.getElementById("binaryTestResult");
+
+      // Attach event listeners to all sliders
+      sliders.forEach(slider => {
+          // Initialize labels with the current values
+          updateSliderLabel(slider);
+
+          // Update value when the slider is moved
+          slider.addEventListener("input", function () {
+              updateSliderLabel(slider);
+              // Call the posterior probability function
+              updatePosteriorProbability();
+          });
+      });
+
+      // Initialize label for the checkbox. 
+      updateTestCheckboxLabel(testResultCheckbox);
+
+      // Attach an event listener
+      testResultCheckbox.addEventListener("change", function() {
+        updateTestCheckboxLabel(testResultCheckbox);
+        // Call the posterior probability function
+        updatePosteriorProbability();
+      });
+
+      // Call the posterior probability function
+      updatePosteriorProbability();
+  });
 </script>
 
 Almost all real-world problems we deal with require us to deal with: (a) deal with multiple variables with complex interactions, (b) each variable has some uncertainity associated with, and (c) require us to make some decision based on some partially observed or available information. Bayesian networks are a powerful tool that can help us represents such complex systems, and provide pricipled approaches for make informed decisions. In this post, we will provide a short introduction to Bayesian networks, and show how they can be used to model complex systems and make decisions. Bayesian networks are a type of probabilistic graphical model and are a stepping stone to causal inference --  a topic of great interest to the author.
@@ -1181,6 +153,59 @@ $$
 
 This very simple rule has numerous applications, and in fact has an intuitive interpretation. The rule tells us how to update our belief or the uncertainity about an event $x$ given some evidence $y$. $p(x)$ is called the <i>prior</i> probability, which is a measure of belief about the event $x$ without any other information. $p(y \\, \vert \\, x)$ is the <i>likelihood</i> of the evidence $y$ given $x$, which is out belief about observing the data or information $y$ if event $x$ happens. $p(y)$ is the <i>marginal likelihood</i> of the evidence, and $p(x \\, \vert \\, y)$ is the <i>posterior</i> probability of $x$ given $y$. The posterior probability is our updated belief about the event $x$ given the evidence $y$.
 
+Let's look at an interactive demonstration of Baye's rule. The following interactive demo of a commonly used "medical" example of the Baye's rule. We have a subject who take a test $T$ for a disease $D$. The test outcome and the disease state are binary random variables; the test outcome is positive (1) or negative (0), and th subject can either have (1) or not have (0) the disease. The disease has an incidence rate of $p(D = 1)$ in the population - the <i>prior probability</i>. The test for the disease is not perfect; it has a some known <i>true positive rate</i> $p(T = 1 \\, \vert \\, D = 1)$ and a <i>false positive rate</i> $p(T = 1 \\, \vert \\, D = 0)$. The follow demo allows us to compute the <i>posterior proability</i> of the subject having the disease after we know the test resultm, i.e., $p( D = 1 \\, \vert \\, T = 1)$ or $p( D = 1 \\, \vert \\, T = 0)$.
 
+<div id="bayes-rule-discrete-demo">
+  <!-- Prior Probability -->
+  <div class="bndiscdemo-section">
+    <div class="bndiscdemo-title">Prior Probability</div>
+    <div class="bndiscdemo-controls">
+      <label for="prior-prob-slider">$p(D=1)$</label>
+      <input type="range" min="0" max="1" value="0.5" step="0.01" class="slider" id="prior-prob-slider">
+      <span id="prior-prob-slider-value">0.5</span>
+    </div>
+  </div>
 
-In progress ... 
+  <!-- True Positive Rate -->
+  <div class="bndiscdemo-section">
+    <div class="bndiscdemo-title">True Positive Rate</div>
+    <div class="bndiscdemo-controls">
+      <label for="true-positive-slider">$p(T = 1 \vert D=1)$</label>
+      <input type="range" min="0" max="1" value="0.5" step="0.01" class="slider" id="true-positive-slider">
+      <span id="true-positive-slider-value">0.5</span>
+    </div>
+  </div>
+
+  <!-- False Positive Rate -->
+  <div class="bndiscdemo-section">
+    <div class="bndiscdemo-title">False Positive Rate</div>
+    <div class="bndiscdemo-controls">
+      <label for="false-positive-slider">$p(T = 1 \vert D=0)$</label>
+      <input type="range" min="0" max="1" value="0.5" step="0.01" class="slider" id="false-positive-slider">
+      <span id="false-positive-slider-value">0.5</span>
+    </div>
+  </div>
+
+  <!-- Test Result (Checkbox) -->
+  <div class="bndiscdemo-section">
+    <div class="bndiscdemo-title">Test Result</div>
+    <div class="bndiscdemo-controls" id="bndiscdemo-test-result">
+      <label>
+        <input type="checkbox" id="binaryTestResult"> $T$ Positive?
+      </label>
+      <span id="binary-test-result-value">-</span>
+    </div>
+  </div>
+</div>
+
+<!-- Posterior Probability Output -->
+<div class="bndiscdemo-output">
+  Posterior Probability: <span id="posterior-prob-value"> - </span>
+</div>
+
+You can play around with the sliders above to compute the posterior probability of a person having . The sliders represent the following probabilities:
+<div class="question-box">
+<ol class="question">
+  <li>How can we verify this is true?</li>
+</ol>
+</div>
