@@ -4,7 +4,7 @@
   gap: 1%;
   justify-content: center;
   flex-wrap: wrap; /* Allows wrapping on smaller screens */
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', 'Roboto', 'Comfortaa', sans-serif;
   background-color: #fff;
   padding: 5px;
 }
@@ -16,6 +16,7 @@
   background-color: white;
   overflow: hidden; /* Ensures clean edges */
   text-align: center;
+  font-family: 'Inter', 'Roboto', 'Comfortaa', sans-serif;
 }
 
 /* Title styling */

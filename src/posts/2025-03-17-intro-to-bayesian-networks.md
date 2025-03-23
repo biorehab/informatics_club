@@ -5,19 +5,6 @@ layout: "post.njk"  # Must match exactly with `post.njk`
 author: "Sivakumar Balasubramanian"
 tags: ["blog"]
 ---
-<style>
-  svg {
-    display: block;
-    margin: auto;
-  }
-
-  .button-container {
-    display: flex;           /* Use flexbox for layout */
-    justify-content: center; /* Center-align buttons horizontally */
-    align-items: center;     /* Center-align buttons vertically (if needed) */
-    margin-top: 20px;        /* Add some space above the buttons */
-  }
-</style>
 <link rel="stylesheet" href="{{ '/assets/css/2025-03-17-bn.css' | url }}">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.1/math.min.js"></script>
@@ -49,7 +36,7 @@ tags: ["blog"]
       pTest = calculateTestProbability(testResult);
 
       // Calculate the posterior probability
-      var pPosterior = testResult == 1 ?  (pTruePos * pPrior) / pTest : (pFalsePos * pPrior) / pTest;
+      var pPosterior = testResult == 1 ?  (pTruePos * pPrior) / pTest : ((1 - pTruePos) * pPrior) / pTest;
       document.getElementById("posterior-prob-value").textContent = `p(D=1 | T=${testResult}) = ${pPosterior.toFixed(5)}`;
   }
 
@@ -102,12 +89,8 @@ tags: ["blog"]
 
 Almost all real-world problems we deal with require us to deal with: (a) deal with multiple variables with complex interactions, (b) each variable has some uncertainity associated with, and (c) require us to make some decision based on some partially observed or available information. Bayesian networks are a powerful tool that can help us represents such complex systems, and provide pricipled approaches for make informed decisions. In this post, we will provide a short introduction to Bayesian networks, and show how they can be used to model complex systems and make decisions. Bayesian networks are a type of probabilistic graphical model and are a stepping stone to causal inference --  a topic of great interest to the author.
 
-<!-- Note in small text in a box -->
-<div class="note">
-    <p><b>Note:</b> This post is a work in progress. Please check back later for more content.</p>
-</div>
-
 <h2 class="post-subtitle">Some basic probability concepts</h2>
+
 Let's start by stating some basic probabilistic concepts. Let a random variable $X$ which takes on some values from its domain $\text{dom}(X)$. Let $0 \leq p(X = x) \leq 1$ is the probability that the random variable $X$ takes on the value $x \in \text{dom}(X)$.
 
 $$
@@ -131,11 +114,13 @@ p\left(x \\, \vert \\, y\right) = \frac{p\left(x, y\right)}{p\left( y \right)}, 
 $$
 
 The reader must note the following points.
+
 1. $p( x \vert y)$ can be thought of a function of $x$ for a given vaues of $y$.
 2. $\sum_{x} p( x \\, \vert \\, y) = 1$, which mean that $p(x \\, \vert \\, y)$ is a valid probability distribution. This property is due to the normalization of the joint probability distribution by $p( y )$.
 3. $p(y) \neq 0$ is necessary because, if $p(y) = 0$ then then the random variable $Y$ cannot take on the value, so the conditional probability is not defined. Here is a simple example to understand conditional probability.
 
 <div class = "example-box">
+
 <strong>Example 1:</strong> Let's assume we have two indentical bags - $B1$ and $B2$. $B1$ contains 10 red balls and $B2$ contains 10 blue balls. If we randomly choose between $B1$ and $B2$, with equal probability, and choose a ball from the chosen bag. What is the probability that the chosen ball is red? This would be $p( \text{ball} = red) = 0.5$. Why? 
 
 Now if you are told that the chosen bag is $B1$, then what is the proability that the ball is red with chosen bag being $B1$? $p( \text{ball} = red \\, \vert \\, \text{bag} = B1) = 1$! Why?
@@ -153,7 +138,9 @@ $$
 
 This very simple rule has numerous applications, and in fact has an intuitive interpretation. The rule tells us how to update our belief or the uncertainity about an event $x$ given some evidence $y$. $p(x)$ is called the <i>prior</i> probability, which is a measure of belief about the event $x$ without any other information. $p(y \\, \vert \\, x)$ is the <i>likelihood</i> of the evidence $y$ given $x$, which is out belief about observing the data or information $y$ if event $x$ happens. $p(y)$ is the <i>marginal likelihood</i> of the evidence, and $p(x \\, \vert \\, y)$ is the <i>posterior</i> probability of $x$ given $y$. The posterior probability is our updated belief about the event $x$ given the evidence $y$.
 
-Let's look at an interactive demonstration of Baye's rule. The following interactive demo of a commonly used "medical" example of the Baye's rule. We have a subject who take a test $T$ for a disease $D$. The test outcome and the disease state are binary random variables; the test outcome is positive (1) or negative (0), and th subject can either have (1) or not have (0) the disease. The disease has an incidence rate of $p(D = 1)$ in the population - the <i>prior probability</i>. The test for the disease is not perfect; it has a some known <i>true positive rate</i> $p(T = 1 \\, \vert \\, D = 1)$ and a <i>false positive rate</i> $p(T = 1 \\, \vert \\, D = 0)$. The follow demo allows us to compute the <i>posterior proability</i> of the subject having the disease after we know the test resultm, i.e., $p( D = 1 \\, \vert \\, T = 1)$ or $p( D = 1 \\, \vert \\, T = 0)$.
+<h3 class="post-subsubtitle">Baye's Rule Interactive Demo</h3>
+
+Let's look at an interactive demonstration of Baye's rule. The following interactive demo of a commonly used "medical" example of the Baye's rule. We have a subject who take a test $T$ for a disease $D$. The test outcome and the disease state are binary random variables; the test outcome is positive (1) or negative (0), and th subject can either have (1) or not have (0) the disease. The disease has an incidence rate of $p(D = 1)$ in the population - the <i>prior probability</i>. The test for the disease is not perfect; it has a some known <i>true positive rate</i> $p(T = 1 \\, \vert \\, D = 1)$ and a <i>false positive rate</i> $p(T = 1 \\, \vert \\, D = 0)$. The follow demo allows us to compute the <i>posterior proability</i> of the subject having the disease after we know the test resultm, i.e., $p( D = 1 \\, \vert \\, T = 1)$ or $p( D = 1 \\, \vert \\, T = 0)$. In the following interactive demo, you can change the prior probability of the disease, the true positive rate, the false positive rate, and the test result to see how the posterior probability changes.
 
 <div id="bayes-rule-discrete-demo">
   <!-- Prior Probability -->
@@ -203,9 +190,143 @@ Let's look at an interactive demonstration of Baye's rule. The following interac
   Posterior Probability: <span id="posterior-prob-value"> - </span>
 </div>
 
-You can play around with the sliders above to compute the posterior probability of a person having . The sliders represent the following probabilities:
+You can play around with the sliders above to compute the posterior probability of a person having the disease when the test comes out positive or negative. Answer the following questions using the interactive demo to get an intuitive understanding of Baye's rule.
 <div class="question-box">
 <ol class="question">
-  <li>How can we verify this is true?</li>
+  <li>When does the posterior probability equal the prior probability? Can you explain why is so?</li>
+  <li>When does the test result perfectly correlate with disease status? i.e., testing positive confirms the disease and vice versa. What about the other way around? Positive test implies no disease, and vice versa.</li>
 </ol>
 </div>
+
+Baye's rule can be used to update to obtain the full posterior probability distribution of a random variable we care interested in given some evidence. Suppose you find a coin on the street and we want to know if this is a fair coin. The coin looks like most coins so you believe that this coin is likely to be a fair coin, with the following prior probability distribution for the parameter $p$ - the probability of the coin landing heads up. Notice, here that $p$ is itself a random variable because of our uncertainity about its exact value. All we know is that its value is between 0 and 1. Let the prior probability distribution be $p(p) = \text{Beta}(p \vert 2, 2)$, which is a Beta distribution with parameters $\alpha = 2$ and $\beta = 2$. This distribution is shown below.
+
+<style>
+    .container {
+        display: flex;            /* Enables horizontal layout */
+        align-items: flex-start;  /* Align items at the top */
+        gap: 20px;                /* Space between controls and plot */
+        width: 100%;
+    }
+    .controls {
+        width: 40%;
+    }
+    label {
+        text-align: left;
+        margin-top: 5px;
+    }
+    input[type="range"] {
+        width: 100%;
+    }
+    .chart-container {
+        width: 60%;
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
+<div class="container">
+    <!-- Left: Controls -->
+    <div class="controls">
+        <h3>Bayesian Coin Flip</h3>
+        <label>Prior α (Heads): <span id="prior-alpha-value">2</span>
+        <input type="range" id="prior-alpha" min="1" max="10" value="2"></label>
+        <label>Prior β (Tails): <span id="prior-beta-value">2</span>
+        <input type="range" id="prior-beta" min="1" max="10" value="2"></label>
+        <label>Observed Heads: <span id="obs-heads-value">0</span>
+        <input type="range" id="obs-heads" min="0" max="20" value="0"></label>
+        <label>Observed Tails: <span id="obs-tails-value">0</span>
+        <input type="range" id="obs-tails" min="0" max="20" value="0"></label>
+    </div>
+    <!-- Right: Chart -->
+    <div class="chart-container">
+        <svg width="500" height="300"></svg>
+    </div>
+</div>
+
+<script>
+    // Function to compute the Beta distribution
+    function betaPDF(x, alpha, beta) {
+        function gamma(n) { return n === 1 ? 1 : (n - 1) * gamma(n - 1); }
+        const B = (gamma(alpha) * gamma(beta)) / gamma(alpha + beta);
+        return (Math.pow(x, alpha - 1) * Math.pow(1 - x, beta - 1)) / B;
+    }
+
+    // Set up SVG canvas
+    const svg = d3.select("svg"),
+          width = +svg.attr("width"),
+          height = +svg.attr("height"),
+          margin = { top: 20, right: 20, bottom: 40, left: 50 };
+
+    const plotWidth = width - margin.left - margin.right;
+    const plotHeight = height - margin.top - margin.bottom;
+
+    const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+    // Scales
+    const xScale = d3.scaleLinear().domain([0, 1]).range([0, plotWidth]);
+    const yScale = d3.scaleLinear().domain([0, 5]).range([plotHeight, 0]); // Adjusts dynamically
+
+    // Axes
+    g.append("g").attr("transform", `translate(0,${plotHeight})`).attr("class", "x-axis").call(d3.axisBottom(xScale));
+    g.append("g").attr("class", "y-axis").call(d3.axisLeft(yScale));
+
+    // Line generators
+    const line = d3.line()
+        .x(d => xScale(d.x))
+        .y(d => yScale(d.y));
+
+    // Paths for prior and posterior
+    const priorPath = g.append("path").attr("fill", "none").attr("stroke", "gray").attr("stroke-width", 2).attr("stroke-dasharray", "4 4");
+    const posteriorPath = g.append("path").attr("fill", "none").attr("stroke", "steelblue").attr("stroke-width", 2);
+
+    function updatePlot() {
+        // Read slider values
+        const priorAlpha = +document.getElementById("prior-alpha").value;
+        const priorBeta = +document.getElementById("prior-beta").value;
+        const obsHeads = +document.getElementById("obs-heads").value;
+        const obsTails = +document.getElementById("obs-tails").value;
+
+        // Compute posterior parameters
+        const postAlpha = priorAlpha + obsHeads;
+        const postBeta = priorBeta + obsTails;
+
+        // Update displayed values
+        document.getElementById("prior-alpha-value").textContent = priorAlpha;
+        document.getElementById("prior-beta-value").textContent = priorBeta;
+        document.getElementById("obs-heads-value").textContent = obsHeads;
+        document.getElementById("obs-tails-value").textContent = obsTails;
+
+        // Generate data points for prior and posterior
+        const data = d3.range(0.01, 1.01, 0.01).map(x => ({
+            x,
+            prior: betaPDF(x, priorAlpha, priorBeta),
+            posterior: betaPDF(x, postAlpha, postBeta)
+        }));
+
+        // Update y-scale
+        yScale.domain([0, d3.max(data, d => Math.max(d.prior, d.posterior)) * 1.2]);
+
+        // Update axes
+        svg.select(".y-axis").transition().duration(500).call(d3.axisLeft(yScale));
+
+        // Update prior plot
+        priorPath.datum(data)
+            .transition()
+            .duration(500)
+            .attr("d", d3.line().x(d => xScale(d.x)).y(d => yScale(d.prior)));
+
+        // Update posterior plot
+        posteriorPath.datum(data)
+            .transition()
+            .duration(500)
+            .attr("d", d3.line().x(d => xScale(d.x)).y(d => yScale(d.posterior)));
+    }
+
+    // Event Listeners
+    d3.selectAll("input").on("input", updatePlot);
+
+    // Initial plot
+    updatePlot();
+</script>

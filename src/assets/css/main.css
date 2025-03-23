@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 
 body {
@@ -136,7 +137,7 @@ hr {
 }
 
 .post-content {
-    font-family: 'Roboto', 'Comfortaa', sans-serif;
+    font-family:    'Roboto', 'Comfortaa', sans-serif;
     text-align: justify;
     color: rgb(0, 0, 0);
     font-size: 1rem;
@@ -223,11 +224,12 @@ label[for^="fig4-3LA-"] {
     background: #f9f9f9; /* Light gray background */
     padding-left: 10px;
     padding-right: 10px;
-    padding-top: 5px;
-    padding-bottom: 0px;
+    padding-top: 2px;
+    padding-bottom: 2px;
     margin: 2px;
     border-radius: 20px; /* Rounded corners */
-    font-family: 'Roboto', 'Comfortaa', sans-serif;
+    font-family: 'Inter', 'Roboto', 'Comfortaa', sans-serif;
+    font-size: 0.85em;
 }
 
 .inline-list {
