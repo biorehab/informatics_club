@@ -137,7 +137,8 @@ hr {
 }
 
 .post-content {
-    font-family:    'Roboto', 'Comfortaa', sans-serif;
+    font-family:  'Inter', 'Roboto', 'Comfortaa', sans-serif;
+    font-weight: 300; /* Light */
     text-align: justify;
     color: rgb(0, 0, 0);
     font-size: 1rem;

@@ -57,3 +57,30 @@ input[type="range"] {
   font-weight: bold;
   /* border-radius: 8px; */
 }
+
+.container {
+  display: flex;            /* Enables horizontal layout */
+  align-items: flex-start;  /* Align items at the top */
+  gap: 20px;                /* Space between controls and plot */
+  width: 100%;
+}
+
+.controls {
+  width: 40%;
+}
+
+#bayesrule-coin-demo label {
+  font-family: 'Inter', 'Roboto', 'Comfortaa', sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  text-align: left;
+  margin-top: 5px;
+}
+
+.chart-container {
+  width: 60%;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
