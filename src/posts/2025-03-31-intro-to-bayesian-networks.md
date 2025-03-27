@@ -1,38 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/informatics_club/assets/css/main.css">
-    <script>
-      window.MathJax = {
-        tex: {
-          inlineMath: [['$', '$'], ['\\(', '\\)']],
-          displayMath: [['$$', '$$'], ['\\[', '\\]']]
-        }
-      };
-    </script>
-    <script async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <title>Introduction to Bayesian Networks</title>
-</head>
-<body>
-    <main>
-      <div class="main-content">
-        <header>
-          <a class="post-head-link" href="/informatics_club/">← Informatics Club</a>
-        </header>
-        <h2 class="post-title">Introduction to Bayesian Networks</h2>
-        <p class="post-meta">
-          <strong>Published on:</strong> March 17, 2025<br>
-          <strong>Author:</strong> Sivakumar Balasubramanian
-        </p>
-        <hr>
-        <div class="post-content">
-          <link rel="stylesheet" href="/informatics_club/assets/css/2025-03-17-bn.css">
+---
+title: "Introduction to Bayesian Networks"
+date: "2025-03-31"
+layout: "post.njk"  # Must match exactly with `post.njk`
+author: "Sivakumar Balasubramanian"
+tags: ["blog"]
+---
+<link rel="stylesheet" href="{{ '/assets/css/2025-03-17-bn.css' | url }}">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.1/math.min.js"></script>
+
 <!-- Bayes Rule Discrete Interactive Demo -->
 <!-- ==================================== -->
 <script>
@@ -112,41 +88,62 @@
       updatePosteriorProbability();
   });
 </script>
-<p>Almost all real-world problems we deal with require us to deal with: (a) deal with multiple variables with complex interactions, (b) each variable has some uncertainity associated with, and (c) require us to make some decision based on some partially observed or available information. Bayesian networks are a powerful tool that can help us represents such complex systems, and provide pricipled approaches for make informed decisions. In this post, we will provide a short introduction to Bayesian networks, and show how they can be used to model complex systems and make decisions. Bayesian networks are a type of probabilistic graphical model and are a stepping stone to causal inference --  a topic of great interest to the author.</p>
+
+Almost all real-world problems we deal with require us to deal with: (a) deal with multiple variables with complex interactions, (b) each variable has some uncertainity associated with, and (c) require us to make some decision based on some partially observed or available information. Bayesian networks are a powerful tool that can help us represents such complex systems, and provide pricipled approaches for make informed decisions. In this post, we will provide a short introduction to Bayesian networks, and show how they can be used to model complex systems and make decisions. Bayesian networks are a type of probabilistic graphical model and are a stepping stone to causal inference --  a topic of great interest to the author.
+
 <h2 class="post-subtitle">Some basic probability concepts</h2>
-<p>Let's start by stating some basic probabilistic concepts. Let a random variable $X$ which takes on some values from its domain $\text{dom}(X)$. Let $0 \leq p(X = x) \leq 1$ is the probability that the random variable $X$ takes on the value $x \in \text{dom}(X)$.</p>
-<p>$$
+
+Let's start by stating some basic probabilistic concepts. Let a random variable $X$ which takes on some values from its domain $\text{dom}(X)$. Let $0 \leq p(X = x) \leq 1$ is the probability that the random variable $X$ takes on the value $x \in \text{dom}(X)$.
+
+$$
 \sum_{x_i \in \text{dom}(X)} p(x_i) = 1
-$$</p>
-<p>This is the normalization condition. If $X$ is a continuous random variable, this condition is $$\int_{-\infty}^{\infty} p(x) dX = 1$$</p>
-<p>When we have two random variables $X$ and $Y$, the <i>joint probability distribution</i> is denoted by $p(X=x, Y=y)$ or $p(x, y)$. The joint probability distribution is the probability that both $X$ and $Y$ take on the values $x$ and $y$, respectively.</p>
-<p>The <i>marginal</i> of a joint distribution is given by,</p>
-<p>$$
-p(x) = \sum_{y} p(x, y) \quad \text{and} \quad p(y) = \sum_{x} p(x, y)
-$$</p>
-<p>While the marginal probabilities tell us the probability of the individual random variables, irrespective of the other. <i>Conditional probability</i> tells us the probability of one random variable, when the value of another random variable is known. The conditional probability of $X$ given $Y$ is denoted by $p(X=x \vert Y=y)$ or $p(x \vert y)$ and is given by,</p>
-<p>$$
-p\left(x \, \vert \, y\right) = \frac{p\left(x, y\right)}{p\left( y \right)}, \quad p(y) \neq 0
-$$</p>
-<p>The reader must note the following points.</p>
-<ol>
-<li>$p( x \vert y)$ can be thought of a function of $x$ for a given vaues of $y$.</li>
-<li>$\sum_{x} p( x \, \vert \, y) = 1$, which mean that $p(x \, \vert \, y)$ is a valid probability distribution. This property is due to the normalization of the joint probability distribution by $p( y )$.</li>
-<li>$p(y) \neq 0$ is necessary because, if $p(y) = 0$ then then the random variable $Y$ cannot take on the value, so the conditional probability is not defined. Here is a simple example to understand conditional probability.</li>
-</ol>
+$$
+
+This is the normalization condition. If $X$ is a continuous random variable, this condition is $$\int_{-\infty}^{\infty} p(x) dX = 1$$
+
+When we have two random variables $X$ and $Y$, the <i>joint probability distribution</i> is denoted by $p(X=x, Y=y)$ or $p(x, y)$. The joint probability distribution is the probability that both $X$ and $Y$ take on the values $x$ and $y$, respectively.
+
+The <i>marginal</i> of a joint distribution is given by,
+
+$$
+p(x) = \sum_{y} p(x, y) \quad \text{and} \quad p(y) = \sum_{x} p(x, y) 
+$$
+
+While the marginal probabilities tell us the probability of the individual random variables, irrespective of the other. <i>Conditional probability</i> tells us the probability of one random variable, when the value of another random variable is known. The conditional probability of $X$ given $Y$ is denoted by $p(X=x \vert Y=y)$ or $p(x \vert y)$ and is given by,
+
+$$
+p\left(x \\, \vert \\, y\right) = \frac{p\left(x, y\right)}{p\left( y \right)}, \quad p(y) \neq 0
+$$
+
+The reader must note the following points.
+
+1. $p( x \vert y)$ can be thought of a function of $x$ for a given vaues of $y$.
+2. $\sum_{x} p( x \\, \vert \\, y) = 1$, which mean that $p(x \\, \vert \\, y)$ is a valid probability distribution. This property is due to the normalization of the joint probability distribution by $p( y )$.
+3. $p(y) \neq 0$ is necessary because, if $p(y) = 0$ then then the random variable $Y$ cannot take on the value, so the conditional probability is not defined. Here is a simple example to understand conditional probability.
+
 <div class = "example-box">
-<p><strong>Example 1:</strong> Let's assume we have two indentical bags - $B1$ and $B2$. $B1$ contains 10 red balls and $B2$ contains 10 blue balls. If we randomly choose between $B1$ and $B2$, with equal probability, and choose a ball from the chosen bag. What is the probability that the chosen ball is red? This would be $p( \text{ball} = red) = 0.5$. Why?</p>
-<p>Now if you are told that the chosen bag is $B1$, then what is the proability that the ball is red with chosen bag being $B1$? $p( \text{ball} = red \, \vert \, \text{bag} = B1) = 1$! Why?</p>
-<p>Note what happened. If we had not information about anything in this problem, the probability of choosing a red ball is 0.5. That is we are equally uncertain about which ball was chosen. However, if we find out which bag was chosen, then our uncertainity changes. In fact, in this case we are certain that the choen ball is red, since the bag $B1$ was chosen.</p>
-<p>What would happen if we learned instead that the chosen bag is $B2$?</p>
+
+<strong>Example 1:</strong> Let's assume we have two indentical bags - $B1$ and $B2$. $B1$ contains 10 red balls and $B2$ contains 10 blue balls. If we randomly choose between $B1$ and $B2$, with equal probability, and choose a ball from the chosen bag. What is the probability that the chosen ball is red? This would be $p( \text{ball} = red) = 0.5$. Why? 
+
+Now if you are told that the chosen bag is $B1$, then what is the proability that the ball is red with chosen bag being $B1$? $p( \text{ball} = red \\, \vert \\, \text{bag} = B1) = 1$! Why?
+
+Note what happened. If we had not information about anything in this problem, the probability of choosing a red ball is 0.5. That is we are equally uncertain about which ball was chosen. However, if we find out which bag was chosen, then our uncertainity changes. In fact, in this case we are certain that the choen ball is red, since the bag $B1$ was chosen.
+
+What would happen if we learned instead that the chosen bag is $B2$?
 </div>
-<p><strong> Baye's Rule </strong> is a very important concept in probability theory, and a crucial part of Bayesian networks. The names Bayesian networks comes from the fact that they are based on Baye's rule. Baye's rule is given by,</p>
-<p>$$
-p( x \, \vert \, y) = \frac{p( y \, \vert \, x) p(x)}{p(y)} \quad, p( y ) \neq 0
-$$</p>
-<p>This very simple rule has numerous applications, and in fact has an intuitive interpretation. The rule tells us how to update our belief or the uncertainity about an event $x$ given some evidence $y$. $p(x)$ is called the <i>prior</i> probability, which is a measure of belief about the event $x$ without any other information. $p(y \, \vert \, x)$ is the <i>likelihood</i> of the evidence $y$ given $x$, which is out belief about observing the data or information $y$ if event $x$ happens. $p(y)$ is the <i>marginal likelihood</i> of the evidence, and $p(x \, \vert \, y)$ is the <i>posterior</i> probability of $x$ given $y$. The posterior probability is our updated belief about the event $x$ given the evidence $y$.</p>
+
+<strong> Baye's Rule </strong> is a very important concept in probability theory, and a crucial part of Bayesian networks. The names Bayesian networks comes from the fact that they are based on Baye's rule. Baye's rule is given by,
+
+$$
+p( x \\, \vert \\, y) = \frac{p( y \\, \vert \\, x) p(x)}{p(y)} \quad, p( y ) \neq 0
+$$
+
+This very simple rule has numerous applications, and in fact has an intuitive interpretation. The rule tells us how to update our belief or the uncertainity about an event $x$ given some evidence $y$. $p(x)$ is called the <i>prior</i> probability, which is a measure of belief about the event $x$ without any other information. $p(y \\, \vert \\, x)$ is the <i>likelihood</i> of the evidence $y$ given $x$, which is out belief about observing the data or information $y$ if event $x$ happens. $p(y)$ is the <i>marginal likelihood</i> of the evidence, and $p(x \\, \vert \\, y)$ is the <i>posterior</i> probability of $x$ given $y$. The posterior probability is our updated belief about the event $x$ given the evidence $y$.
+
 <h3 class="post-subsubtitle">Baye's Rule Interactive Demo</h3>
-<p>Let's look at an interactive demonstration of Baye's rule. The following interactive demo of a commonly used &quot;medical&quot; example of the Baye's rule. We have a subject who take a test $T$ for a disease $D$. The test outcome and the disease state are binary random variables; the test outcome is positive (1) or negative (0), and th subject can either have (1) or not have (0) the disease. The disease has an incidence rate of $p(D = 1)$ in the population - the <i>prior probability</i>. The test for the disease is not perfect; it has a some known <i>true positive rate</i> $p(T = 1 \, \vert \, D = 1)$ and a <i>false positive rate</i> $p(T = 1 \, \vert \, D = 0)$. The follow demo allows us to compute the <i>posterior proability</i> of the subject having the disease after we know the test resultm, i.e., $p( D = 1 \, \vert \, T = 1)$ or $p( D = 1 \, \vert \, T = 0)$. In the following interactive demo, you can change the prior probability of the disease, the true positive rate, the false positive rate, and the test result to see how the posterior probability changes.</p>
+
+Let's look at an interactive demonstration of Baye's rule. The following interactive demo of a commonly used "medical" example of the Baye's rule. We have a subject who take a test $T$ for a disease $D$. The test outcome and the disease state are binary random variables; the test outcome is positive (1) or negative (0), and th subject can either have (1) or not have (0) the disease. The disease has an incidence rate of $p(D = 1)$ in the population - the <i>prior probability</i>. The test for the disease is not perfect; it has a some known <i>true positive rate</i> $p(T = 1 \\, \vert \\, D = 1)$ and a <i>false positive rate</i> $p(T = 1 \\, \vert \\, D = 0)$. The follow demo allows us to compute the <i>posterior proability</i> of the subject having the disease after we know the test resultm, i.e., $p( D = 1 \\, \vert \\, T = 1)$ or $p( D = 1 \\, \vert \\, T = 0)$. In the following interactive demo, you can change the prior probability of the disease, the true positive rate, the false positive rate, and the test result to see how the posterior probability changes.
+
 <div id="bayes-rule-discrete-demo">
   <!-- Prior Probability -->
   <div class="bndiscdemo-section">
@@ -157,6 +154,7 @@ $$</p>
       <span id="prior-prob-slider-value">0.5</span>
     </div>
   </div>
+
   <!-- True Positive Rate -->
   <div class="bndiscdemo-section">
     <div class="bndiscdemo-title">True Positive Rate</div>
@@ -166,6 +164,7 @@ $$</p>
       <span id="true-positive-slider-value">0.5</span>
     </div>
   </div>
+
   <!-- False Positive Rate -->
   <div class="bndiscdemo-section">
     <div class="bndiscdemo-title">False Positive Rate</div>
@@ -175,6 +174,7 @@ $$</p>
       <span id="false-positive-slider-value">0.5</span>
     </div>
   </div>
+
   <!-- Test Result (Checkbox) -->
   <div class="bndiscdemo-section">
     <div class="bndiscdemo-title">Test Result</div>
@@ -186,18 +186,22 @@ $$</p>
     </div>
   </div>
 </div>
+
 <!-- Posterior Probability Output -->
 <div class="bndiscdemo-output">
   Posterior Probability: <span id="posterior-prob-value"> - </span>
 </div>
-<p>You can play around with the sliders above to compute the posterior probability of a person having the disease when the test comes out positive or negative. Answer the following questions using the interactive demo to get an intuitive understanding of Baye's rule.</p>
+
+You can play around with the sliders above to compute the posterior probability of a person having the disease when the test comes out positive or negative. Answer the following questions using the interactive demo to get an intuitive understanding of Baye's rule.
 <div class="question-box">
 <ol class="question">
   <li>When does the posterior probability equal the prior probability? Can you explain why is so?</li>
   <li>When does the test result perfectly correlate with disease status? i.e., testing positive confirms the disease and vice versa. What about the other way around? Positive test implies no disease, and vice versa.</li>
 </ol>
 </div>
-<p>Baye's rule can be used to update to obtain the full posterior probability distribution of a random variable we care interested in given some evidence. Suppose you find a coin on the street and we want to know if this is a fair coin. The coin looks like most coins so you believe that this coin is likely to be a fair coin, with the following prior probability distribution for the parameter $p$ - the probability of the coin landing heads up. Notice, here that $p$ is itself a random variable because of our uncertainity about its exact value. All we know is that its value is between 0 and 1. The Beta function is used to model the prior distribution of the parameter $p$. The Beta distribution is a continuous probability distribution defined on the interval $[0, 1]$. The Beta distribution is defined by two parameters $\alpha$ and $\beta$, which allow one to control the shape of the distribution. We toss the coin twenty times and depending on the number of head observed from this experiment, the posterior distribution changes. The following interactive demo shows how the prior (light red) and posterior (blue) distribution of the parameter $p$ changes as we observe more heads.</p>
+
+Baye's rule can be used to update to obtain the full posterior probability distribution of a random variable we care interested in given some evidence. Suppose you find a coin on the street and we want to know if this is a fair coin. The coin looks like most coins so you believe that this coin is likely to be a fair coin, with the following prior probability distribution for the parameter $p$ - the probability of the coin landing heads up. Notice, here that $p$ is itself a random variable because of our uncertainity about its exact value. All we know is that its value is between 0 and 1. The Beta function is used to model the prior distribution of the parameter $p$. The Beta distribution is a continuous probability distribution defined on the interval $[0, 1]$. The Beta distribution is defined by two parameters $\alpha$ and $\beta$, which allow one to control the shape of the distribution. We toss the coin twenty times and depending on the number of head observed from this experiment, the posterior distribution changes. The following interactive demo shows how the prior (light red) and posterior (blue) distribution of the parameter $p$ changes as we observe more heads.
+
 <div class="container" id="bayesrule-coin-demo">
     <!-- Left: Controls -->
     <div class="controls">
@@ -214,6 +218,7 @@ $$</p>
         <svg width="500" height="250" viewBox="0 0 500 280" preserveAspectRatio="xMidYMid meet"></svg>
     </div>
 </div>
+
 <!-- Bayes Rule Coin Interactive Demo -->
 <!-- ================================ -->
 <script>
@@ -376,15 +381,21 @@ $$</p>
     // Initial plot
     updatePlot();
 </script>
-<p>Play around with the sliders above and observe the changes in the prior and posterior distribution of the parameter $p$. Do the results make intuitive sense?</p>
-<h2 class="post-subtitle">Mutlivariate problems with uncertainty</h2>
-<p>Let's assume that we are dealing with $n$ random variables $X_1, X_2, \ldots, X_n$ for the problem of interest. Given that the problem is stochastic in nature, the best piece of information we can have about the problem is the joint probability distribution of these random variables, i.e. $p\left( X_1, X_2, \cdots X_n\right)$. All other information that can be known about this problem can be derived from the joint probability distribution. If want to use a computer to compute the infomration of interest, we first need to be able to represent and store the joint probability distribution.</p>
-<p>However, the joint probability distribution is a very high dimensional object, and it is difficult to work with. The joint probability distribution can be decomposed into a product of conditional probabilities using the chain rule of probability. The chain rule of probability is given by,</p>
-<p>The joint probability distribution of these random variables is given by $p(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n)$. The joint probability distribution is a very high dimensional object, and it is difficult to work with. However, we can use the chain rule of probability to decompose the joint probability distribution into a product of conditional probabilities. The chain rule of probability is given by,</p>
-<p>In progress ...</p>
 
-        </div>
-      </div>
-    </main>
-</body>
-</html>
+Play around with the sliders above and observe the changes in the prior and posterior distribution of the parameter $p$. Do the results make intuitive sense?
+
+<h2 class="post-subtitle">Mutlivariate problems with uncertainty</h2>
+
+Let's assume that we are dealing with $n$ random variables $X_1, X_2, \ldots, X_n$ for the problem of interest. Given that the problem is stochastic in nature, the best piece of information we can have about the problem is the joint probability distribution of these random variables, i.e. $p\left( X_1, X_2, \cdots X_n\right)$. All other information that can be known about this problem can be derived from the joint probability distribution. If want to use a computer to compute the infomration of interest, we first need to be able to represent and store the joint probability distribution.
+
+
+
+
+However, the joint probability distribution is a very high dimensional object, and it is difficult to work with. The joint probability distribution can be decomposed into a product of conditional probabilities using the chain rule of probability. The chain rule of probability is given by, 
+
+
+The joint probability distribution of these random variables is given by $p(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n)$. The joint probability distribution is a very high dimensional object, and it is difficult to work with. However, we can use the chain rule of probability to decompose the joint probability distribution into a product of conditional probabilities. The chain rule of probability is given by,
+
+
+
+In progress ... 
