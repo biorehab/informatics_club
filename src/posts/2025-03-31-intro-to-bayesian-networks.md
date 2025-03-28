@@ -5,7 +5,7 @@ layout: "post.njk"  # Must match exactly with `post.njk`
 author: "Sivakumar Balasubramanian"
 tags: ["blog"]
 ---
-<link rel="stylesheet" href="{{ '/assets/css/2025-03-17-bn.css' | url }}">
+<link rel="stylesheet" href="{{ '/assets/css/2025-03-31-bn.css' | url }}">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.1/math.min.js"></script>
 

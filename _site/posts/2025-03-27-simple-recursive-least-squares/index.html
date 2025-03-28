@@ -31,10 +31,9 @@
         </p>
         <hr>
         <div class="post-content">
-          <link rel="stylesheet" href="/informatics_club/assets/css/2025-03-17-bn.css">
+          <link rel="stylesheet" href="/informatics_club/assets/css/2025-03-27-rls.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.1/math.min.js"></script>
-<script>
-</script>
+<script src="/informatics_club/assets/js/2025-03-27-rls.js" defer></script>
 <p>I have always been interested in signal processing, control theory, and data analysis since my undergraduate days. Once I got comfortable with linear algebra, understanding ideas in these topics became easier.</p>
 <p>Recently, I have been thinking about implementing assist-as-needed controllers for the different robots we are developing in my group. I wanted to see if we can have a more principled approach than our standard "+3/-1" adaptation rule. I will write about this controller at a later point. It might be worth looking at the adaptive control theory literature to see if we can find tools there we could use. This decision was further catalysed by Prof. Ahmed Chemori's talk at the INDEx workshop in Bengaluru. He had talked about $\mathcal{L}_1$ adaptive control. I've started reading their conference paper, which got me thinking about looking into the adaptive control theory to see if we can develop a general approach to assist-as-needed control of rehabilitation robots.</p>
 <p>I have been reading three books: Stable Adaptive System (by Anuradha Annaswamy and Kumpati S. Naredra), Adaptive Control (by Karl Astrom and Bjorn Wittenmark), and Adaptive Control Tutorial (by Petros Loannou and Baris Fidan). Karl Astrom's book chapter on model estimation was fun to read and helped me refresh some ideas I had read a long time back. I thought I would quickly write about the simple recursive least squares idea.</p>
@@ -79,6 +78,13 @@ y_{m} &= \pmb{\theta}_m^\top \mathbf{x}_m
 \end{split}$$</p>
 <p>This is a beautiful result!</p>
 <p>An interactive demo of this is coming soon... This page is not done yet.</p>
+<div id="rls-demo">
+    <svg width="600" height="400" id="rls-plot"></svg>
+    <div id="rls-controls">
+        <button id="reset">Reset Simulation</button>
+        <button id="add-data">Add Data Point</button>
+    </div>
+</div>
 <!-- <p>That's all for now.</p> -->
 
         </div>

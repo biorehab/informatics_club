@@ -5,12 +5,11 @@ layout: "post.njk"  # Must match exactly with `post.njk`
 author: "Sivakumar Balasubramanian"
 tags: ["blog", "math", "estimation", "control"]
 ---
-<link rel="stylesheet" href="{{ '/assets/css/2025-03-17-bn.css' | url }}">
+<link rel="stylesheet" href="{{ '/assets/css/2025-03-27-rls.css' | url }}">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.1/math.min.js"></script>
 
-<script>
-</script>
+<script src="{{ '/assets/js/2025-03-27-rls.js' | url }}" defer></script>
 
 <p>I have always been interested in signal processing, control theory, and data analysis since my undergraduate days. Once I got comfortable with linear algebra, understanding ideas in these topics became easier.</p>
 
@@ -90,6 +89,14 @@ y_{m} &= \pmb{\theta}_m^\top \mathbf{x}_m
 
 
 An interactive demo of this is coming soon... This page is not done yet.
+
+<div id="rls-demo">
+    <svg width="600" height="400" id="rls-plot"></svg>
+    <div id="rls-controls">
+        <button id="reset">Reset Simulation</button>
+        <button id="add-data">Add Data Point</button>
+    </div>
+</div>
 
 <!-- <p>That's all for now.</p> -->
 
