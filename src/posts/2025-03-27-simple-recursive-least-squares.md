@@ -26,7 +26,7 @@ tags: ["blog", "math", "estimation", "control"]
 <p>If we make a bunch of measurements from this system, $\left( y_i, \mathbf{x}_i \right)$ with $1 \leq i \leq m$ and $m > n$, we can then express the relationship between the measurements and the unknown parameters as the following,</p>
 
 <p>$$ \mathbf{y}_m = 
-\mathbf{X}_m \pmb{\theta} = \begin{bmatrix} \mathbf{x}_1^\top \\\\ \mathbf{x}_2^\top \\\\ \vdots \\\\ \mathbf{x}_m^\top \end{bmatrix}\pmb{\theta} $$</p>
+\mathbf{X}_m \pmb{\theta} = \begin{bmatrix} \mathbf{x}_1^\top \\ \mathbf{x}_2^\top \\ \vdots \\ \mathbf{x}_m^\top \end{bmatrix}\pmb{\theta} $$</p>
 
 <p>The subscript $m$ indicates that these variables are constructed using $m$ measurements.</p>
 
@@ -66,17 +66,17 @@ tags: ["blog", "math", "estimation", "control"]
 
 <p>$$ \left(\mathbf{A} + \mathbf{B}\mathbf{C}\mathbf{D}\right)^{-1} = \mathbf{A}^{-1} - \mathbf{A}^{-1}\mathbf{B}\left(\mathbf{C}^{-1} + \mathbf{D}\mathbf{A}^{-1}\mathbf{B} \right)^{-1}\mathbf{D}\mathbf{A}^{-1}$$</p>
 
-<p>Letting, $\mathbf{A} = \mathbf{P}_m^{-1}$, $\mathbf{B} = \mathbf{x}_{m+1}$, $\mathbf{C} = \mathbf{I}$, and $\mathbf{D} = \mathbf{x}_{m+1}^\top$, we have<p>
+<p>Letting, $\mathbf{A} = \mathbf{P}_m^{-1}$, $\mathbf{B} = \mathbf{x}_{m+1}$, $\mathbf{C} = \mathbf{I}_1$, and $\mathbf{D} = \mathbf{x}_{m+1}^\top$, we have<p>
 
-<p>$$ \mathbf{P}_{m+1} = \mathbf{P}_m - \mathbf{P}_m\mathbf{x}_{m+1}\left( \mathbf{I} + \mathbf{x}_{m+1}^\top\mathbf{P}_m\mathbf{x}_{m+1}\right)^{-1}\mathbf{x}_{m+1}^\top\mathbf{P}_m \tag{6}$$</p>
+<p>$$ \mathbf{P}_{m+1} = \mathbf{P}_m - \mathbf{P}_m\mathbf{x}_{m+1}\left( \mathbf{I}_1 + \mathbf{x}_{m+1}^\top\mathbf{P}_m\mathbf{x}_{m+1}\right)^{-1}\mathbf{x}_{m+1}^\top\mathbf{P}_m \tag{6}$$</p>
 
 <p>Substituting Eq. (6) into Eq. (5), we get the following recursive relationships,</p>
 
 <p>$$ \hat{\pmb{\theta}}_{m+1} = \hat{\pmb{\theta}}_m + \mathbf{K}_{m+1}\left( y_{m+1} - \mathbf{x}_{m+1}^\top \hat{\pmb{\theta}}_m \right) \tag{7a}$$</p>
 
-<p>$$ \mathbf{K}_{m+1} = \mathbf{P}_m\mathbf{x}_{m+1}\left( \mathbf{I} + \mathbf{x}_{m+1}^\top\mathbf{P}_m\mathbf{x}_{m+1} \right)^{-1} \tag{7b}$$</p>
+<p>$$ \mathbf{K}_{m+1} = \mathbf{P}_m\mathbf{x}_{m+1}\left( \mathbf{I}_1 + \mathbf{x}_{m+1}^\top\mathbf{P}_m\mathbf{x}_{m+1} \right)^{-1} \tag{7b}$$</p>
 
-<p>$$ \mathbf{P}_{m+1} = \left(\mathbf{I} - \mathbf{K}_{m+1}\mathbf{x}_{m+1}^\top\right)\mathbf{P}_m \tag{7c}$$</p>
+<p>$$ \mathbf{P}_{m+1} = \left(\mathbf{I}_n - \mathbf{K}_{m+1}\mathbf{x}_{m+1}^\top\right)\mathbf{P}_m \tag{7c}$$</p>
 
 <p>Eq. 7a has a beautiful interpretation: the new parameter estimate $\hat{\pmb{\theta}}_{m+1}$  can be obtained from the previous estimate $\hat{\pmb{\theta}}_m$ by correcting it by $\mathbf{K}_{m+1}\left(y_{m+1} - \mathbf{x}_{m+1}^\top \hat{\pmb{\theta}}_m\right)$. $\left(y_{m+1} - \mathbf{x}_{m+1}^\top \hat{\pmb{\theta}}_m\right)$ is the error in predicting the $(m+1)^{th}$ measurement using the parameter estimate from $m$ measurements, and the gain $\mathbf{K}_{m+1}$ how much of this error will be used to adjust the new parameter estimates? The gain $\mathbf{K}_{m+1}$ can be called the Kalman gain if we think of the system $y = \mathbf{x}^\top\pmb{\theta}$ as a linear dynamical system with the following state equations ($\pmb{\theta}_m$ is the state, and $\mathbf{x}_m$ is the input),</p>
 
@@ -87,8 +87,7 @@ y_{m} &= \pmb{\theta}_m^\top \mathbf{x}_m
 
 <p>This is a beautiful result!</p>
 
-
-An interactive demo of this is coming soon... This page is not done yet.
+Here is an interactive demo fitting a cubic polynomial from noisy samples. The following demo shows the true polynomial in red, the estimated polynomial using the full least squares (LS) fit in a thick violet line, and the recurrsive least squares (RLS) fit in a blue line. See what happens when you keep adding more points. Do you think the LS fit and RLS fit will ways match? Check your answer using the demo, and explain.
 
 <div id="rls-demo">
     <svg width="600" height="400" id="rls-plot"></svg>
@@ -98,6 +97,6 @@ An interactive demo of this is coming soon... This page is not done yet.
     </div>
 </div>
 
-<!-- <p>That's all for now.</p> -->
+<p>That's all for now. But this is the first of many posts to come in the recurrsive least squares filters.</p>
 
 

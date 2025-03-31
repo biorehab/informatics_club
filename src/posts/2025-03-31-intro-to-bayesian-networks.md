@@ -290,7 +290,7 @@ Baye's rule can be used to update to obtain the full posterior probability distr
                            .attr("stroke", "steelblue")
                            .attr("stroke-width", 3);
     const legend = g.append("g")
-    .attr("transform", `translate(20, 10)`); // Position legend
+                    .attr("transform", `translate(20, 10)`); // Position legend
 
     // Define legend items
     const legendItems = [
