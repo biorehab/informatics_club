@@ -97,6 +97,6 @@ Here is an interactive demo fitting a cubic polynomial from noisy samples. The f
     </div>
 </div>
 
-<p>That's all for now. But this is the first of many posts on the recurrsive least squares filters.</p>
+<p>That's all for now. But this is the first of many posts on recurrsive least squares filters.</p>
 
 
