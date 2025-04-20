@@ -442,6 +442,13 @@ $$p(\text{Age} \vert \text{Blood Type}) = p(\text{Age}), \\,\\, \forall \text{Ag
 The following is the demonstration of this from a real dataset from <a href="https://www.kaggle.com/datasets/prasad22/healthcare-dataset/versions/1?resource=download#">Kaggle</a> with data from 10000 subjects. The following plot shows the conditional probability distribution of the age of the subjects given their blood type, along with the marginal probability distribution of the age. We see that these distributions look essentially the same; they will never be exactly equal because of sampling noise. A $\chi^2$ test of independence on the data shows that the two random variables are independent.
 <!-- Image from the analysis folder with center alignment -->
 <img src="{{ '/assets/images/2025-03-31/age-bloodtype.svg' | url }}" alt="Independence" class="example-image" width="400" style="display: block; margin: 0 auto;">
+
+<strong>Example 4:</strong>Two Gaussian random variables $X$ and $Y$ are independent if and only if their joint distribution is given by the product of their marginals. If we randomly sample $X$ and $Y$ from a joint Gaussian distribution, we get a scatter plot as the following left plot, where there is appear to be no trend or correlation between the two random variables.
+<!-- Image from the analysis folder with center alignment -->
+<img src="{{ '/assets/images/2025-03-31/gaussrandvar.svg' | url }}" alt="Independence" class="example-image" width="500" style="display: block; margin: 0 auto;">
+
+On the other hand, the scatter plot on the right shows a case where the two random variables are dependent. Can you explain why these using the basic definition of independence?
+
 </div>
 
 <b>Conditional Independence</b>
@@ -455,5 +462,22 @@ $$
 p(x \vert y, z) = p(x \vert z) \iff p(y \vert x, z) = p(y \vert z) \quad \forall x, y, z
 $$
 
+This also implies that $p(x, y \vert z) = p(x \vert z) p(y \vert z)$, $\forall x, y, z$. Conditional independence is often represented as $X \perp\\!\\!\\!\perp Y \vert Z$.
+
+Let's look at some exmaples to understand the concept of independence.
+
+<div class="example-box">
+
+<strong>Example 5:</strong> Two repeated administration of a diagnostic test $T$ on a subject are not indepedent. The outcomes in the two tests $T_1$ (test 1) and $T_2$ (test 2) are random variables and they will be correlated. Let's simulate this and understand this. Let this diagnostic test be a binary test with a true positive rate of $0.9$ and a false positive rate of $0.05$. Let the prevalence of the disease of interst be $0.1$. We adminsitered this test twice on 1000 subjects who came to the hospital. Each of these patients either has or does not have the disease, which too is a randrom variable, which we call $D$. Comparing the outcomes of the two tests, we get the following confusion matrix.  
+<!-- Image from the analysis folder with center alignment -->
+<img src="{{ '/assets/images/2025-03-31/testretestcm1.svg' | url }}" alt="Independence" class="example-image" width="300" style="display: block; margin: 0 auto;">
+
+This shows that the results of $T_1$ and $T_2$ are dependent! If someone tested positive in the first test, they are more likely to test positive on the second test as well.
+
+Ask yourself this question. If through some devine intervention, we got to know the true disease status of a subject. Once we know the disease status, 
+<!-- Image from the analysis folder with center alignment -->
+<img src="{{ '/assets/images/2025-03-31/testretestcm2.svg' | url }}" alt="Independence" class="example-image" width="500" style="display: block; margin: 0 auto;">
+
+</div>
 
 In progress ... 
