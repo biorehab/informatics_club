@@ -89,7 +89,7 @@ tags: ["blog"]
   });
 </script>
 
-Almost all real-world problems we deal with require us to deal with: (a) deal with multiple variables with complex interactions, (b) each variable has some uncertainity associated with, and (c) require us to make some decision based on some partially observed or available information. Bayesian networks are a powerful tool that can help us represents such complex systems, and provide pricipled approaches for make informed decisions. In this post, we will provide a short introduction to Bayesian networks, and show how they can be used to model complex systems and make decisions. Bayesian networks are a type of probabilistic graphical model and are a stepping stone to causal inference --  a topic of great interest to the author.
+Almost all real-world problems require us to deal with: (a) multiple variables with complex interactions, (b) each variable has some uncertainity associated with it, and (c) some decision making based on some partially observed or available information. Bayesian networks are a powerful tool that can help us represents such complex systems, and provide pricipled approaches for make informed decisions. In this post, we will provide a short introduction to Bayesian networks, and show how they can be used to model complex systems and make decisions under uncertainty. Bayesian networks are a type of probabilistic graphical model and are a stepping stone to causal inference --  an interesting, complex, and useful topic of interest to the author.
 
 <h2 class="post-subtitle">Some basic probability concepts</h2>
 
@@ -109,7 +109,7 @@ $$
 p(x) = \sum_{y} p(x, y) \quad \text{and} \quad p(y) = \sum_{x} p(x, y) 
 $$
 
-While the marginal probabilities tell us the probability of the individual random variables, irrespective of the other. <i>Conditional probability</i> tells us the probability of one random variable, when the value of another random variable is known. The conditional probability of $X$ given $Y$ is denoted by $p(X=x \vert Y=y)$ or $p(x \vert y)$ and is given by,
+Marginal probabilities tell us the probability of the individual random variables, irrespective of the other. <i>Conditional probability</i> tells us the probability of one random variable, when the value of another random variable is known. The conditional probability of $X$ given $Y$ is denoted by $p(X=x \vert Y=y)$ or $p(x \vert y)$ and is given by,
 
 $$
 p\left(x \\, \vert \\, y\right) = \frac{p\left(x, y\right)}{p\left( y \right)}, \quad p(y) \neq 0
@@ -142,7 +142,7 @@ This very simple rule has numerous applications, and in fact has an intuitive in
 
 <h3 class="post-subsubtitle">Baye's Rule Interactive Demo</h3>
 
-Let's look at an interactive demonstration of Baye's rule. The following interactive demo of a commonly used "medical" example of the Baye's rule. We have a subject who take a test $T$ for a disease $D$. The test outcome and the disease state are binary random variables; the test outcome is positive (1) or negative (0), and th subject can either have (1) or not have (0) the disease. The disease has an incidence rate of $p(D = 1)$ in the population - the <i>prior probability</i>. The test for the disease is not perfect; it has a some known <i>true positive rate</i> $p(T = 1 \\, \vert \\, D = 1)$ and a <i>false positive rate</i> $p(T = 1 \\, \vert \\, D = 0)$. The follow demo allows us to compute the <i>posterior proability</i> of the subject having the disease after we know the test resultm, i.e., $p( D = 1 \\, \vert \\, T = 1)$ or $p( D = 1 \\, \vert \\, T = 0)$. In the following interactive demo, you can change the prior probability of the disease, the true positive rate, the false positive rate, and the test result to see how the posterior probability changes.
+Let's look at an interactive demonstration of Baye's rule. The following interactive demo of a commonly used "medical" example of the Baye's rule. We have a subject who take a test $T$ for a disease $D$. The test outcome and the disease state are binary random variables; the test outcome is positive (1) or negative (0), and the subject can either have (1) or not have (0) the disease. The disease has an incidence rate of $p(D = 1)$ in the population - the <i>prior probability</i>. The test for the disease is not perfect; it has a some known <i>true positive rate</i> $p(T = 1 \\, \vert \\, D = 1)$ and a <i>false positive rate</i> $p(T = 1 \\, \vert \\, D = 0)$. The following demo allows us to compute the <i>posterior proability</i> of the subject having the disease after we know the test result, i.e., $p( D = 1 \\, \vert \\, T = 1)$ or $p( D = 1 \\, \vert \\, T = 0)$. In the following interactive demo, you can change the prior probability of the disease, the true positive rate, the false positive rate, and the test result to see how the posterior probability changes.
 
 <div id="bayes-rule-discrete-demo">
   <!-- Prior Probability -->
@@ -195,12 +195,12 @@ Let's look at an interactive demonstration of Baye's rule. The following interac
 You can play around with the sliders above to compute the posterior probability of a person having the disease when the test comes out positive or negative. Answer the following questions using the interactive demo to get an intuitive understanding of Baye's rule.
 <div class="question-box">
 <ol class="question">
-  <li>When does the posterior probability equal the prior probability? Can you explain why is so?</li>
+  <li>When does the posterior probability equal the prior probability? Can you explain why it is so?</li>
   <li>When does the test result perfectly correlate with disease status? i.e., testing positive confirms the disease and vice versa. What about the other way around? Positive test implies no disease, and vice versa.</li>
 </ol>
 </div>
 
-Baye's rule can be used to update to obtain the full posterior probability distribution of a random variable we care interested in given some evidence. Suppose you find a coin on the street and we want to know if this is a fair coin. The coin looks like most coins so you believe that this coin is likely to be a fair coin, with the following prior probability distribution for the parameter $p$ - the probability of the coin landing heads up. Notice, here that $p$ is itself a random variable because of our uncertainity about its exact value. All we know is that its value is between 0 and 1. The Beta function is used to model the prior distribution of the parameter $p$. The Beta distribution is a continuous probability distribution defined on the interval $[0, 1]$. The Beta distribution is defined by two parameters $\alpha$ and $\beta$, which allow one to control the shape of the distribution. We toss the coin twenty times and depending on the number of head observed from this experiment, the posterior distribution changes. The following interactive demo shows how the prior (light red) and posterior (blue) distribution of the parameter $p$ changes as we observe more heads.
+Baye's rule can be used to update to obtain the full posterior probability distribution of a random variable we are interested in given some evidence. Suppose you find a coin on the street and we want to know if this is a fair coin. The coin looks like a regular coind so you believe that this coin is likely to be a fair coin, with the following prior probability distribution for the parameter $p$ - the probability of the coin landing heads up. Notice, here that $p$ is itself a random variable because of our uncertainity about its exact value. All we know is that its value is between 0 and 1. The Beta function is used to model the prior distribution of the parameter $p$. The Beta distribution is a continuous probability distribution defined on the interval $[0, 1]$. The Beta distribution is defined by two parameters $\alpha$ and $\beta$, which allow one to control the shape of the distribution. We toss the coin twenty times and depending on the number of head observed from this experiment, the posterior distribution changes. The following interactive demo shows how the prior (light red) and posterior (blue) distribution of the parameter $p$ changes as we observe more heads.
 
 <div class="container" id="bayesrule-coin-demo">
     <!-- Left: Controls -->
@@ -386,16 +386,74 @@ Play around with the sliders above and observe the changes in the prior and post
 
 <h2 class="post-subtitle">Mutlivariate problems with uncertainty</h2>
 
-Let's assume that we are dealing with $n$ random variables $X_1, X_2, \ldots, X_n$ for the problem of interest. Given that the problem is stochastic in nature, the best piece of information we can have about the problem is the joint probability distribution of these random variables, i.e. $p\left( X_1, X_2, \cdots X_n\right)$. All other information that can be known about this problem can be derived from the joint probability distribution. If want to use a computer to compute the infomration of interest, we first need to be able to represent and store the joint probability distribution.
+With that brief background on Baye's theorem we now head towards the main topic of this post.
 
+Let's assume that we are dealing with $n$ random variables $X_1, X_2, \ldots, X_n$ for the problem of interest. Given that the problem is stochastic in nature, the best piece of information we can have about the problem is the joint probability distribution of these random variables, i.e. $p\left( X_1, X_2, \cdots X_n\right)$. All other information that can be known about this problem can be derived from the joint probability distribution. If want to use a computer to compute the infomration of interest, we first need to be able to represent and store the joint probability distribution. That is the first issue we need to confront -  the representation of this joint probability distribution in a computer. Let's answers the following question to understand this issue:
 
+<div class="question-box">
+<ul class="question">
+  <li>How many parameters (or numbers) do you need to represent a discrete proability distribution of a random variable $X$ that takes on $k$ possible discrete values $x_1, x_2, x_3 \ldots x_k$?</li>
+</ul>
+</div>
 
+It's $k-1$ numbers, which can be $p(x_1), p(x_1), \ldots p(x_{k-1})$. The last number is determined by the normalization condition, i.e. $\sum_{i=1}^{k} p(x_i) = 1$. Now, let's consider multivariate.<br>
 
-However, the joint probability distribution is a very high dimensional object, and it is difficult to work with. The joint probability distribution can be decomposed into a product of conditional probabilities using the chain rule of probability. The chain rule of probability is given by, 
+<div class="question-box">
+<ul class="question">
+  <li>How many parameters do you need to represent a discrete joint proability distribution of a two binary random variable $X_1$ and $X_2$ that take on values $0$ or $1$?</li>
+</ul>
+</div>
 
+Here, we will need 3 numbers. In fact, if we have a joint probability distribution of $n$ binary random variables, then, we need at most $2^n -1$ numbers to fully represent this joint probability distriubtion.
 
-The joint probability distribution of these random variables is given by $p(X_1 = x_1, X_2 = x_2, \ldots, X_n = x_n)$. The joint probability distribution is a very high dimensional object, and it is difficult to work with. However, we can use the chain rule of probability to decompose the joint probability distribution into a product of conditional probabilities. The chain rule of probability is given by,
+You see the problem here. The number of parameters required grows exponentially with the number of variables. If we were dealing with a moderately sized problem with 100 binary random variales, we will need $2^{100} - 1 = 1,267,650,600,228,229,401,496,703,205,375$ parameters! The is a ridiculously large number. Forget about using such a distribution for inference, we cannot even represent this fully on a computer!
 
+<div class="question-box">
+<ul class="question">
+  <li>What about a joint distribution of $n$ variables with each random variable taking on $k$ distinct values? I leave this for you to work out, and you will see the general issue here.</li>
+</ul>
+</div>
+
+For $n$ binary random variables, we said we will at most need $2^n - 1$ numbers to represent the probability distribution. This is when there is dependence between $n$ random variables, which requires all $2^n - 1$ numbers to caputure all the possible dependencies or interactions. However, if there is any sort of "independence" between one or more of the random variables, then the number of parameters requires to represent the joint probability distribution can be reduced. To put this idea on firm footing, let's first clearly defin the concept of independence in probability setting.
+
+<b>Independence</b> 
+
+Two random variables $X$ and $Y$ are independent if the knowledge or information about one variables does not affect our knowledge about the other variable. This is most naturally expressed in terms of conditional probability. Two random variables are independent if the conditional probability distribution of one random variable given the other is equal to its marginal probability distribution. 
+$$
+p(x \vert y) = p(x) \quad \forall x, y
+$$
+
+Our uncertainity about the value of $X$ without any other information is $p(X=x)$. Knowing the values of $Y$ does not change our uncertainity about the value of $X$, when $X$ and $Y$ are independent. Note that independence is a symmetric property.
+$$
+p(x \vert y) = p(x) \iff p(y \vert x) = p(y) \quad \forall x, y
+$$
+This implies that, $p(x, y) = p(x) p(y)$, $\forall x, y$. Its trivial to verify this. Independence between random variables $X$ is often represented as $X \perp\\!\\!\\!\perp Y$. When two two random variables are not independent, we say that they are dependent, which is represented as $X \not\\!\perp \\!\\!\\!\perp Y$.
+
+This independence is also known as <i>unconditional independence</i>. Another important and interesting type of independence is <i>conditional independence</i>.
+
+Let's look at some exmaples to understand the concept of independence.
+
+<div class="example-box">
+
+<strong>Example 2:</strong> The age of a first year MS Bioengineering student and his/her grade in Applied Linear Algebra course are two random variables. The age of the student does not affect his/her grade in the course. Thus, these two random variables are independent. Similarly, the gender of the student and his/her grade in the course are independent.
+
+<strong>Example 3:</strong> A perosn's age and his/her blood group can be safely assumed to be independent random variables, i.e. 
+$$p(\text{Age} \vert \text{Blood Type}) = p(\text{Age}), \\,\\, \forall \text{Age}, \\,\text{Blood Type}$$
+The following is the demonstration of this from a real dataset from <a href="https://www.kaggle.com/datasets/prasad22/healthcare-dataset/versions/1?resource=download#">Kaggle</a> with data from 10000 subjects. The following plot shows the conditional probability distribution of the age of the subjects given their blood type, along with the marginal probability distribution of the age. We see that these distributions look essentially the same; they will never be exactly equal because of sampling noise. A $\chi^2$ test of independence on the data shows that the two random variables are independent.
+<!-- Image from the analysis folder with center alignment -->
+<img src="{{ '/assets/images/2025-03-31/age-bloodtype.svg' | url }}" alt="Independence" class="example-image" width="400" style="display: block; margin: 0 auto;">
+</div>
+
+<b>Conditional Independence</b>
+
+Two variables $X$ and $Y$ may not be independent, but might become independent when we have knowledge of a third variable $Z$. The uncertainty about $X$ given $Y$ and $Z$ is the same as the uncertainty about $X$ given only $Z$. 
+$$
+p(x \vert y, z) = p(x \vert z) \quad \forall x, y, z
+$$
+Notice, that conditional independence is also symmetric. 
+$$
+p(x \vert y, z) = p(x \vert z) \iff p(y \vert x, z) = p(y \vert z) \quad \forall x, y, z
+$$
 
 
 In progress ... 
