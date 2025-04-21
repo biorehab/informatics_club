@@ -468,16 +468,78 @@ Let's look at some exmaples to understand the concept of independence.
 
 <div class="example-box">
 
-<strong>Example 5:</strong> Two repeated administration of a diagnostic test $T$ on a subject are not indepedent. The outcomes in the two tests $T_1$ (test 1) and $T_2$ (test 2) are random variables and they will be correlated. Let's simulate this and understand this. Let this diagnostic test be a binary test with a true positive rate of $0.9$ and a false positive rate of $0.05$. Let the prevalence of the disease of interst be $0.1$. We adminsitered this test twice on 1000 subjects who came to the hospital. Each of these patients either has or does not have the disease, which too is a randrom variable, which we call $D$. Comparing the outcomes of the two tests, we get the following confusion matrix.  
+<strong>Example 5:</strong> Two repeated administration of a diagnostic test $T$ on a subject are not indepedent. The outcomes in the two tests $T_1$ (test 1) and $T_2$ (test 2) are random variables and they will be correlated. Let's simulate this and understand this. Let this diagnostic test be a binary test with a true positive rate of $0.9$ and a false positive rate of $0.05$. Let the prevalence of the disease of interst be $0.1$. We adminsitered this test twice on 1000 subjects who came to the hospital. Each of these patients either has or does not have the disease, which too is a randrom variable, which we call $D$. Comparing the outcomes of the two tests, we get the following joint probability distribution on the left. The right plot shows the conditional probability distribution of $T_2$, given the outcome of $T_1$.
 <!-- Image from the analysis folder with center alignment -->
-<img src="{{ '/assets/images/2025-03-31/testretestcm1.svg' | url }}" alt="Independence" class="example-image" width="300" style="display: block; margin: 0 auto;">
+<img src="{{ '/assets/images/2025-03-31/testretestcm1.svg' | url }}" alt="Independence" class="example-image" width="450" style="display: block; margin: 0 auto;">
 
-This shows that the results of $T_1$ and $T_2$ are dependent! If someone tested positive in the first test, they are more likely to test positive on the second test as well.
+We can clearly see that the $p(T_2 \vert T_1) \neq p(T_2)$, implying they are not unconditionally independent. If someone tested positive in the first test, they are more likely to test positive on the second test as well.
 
-Ask yourself this question. If through some devine intervention, we got to know the true disease status of a subject. Once we know the disease status, 
+Ask yourself this question. If through some measns, we got to know the true disease status of a subject, are the two tests $T_1$ and $T_2$ still dependent? Let's look at what the data says. The following plots show the conditional probabiity distribution $p(T_2 \vert T_1, D=1)$ and $p(T_2 \vert T_1, D=0)$, on the left and right, respectively. You can see that knowledge of $T_1$ once we know the disease does not change our uncertainity about $T_2$, which is essentially p(T_2$).
 <!-- Image from the analysis folder with center alignment -->
-<img src="{{ '/assets/images/2025-03-31/testretestcm2.svg' | url }}" alt="Independence" class="example-image" width="500" style="display: block; margin: 0 auto;">
+<img src="{{ '/assets/images/2025-03-31/testretestcm2.svg' | url }}" alt="Independence" class="example-image" width="450" style="display: block; margin: 0 auto;">
+
+One we know the disease status, we cannot learn anything about the results of $T_2$ from $T_1$.
 
 </div>
 
-In progress ... 
+<h2 class="post-subtitle">Representation of Multivariate Distributions</h2>
+
+We earlier saw that a joint distribution with $N$ binary random variables requires at most $2^{N}-1$ variables for its complete speicfication. This is the most general case, where each of the $N$ variables is dependent on other random variables. If these names these random variables $X_1, X_2, \ldots, X_N$, then the joint distribution can be written as the following,
+$$
+p(x_1, x_2, \ldots, x_N) = p(x_1 \vert x_2, \ldots, x_N) p(x_2 \vert x_3, \ldots, x_N) \cdots p(x_{N-1} \vert x_N) p(x_N)
+$$
+This is the <i>chain rule</i> of probability distributions, where the joint distribution is expressed as the product of a set of conditional distributions. The chain rule written above is the most general form of the rule, which allows for all possible dependencies between the random variables. If we can specify each of these conditional distributions, then we can compute the joint distribution. There are $N$ product terms on the right hand side (RHS), and its easy to verify that the sum of the parameters required for each of these conditional distribution is $2^N - 1$. The following table shows the number of parameters required to represent the joint distribution of $N$ binary random variables, and the number of product terms in the chain rule.
+<div class="centered-table">
+<table>
+  <thead>
+    <tr>
+      <th>Term in the RHS</th>
+      <th>Number of Parameters</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$p(x_N)$</td>
+      <td>$1$</td>
+    </tr>
+    <tr>
+      <td>$p(x_{N-1} \vert x_N)$</td>
+      <td>$2$</td>
+    </tr>
+    <tr>
+      <td>$p(x_{N-2} \vert x_{N-1}, x_N)$</td>
+      <td>$4$</td>
+    </tr>
+    <tr>
+      <td>$\vdots$</td>
+      <td>$\vdots$</td>
+    </tr>
+    <tr>
+      <td>$p(x_{1} \vert x_{2}, x_{3} \cdots x_N)$</td>
+      <td>$2^{N-1}$</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+You can verify that $\sum_{i=0}^{N-1} 2^i = 2^N - 1$.
+
+What would happen if the $N$ random variables are independent? If each one is independent, then the joint distribution can be written as the product of the marginals.
+$$
+p(x_1, x_2, \ldots, x_N) = p(x_1) p(x_2) \cdots p(x_N)
+$$
+
+This is the simplest possible case. We only need $N$ parameters to represent the joint distribution.
+
+Often in practice, we neither have full independece or full dependence between the random variables. Conditional independence between variables betows structure to a joint distribution, allowing us to have a compact representation for joint probability distributions. 
+
+<h2 class="post-subtitle">Bayesian Networks</h2>
+
+<b>Bayesian Networks</b> are a nice, graphical way to represent conditional independence between random variables, that allows us to compactly represent joint distributions, and provides algorithms for making probabilistic inferences from data. Bayesian networks are also often called <i>belief networks</i> or <i>Bayesian belief networks</i>. 
+
+A Bayesian network is a directed acyclic graph (DAG) where the nodes are random variables and the edges represent the conditional dependencies between the random variables. The direction of the edge indicates the direction of the dependency. The choice of the edges in a Bayesian network are based on the conditional independence realtionships between the random variables of interest.
+
+The following figures shown some examples of Bayesian networks.
+
+
+

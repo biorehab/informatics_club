@@ -84,3 +84,21 @@ input[type="range"] {
   justify-content: center;
   align-items: center;
 }
+
+.centered-table {
+  display: flex;
+  justify-content: center;
+  margin: 1em 0;
+}
+
+.centered-table table {
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.centered-table th,
+.centered-table td {
+  border: 1px solid #aaa;
+  padding: 0.1em 1em;
+  font-size: 0.8em;
+}
