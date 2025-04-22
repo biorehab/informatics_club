@@ -196,7 +196,21 @@ input[type="range"] {
   gap: 4px;
 }
 
-svg#BN3Demo {
+svg#BN3Demo  {
+  width: 100%;
+  height: auto;
+  margin-top: -10px;
+  padding: 0px;
+}
+
+svg#BN4Demo  {
+  width: 100%;
+  height: auto;
+  margin-top: -10px;
+  padding: 0px;
+}
+
+svg#BN5Demo  {
   width: 100%;
   height: auto;
   margin-top: -10px;
