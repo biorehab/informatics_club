@@ -1,17 +1,11 @@
 // Generative model for BN6
-function BN6GenModel(N, x1=null) {
+function BN6GenModel(N) {
     // Simulate the model.
-    const X1 = d3.range(N).map(() => x1 == null ? d3.randomNormal(0, 3)() : x1);
-    // X2 = 2 X1 + noise
-    const X2 = X1.map(x1 => 1 * x1 + d3.randomNormal(0, 2)());
-    // X3 = 0.1X1^3 + 0.2X1^2 + noise
-    const X3 = X1.map(x1 => -2 * x1 + d3.randomNormal(0, 2)());
-    // const X3 = X1.map(x1 => -0.01 * Math.pow(x1, 3) - 0.5 * x1 + d3.randomNormal(0, 2)());
-    // X4 = X3 + 0.5 * X2^2 + noise
-    const X4 = X2.map((x2, i) => 0.2 * x2 - 0.3 * X3[i] + d3.randomNormal(0, 2)());
-    // const X4 = X2.map((x2, i) => 0.01 * Math.pow(x2, 3) - 0.1 * Math.pow(X3[i], 2) + d3.randomNormal(0, 2)());
-    // X5 = 2 * X4 + noise
-    const X5 = X4.map(x4 => - 4 * x4 + d3.randomNormal(0, 3)());
+    const X1 = d3.range(N).map(() => d3.randomNormal(0, 3)());
+    const X2 = X1.map(x1 => 2 * x1 + d3.randomNormal(0, 1)());
+    const X3 = X1.map(x1 => -1 * x1 + d3.randomNormal(0, 2)());
+    const X4 = X2.map((x2, i) => 0.5 * x2 - 0.5 * X3[i] + d3.randomNormal(0, 1)());
+    const X5 = X4.map(x4 => 3 * x4 + d3.randomNormal(0, 1)());
     return [
         ["X1", "X2", "X3", "X4", "X5"],
         X1.map((x1, i) => ({ X1: x1, X2: X2[i], X3: X3[i], X4: X4[i], X5: X5[i] }))
@@ -37,7 +31,7 @@ function FilterData(data, conditionedValues, eps) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    const N = 5000;
+    const N = 10000;
     const [variables, data] = BN6GenModel(N);
 
     const svg = d3.select("#BN6Demo");
@@ -51,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
     variables.forEach(v => {
         scales[v] = d3.scaleLinear()
             .domain(d3.extent(data, d => d[v])).nice()
-            .range([padding / 2, size - padding / 2]);
+            .range([size - padding / 2, padding / 2]);
     });
 
     const g = svg.append("g").attr("transform", `translate(40,40)`);
@@ -115,6 +109,22 @@ document.addEventListener("DOMContentLoaded", function () {
                 .attr("r", 1.5)
                 .attr("fill", "steelblue")
                 .attr("opacity", 0.3);
+            
+            // Display the correlation coefficient
+            if (i !== j) {
+                const allX = data.map(d => d[xj]);
+                const allY = data.map(d => d[yi]);
+                const corrAll = pearsonCorrelation(allX, allY);
+                cell.selectAll(".all-corr-label").remove();
+                cell.append("text")
+                    .attr("class", "all-corr-label")
+                    .attr("x", 20)
+                    .attr("y", 10)
+                    .attr("text-anchor", "start")
+                    .style("font-size", "12px")
+                    .style("fill", "steelblue")
+                    .text(`r=${corrAll.toFixed(2)}`);
+            }
         }
     }
 
@@ -138,6 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!anyChecked) {
             // If no checkboxes are checked, remove all filtered points
             g.selectAll(".point-filtered").remove();
+            g.selectAll(".cond-corr-label").remove();
             return;
         }
         // Filter data
@@ -163,6 +174,24 @@ document.addEventListener("DOMContentLoaded", function () {
                 .attr("r", 1.5)
                 .attr("fill", "red")
                 .attr("opacity", 0.6);
+            
+            // Display the correlation coefficient
+            const filteredX = filteredData.map(d => d[xi]);
+            const filteredY = filteredData.map(d => d[yj]);
+            // Correlation coefficients
+            const corrFiltered = pearsonCorrelation(filteredX, filteredY);
+            cell.selectAll(".cond-corr-label").remove();
+            // Draw text for filtered (red) points only if we have any
+            if ((filteredX.length > 1) && (xi !== yj)) {
+                cell.append("text")
+                    .attr("class", "cond-corr-label")
+                    .attr("x", 80)
+                    .attr("y", 10)
+                    .attr("text-anchor", "start")
+                    .style("font-size", "12px")
+                    .style("fill", "red")
+                    .text(`r=${corrFiltered.toFixed(2)}`);
+            }
         });
     };
 
