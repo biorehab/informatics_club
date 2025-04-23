@@ -98,7 +98,7 @@ tags: ["blog"]
   });
 </script>
 
-Almost all real-world problems require us to deal with: (a) multiple variables with complex interactions, (b) each variable has some uncertainity associated with it, and (c) some decision making based on some partially observed or available information. Bayesian networks are a powerful tool that can help us represents such complex systems, and provide pricipled approaches for make informed decisions. In this post, we will provide a short introduction to Bayesian networks, and show how they can be used to model complex systems and make decisions under uncertainty. Bayesian networks are a type of probabilistic graphical model and are a stepping stone to causal inference --  an interesting, complex, and useful topic of interest to the author.
+Almost all real-world problems require us to deal with: (a) multiple variables with complex interactions, (b) each variable has some uncertainty associated with it, and (c) some decision making based on some partially observed or available information. Bayesian networks are a powerful tool that can help us represents such complex systems, and provide principled approaches for make informed decisions. In this post, we will provide a short introduction to Bayesian networks, and show how they can be used to model complex systems and make decisions under uncertainty. Bayesian networks are a type of probabilistic graphical model and are a stepping stone to causal inference --  an interesting, complex, and useful topic of interest to the author.
 
 <h2 class="post-subtitle">Some basic probability concepts</h2>
 
@@ -132,11 +132,11 @@ The reader must note the following points.
 
 <div class = "example-box">
 
-<strong>Example 1:</strong> Let's assume we have two indentical bags - $B1$ and $B2$. $B1$ contains 10 red balls and $B2$ contains 10 blue balls. If we randomly choose between $B1$ and $B2$, with equal probability, and choose a ball from the chosen bag. What is the probability that the chosen ball is red? This would be $p( \text{ball} = red) = 0.5$. Why? 
+<strong>Example 1:</strong> Let's assume we have two identical bags - $B1$ and $B2$. $B1$ contains 10 red balls and $B2$ contains 10 blue balls. If we randomly choose between $B1$ and $B2$, with equal probability, and choose a ball from the chosen bag. What is the probability that the chosen ball is red? This would be $p( \text{ball} = red) = 0.5$. Why? 
 
-Now if you are told that the chosen bag is $B1$, then what is the proability that the ball is red with chosen bag being $B1$? $p( \text{ball} = red \\, \vert \\, \text{bag} = B1) = 1$! Why?
+Now if you are told that the chosen bag is $B1$, then what is the probability that the ball is red with chosen bag being $B1$? $p( \text{ball} = red \\, \vert \\, \text{bag} = B1) = 1$! Why?
 
-Note what happened. If we had not information about anything in this problem, the probability of choosing a red ball is 0.5. That is we are equally uncertain about which ball was chosen. However, if we find out which bag was chosen, then our uncertainity changes. In fact, in this case we are certain that the choen ball is red, since the bag $B1$ was chosen.
+Note what happened. If we had not information about anything in this problem, the probability of choosing a red ball is 0.5. That is we are equally uncertain about which ball was chosen. However, if we find out which bag was chosen, then our uncertainty changes. In fact, in this case we are certain that the chosen ball is red, since the bag $B1$ was chosen.
 
 What would happen if we learned instead that the chosen bag is $B2$?
 </div>
@@ -151,7 +151,7 @@ This very simple rule has numerous applications, and in fact has an intuitive in
 
 <h3 class="post-subsubtitle">Baye's Rule Interactive Demo</h3>
 
-Let's look at an interactive demonstration of Baye's rule. The following interactive demo of a commonly used "medical" example of the Baye's rule. We have a subject who take a test $T$ for a disease $D$. The test outcome and the disease state are binary random variables; the test outcome is positive (1) or negative (0), and the subject can either have (1) or not have (0) the disease. The disease has an incidence rate of $p(D = 1)$ in the population - the <i>prior probability</i>. The test for the disease is not perfect; it has a some known <i>true positive rate</i> $p(T = 1 \\, \vert \\, D = 1)$ and a <i>false positive rate</i> $p(T = 1 \\, \vert \\, D = 0)$. The following demo allows us to compute the <i>posterior proability</i> of the subject having the disease after we know the test result, i.e., $p( D = 1 \\, \vert \\, T = 1)$ or $p( D = 1 \\, \vert \\, T = 0)$. In the following interactive demo, you can change the prior probability of the disease, the true positive rate, the false positive rate, and the test result to see how the posterior probability changes.
+Let's look at an interactive demonstration of Baye's rule. The following interactive demo of a commonly used "medical" example of the Baye's rule. We have a subject who take a test $T$ for a disease $D$. The test outcome and the disease state are binary random variables; the test outcome is positive (1) or negative (0), and the subject can either have (1) or not have (0) the disease. The disease has an incidence rate of $p(D = 1)$ in the population - the <i>prior probability</i>. The test for the disease is not perfect; it has a some known <i>true positive rate</i> $p(T = 1 \\, \vert \\, D = 1)$ and a <i>false positive rate</i> $p(T = 1 \\, \vert \\, D = 0)$. The following demo allows us to compute the <i>posterior probability</i> of the subject having the disease after we know the test result, i.e., $p( D = 1 \\, \vert \\, T = 1)$ or $p( D = 1 \\, \vert \\, T = 0)$. In the following interactive demo, you can change the prior probability of the disease, the true positive rate, the false positive rate, and the test result to see how the posterior probability changes.
 
 <div id="bayes-rule-discrete-demo">
   <!-- Prior Probability -->
@@ -209,7 +209,7 @@ You can play around with the sliders above to compute the posterior probability 
 </ol>
 </div>
 
-Baye's rule can be used to update to obtain the full posterior probability distribution of a random variable we are interested in given some evidence. Suppose you find a coin on the street and we want to know if this is a fair coin. The coin looks like a regular coind so you believe that this coin is likely to be a fair coin, with the following prior probability distribution for the parameter $p$ - the probability of the coin landing heads up. Notice, here that $p$ is itself a random variable because of our uncertainity about its exact value. All we know is that its value is between 0 and 1. The Beta function is used to model the prior distribution of the parameter $p$. The Beta distribution is a continuous probability distribution defined on the interval $[0, 1]$. The Beta distribution is defined by two parameters $\alpha$ and $\beta$, which allow one to control the shape of the distribution. We toss the coin twenty times and depending on the number of head observed from this experiment, the posterior distribution changes. The following interactive demo shows how the prior (light red) and posterior (blue) distribution of the parameter $p$ changes as we observe more heads.
+Baye's rule can be used to update to obtain the full posterior probability distribution of a random variable we are interested in given some evidence. Suppose you find a coin on the street and we want to know if this is a fair coin. The coin looks like a regular coin so you believe that this coin is likely to be a fair coin, with the following prior probability distribution for the parameter $p$ - the probability of the coin landing heads up. Notice, here that $p$ is itself a random variable because of our uncertainty about its exact value. All we know is that its value is between 0 and 1. The Beta function is used to model the prior distribution of the parameter $p$. The Beta distribution is a continuous probability distribution defined on the interval $[0, 1]$. The Beta distribution is defined by two parameters $\alpha$ and $\beta$, which allow one to control the shape of the distribution. We toss the coin twenty times and depending on the number of head observed from this experiment, the posterior distribution changes. The following interactive demo shows how the prior (light red) and posterior (blue) distribution of the parameter $p$ changes as we observe more heads.
 
 <div class="container" id="bayesrule-coin-demo">
     <!-- Left: Controls -->
@@ -397,11 +397,11 @@ Play around with the sliders above and observe the changes in the prior and post
 
 With that brief background on Baye's theorem we now head towards the main topic of this post.
 
-Let's assume that we are dealing with $n$ random variables $X_1, X_2, \ldots, X_n$ for the problem of interest. Given that the problem is stochastic in nature, the best piece of information we can have about the problem is the joint probability distribution of these random variables, i.e. $p\left( X_1, X_2, \cdots X_n\right)$. All other information that can be known about this problem can be derived from the joint probability distribution. If want to use a computer to compute the infomration of interest, we first need to be able to represent and store the joint probability distribution. That is the first issue we need to confront -  the representation of this joint probability distribution in a computer. Let's answers the following question to understand this issue:
+Let's assume that we are dealing with $n$ random variables $X_1, X_2, \ldots, X_n$ for the problem of interest. Given that the problem is stochastic in nature, the best piece of information we can have about the problem is the joint probability distribution of these random variables, i.e. $p\left( X_1, X_2, \cdots X_n\right)$. All other information that can be known about this problem can be derived from the joint probability distribution. If want to use a computer to compute the information of interest, we first need to be able to represent and store the joint probability distribution. That is the first issue we need to confront -  the representation of this joint probability distribution in a computer. Let's answers the following question to understand this issue:
 
 <div class="question-box">
 <ul class="question">
-  <li>How many parameters (or numbers) do you need to represent a discrete proability distribution of a random variable $X$ that takes on $k$ possible discrete values $x_1, x_2, x_3 \ldots x_k$?</li>
+  <li>How many parameters (or numbers) do you need to represent a discrete probability distribution of a random variable $X$ that takes on $k$ possible discrete values $x_1, x_2, x_3 \ldots x_k$?</li>
 </ul>
 </div>
 
@@ -409,13 +409,13 @@ It's $k-1$ numbers, which can be $p(x_1), p(x_1), \ldots p(x_{k-1})$. The last n
 
 <div class="question-box">
 <ul class="question">
-  <li>How many parameters do you need to represent a discrete joint proability distribution of a two binary random variable $X_1$ and $X_2$ that take on values $0$ or $1$?</li>
+  <li>How many parameters do you need to represent a discrete joint probability distribution of a two binary random variable $X_1$ and $X_2$ that take on values $0$ or $1$?</li>
 </ul>
 </div>
 
-Here, we will need 3 numbers. In fact, if we have a joint probability distribution of $n$ binary random variables, then, we need at most $2^n -1$ numbers to fully represent this joint probability distriubtion.
+Here, we will need 3 numbers. In fact, if we have a joint probability distribution of $n$ binary random variables, then, we need at most $2^n -1$ numbers to fully represent this joint probability distribution.
 
-You see the problem here. The number of parameters required grows exponentially with the number of variables. If we were dealing with a moderately sized problem with 100 binary random variales, we will need $2^{100} - 1 = 1,267,650,600,228,229,401,496,703,205,375$ parameters! The is a ridiculously large number. Forget about using such a distribution for inference, we cannot even represent this fully on a computer!
+You see the problem here. The number of parameters required grows exponentially with the number of variables. If we were dealing with a moderately sized problem with 100 binary random variables, we will need $2^{100} - 1 = 1,267,650,600,228,229,401,496,703,205,375$ parameters! The is a ridiculously large number. Forget about using such a distribution for inference, we cannot even represent this fully on a computer!
 
 <div class="question-box">
 <ul class="question">
@@ -423,7 +423,7 @@ You see the problem here. The number of parameters required grows exponentially 
 </ul>
 </div>
 
-For $n$ binary random variables, we said we will at most need $2^n - 1$ numbers to represent the probability distribution. This is when there is dependence between $n$ random variables, which requires all $2^n - 1$ numbers to caputure all the possible dependencies or interactions. However, if there is any sort of "independence" between one or more of the random variables, then the number of parameters requires to represent the joint probability distribution can be reduced. To put this idea on firm footing, let's first clearly defin the concept of independence in probability setting.
+For $n$ binary random variables, we said we will at most need $2^n - 1$ numbers to represent the probability distribution. This is when there is dependence between $n$ random variables, which requires all $2^n - 1$ numbers to capture all the possible dependencies or interactions. However, if there is any sort of "independence" between one or more of the random variables, then the number of parameters requires to represent the joint probability distribution can be reduced. To put this idea on firm footing, let's first clearly define the concept of independence in probability setting.
 
 <b>Independence</b> 
 
@@ -432,7 +432,7 @@ $$
 p(x \vert y) = p(x) \quad \forall x, y
 $$
 
-Our uncertainity about the value of $X$ without any other information is $p(X=x)$. Knowing the values of $Y$ does not change our uncertainity about the value of $X$, when $X$ and $Y$ are independent. Note that independence is a symmetric property.
+Our uncertainity about the value of $X$ without any other information is $p(X=x)$. Knowing the values of $Y$ does not change our uncertainty about the value of $X$, when $X$ and $Y$ are independent. Note that independence is a symmetric property.
 $$
 p(x \vert y) = p(x) \iff p(y \vert x) = p(y) \quad \forall x, y
 $$
@@ -440,13 +440,13 @@ This implies that, $p(x, y) = p(x) p(y)$, $\forall x, y$. Its trivial to verify 
 
 This independence is also known as <i>unconditional independence</i>. Another important and interesting type of independence is <i>conditional independence</i>.
 
-Let's look at some exmaples to understand the concept of independence.
+Let's look at some examples to understand the concept of independence.
 
 <div class="example-box">
 
 <strong>Example 2:</strong> The age of a first year MS Bioengineering student and his/her grade in Applied Linear Algebra course are two random variables. The age of the student does not affect his/her grade in the course. Thus, these two random variables are independent. Similarly, the gender of the student and his/her grade in the course are independent.
 
-<strong>Example 3:</strong> A perosn's age and his/her blood group can be safely assumed to be independent random variables, i.e. 
+<strong>Example 3:</strong> A person's age and his/her blood group can be safely assumed to be independent random variables, i.e. 
 $$p(\text{Age} \vert \text{Blood Type}) = p(\text{Age}), \\,\\, \forall \text{Age}, \\,\text{Blood Type}$$
 The following is the demonstration of this from a real dataset from <a href="https://www.kaggle.com/datasets/prasad22/healthcare-dataset/versions/1?resource=download#">Kaggle</a> with data from 10000 subjects. The following plot shows the conditional probability distribution of the age of the subjects given their blood type, along with the marginal probability distribution of the age. We see that these distributions look essentially the same; they will never be exactly equal because of sampling noise. A $\chi^2$ test of independence on the data shows that the two random variables are independent.
 <!-- Image from the analysis folder with center alignment -->
@@ -473,17 +473,17 @@ $$
 
 This also implies that $p(x, y \vert z) = p(x \vert z) p(y \vert z)$, $\forall x, y, z$. Conditional independence is often represented as $X \perp\\!\\!\\!\perp Y \vert Z$.
 
-Let's look at some exmaples to understand the concept of independence.
+Let's look at some examples to understand the concept of independence.
 
 <div class="example-box">
 
-<strong>Example 5:</strong> Two repeated administration of a diagnostic test $T$ on a subject are not indepedent. The outcomes in the two tests $T_1$ (test 1) and $T_2$ (test 2) are random variables and they will be correlated. Let's simulate this and understand this. Let this diagnostic test be a binary test with a true positive rate of $0.9$ and a false positive rate of $0.05$. Let the prevalence of the disease of interst be $0.1$. We adminsitered this test twice on 1000 subjects who came to the hospital. Each of these patients either has or does not have the disease, which too is a randrom variable, which we call $D$. Comparing the outcomes of the two tests, we get the following joint probability distribution on the left. The right plot shows the conditional probability distribution of $T_2$, given the outcome of $T_1$.
+<strong>Example 5:</strong> Two repeated administration of a diagnostic test $T$ on a subject are not independent. The outcomes in the two tests $T_1$ (test 1) and $T_2$ (test 2) are random variables and they will be correlated. Let's simulate this and understand this. Let this diagnostic test be a binary test with a true positive rate of $0.9$ and a false positive rate of $0.05$. Let the prevalence of the disease of interest be $0.1$. We administered this test twice on 1000 subjects who came to the hospital. Each of these patients either has or does not have the disease, which too is a random variable, which we call $D$. Comparing the outcomes of the two tests, we get the following joint probability distribution on the left. The right plot shows the conditional probability distribution of $T_2$, given the outcome of $T_1$.
 <!-- Image from the analysis folder with center alignment -->
 <img src="{{ '/assets/images/2025-03-31/testretestcm1.svg' | url }}" alt="Independence" class="example-image" width="450" style="display: block; margin: 0 auto;">
 
 We can clearly see that the $p(T_2 \vert T_1) \neq p(T_2)$, implying they are not unconditionally independent. If someone tested positive in the first test, they are more likely to test positive on the second test as well.
 
-Ask yourself this question. If through some measns, we got to know the true disease status of a subject, are the two tests $T_1$ and $T_2$ still dependent? Let's look at what the data says. The following plots show the conditional probabiity distribution $p(T_2 \vert T_1, D=1)$ and $p(T_2 \vert T_1, D=0)$, on the left and right, respectively. You can see that knowledge of $T_1$ once we know the disease does not change our uncertainity about $T_2$, which is essentially p(T_2$).
+Ask yourself this question. If through some means, we got to know the true disease status of a subject, are the two tests $T_1$ and $T_2$ still dependent? Let's look at what the data says. The following plots show the conditional probability distribution $p(T_2 \vert T_1, D=1)$ and $p(T_2 \vert T_1, D=0)$, on the left and right, respectively. You can see that knowledge of $T_1$ once we know the disease does not change our uncertainty about $T_2$, which is essentially p(T_2$).
 <!-- Image from the analysis folder with center alignment -->
 <img src="{{ '/assets/images/2025-03-31/testretestcm2.svg' | url }}" alt="Independence" class="example-image" width="450" style="display: block; margin: 0 auto;">
 
@@ -493,7 +493,7 @@ One we know the disease status, we cannot learn anything about the results of $T
 
 <h2 class="post-subtitle">Representation of Multivariate Distributions</h2>
 
-We earlier saw that a joint distribution with $N$ binary random variables requires at most $2^{N}-1$ variables for its complete speicfication. This is the most general case, where each of the $N$ variables is dependent on other random variables. If these names these random variables $X_1, X_2, \ldots, X_N$, then the joint distribution can be written as the following,
+We earlier saw that a joint distribution with $N$ binary random variables requires at most $2^{N}-1$ variables for its complete specification. This is the most general case, where each of the $N$ variables is dependent on other random variables. If these names these random variables $X_1, X_2, \ldots, X_N$, then the joint distribution can be written as the following,
 $$
 p(x_1, x_2, \ldots, x_N) = p(x_N \vert x_{N-1}, x_{N-2}, \ldots, x_1) p(x_{N-1} \vert x_{N-2}, \ldots, x_1) \cdots p(x_{2} \vert x_1) p(x_1)
 $$
@@ -540,13 +540,13 @@ $$
 
 This is the simplest possible case. We only need $N$ parameters to represent the joint distribution.
 
-Often in practice, we neither have full independece or full dependence between the random variables. Conditional independence between variables betows structure to a joint distribution, allowing us to have a compact representation for joint probability distributions. 
+Often in practice, we neither have full independence or full dependence between the random variables. Conditional independence between variables betows structure to a joint distribution, allowing us to have a compact representation for joint probability distributions. 
 
 <h2 class="post-subtitle">Bayesian Networks</h2>
 
 <b>Bayesian Networks</b> are a nice, graphical way to represent conditional independence between random variables, that allows us to compactly represent joint distributions, and provides algorithms for making probabilistic inferences from data. Bayesian networks are also often called <i>belief networks</i> or <i>Bayesian belief networks</i>. 
 
-A Bayesian network is a directed acyclic graph (DAG) where the nodes are random variables and the edges represent the conditional dependencies between the random variables. The direction of the edge indicates the direction of the dependency. The choice of the edges in a Bayesian network are based on the conditional independence realtionships between the random variables of interest.
+A Bayesian network is a directed acyclic graph (DAG) where the nodes are random variables and the edges represent the conditional dependencies between the random variables. The direction of the edge indicates the direction of the dependency. The choice of the edges in a Bayesian network are based on the conditional independence relationships between the random variables of interest.
 
 The following figures shown some examples of Bayesian networks (BNs) with three random variables.
 
@@ -599,7 +599,7 @@ The joint probability distribution of a BN can be written as the product of the 
 $$
 p(x_1, x_2, \ldots, x_N) = \prod_{i=1}^{N} p(x_i \vert \text{pa}(x_i))
 $$
-$\text{pa}(x_i)$ is the set of all parent nodes of node $x_i$. The number of parameters required to represent the joint distribution of a BN is equal to the sum of the number of parameters required to represent each conditional distribution. Assumning all random variables are binary, the number of parameters required to represent a conditional distribution $p(x_i \vert \text{pa}(x_i))$ is equal to $2^{\\#\text{pa}(x_i)} - 1$, where $\\#\text{pa}(x_i)$ is the number of parent nodes of node $x_i$.  
+$\text{pa}(x_i)$ is the set of all parent nodes of node $x_i$. The number of parameters required to represent the joint distribution of a BN is equal to the sum of the number of parameters required to represent each conditional distribution. Assuming all random variables are binary, the number of parameters required to represent a conditional distribution $p(x_i \vert \text{pa}(x_i))$ is equal to $2^{\\#\text{pa}(x_i)} - 1$, where $\\#\text{pa}(x_i)$ is the number of parent nodes of node $x_i$.  
 
 We are now ready analyze the BNs shown above. 
 
@@ -686,7 +686,7 @@ We are now ready analyze the BNs shown above.
   </tr>
 </table>
 
-Comparing the probability distribution of BN1, BN3-5 with BN2, we find that missing edges between nodes corresponds to missing variables in the local conditonal probability distribution.
+Comparing the probability distribution of BN1, BN3-5 with BN2, we find that missing edges between nodes corresponds to missing variables in the local conditional probability distribution.
 
 The last three BNs shown above are three important canonical graphs involving three random variables: BN3, BN4, and BN5. We will take a closer look at these, since a good understanding of these three simple BNs will be useful in understanding more complex BNs.
 
@@ -695,7 +695,7 @@ The last three BNs shown above are three important canonical graphs involving th
     
     <b>BN3</b> $(X_1 \longrightarrow X_2 \longrightarrow X_3)$: Here, $X_1$ is conditionally independent of $X_3$ for a given value of $X_2$. Thus, we can think of this as if $X_2$ is blocking the flow of information between $X_1$ and $X_3$. A simple example (from <a href="https://people.eecs.berkeley.edu/~jordan/prelims/chapter2.pdf" target="_blank">Chapter 02</a> of <i>Introduction to Probabilistic Graphical Models</i> by <i>Michael I. Jordan</i>) is where $X_1$, $X_2$, and $X_3$ represent the past, present, and the future. The past is independent of the future given the present.
 
-    The adjancent plots demonstrates this through an intetractive demo. A simple linear model is assumed between the three random variables:
+    The adjacent plots demonstrates this through an interactive demo. A simple linear model is assumed between the three random variables:
     $$
     X1 = \epsilon_1, \quad X2 = 2 X1 + \epsilon_2, \quad X3 = -X2 + \epsilon_3
     $$
@@ -873,7 +873,7 @@ The last three BNs shown above are three important canonical graphs involving th
     
     <b>BN4</b> $(X_2 \longleftarrow X_1 \longrightarrow X_3)$: Here, $X_1$ is conditionally independent of $X_3$ for a given value of $X_2$. Thus, we can think of this as if $X_2$ is blocking the flow of information between $X_1$ and $X_3$. Example 5 discussed above represents this, where $X_1 = D$, $X_2 = T_1$, and $X_3 = T_2$. $T_1$ and $T_2$ are independent given the disease status $D$. The node $X_1$ blocks the flow of information between $X_2$ and $X_3$. $X_1$ is a like a hidden or latent variable that "causes" both $X_2$ and $X_3$.
     
-    The adjancent plots demonstrates this through an intetractive demo. A simple linear model is assumed between the three random variables:
+    The adjacent plots demonstrates this through an interactive demo. A simple linear model is assumed between the three random variables:
     $$
     X1 = \epsilon_1, \quad X2 = 2 X1 + \epsilon_2, \quad X3 = 3X2 + \epsilon_3
     $$
@@ -1039,9 +1039,9 @@ The last three BNs shown above are three important canonical graphs involving th
 <div class="bn-container">
   <div class="bn-description">
     
-    <b>BN5</b> $(X_1 \longrightarrow X_3 \longleftarrow X_2)$: This is an interesting scenario. $X_1$ and $X_2$ are unconditionally independent. However, if we know the value of $X_3$, then $X_1$ and $X_2$ are become dependent. This is called <i>explaining away</i>. A simple example of this is the following. Let $X_3 = X_1 + X_2$, where $X_1$ and $X_2$ can take on any value real value between $0$ and $1$. When we don't know the value of $X_3$, $X_1$ and $X_2$ can take on any value between $0$ and $1$, and are independent of each other. But once we know the value of $X_3$, knowledge of $X_1$ tells us the value of $X_2$, and vice versa. Nornally, the flow of information is blocked by the node $X_3$, which is also called a <i>collider</i>, becuase two or more arrows point to the node. A collider will usually block the flow of information between its parents, unless we conditions on the collider or its descendants. When we condition, the collider opens the flow of information between its parents.
+    <b>BN5</b> $(X_1 \longrightarrow X_3 \longleftarrow X_2)$: This is an interesting scenario. $X_1$ and $X_2$ are unconditionally independent. However, if we know the value of $X_3$, then $X_1$ and $X_2$ are become dependent. This is called <i>explaining away</i>. A simple example of this is the following. Let $X_3 = X_1 + X_2$, where $X_1$ and $X_2$ can take on any value real value between $0$ and $1$. When we don't know the value of $X_3$, $X_1$ and $X_2$ can take on any value between $0$ and $1$, and are independent of each other. But once we know the value of $X_3$, knowledge of $X_1$ tells us the value of $X_2$, and vice versa. Normally, the flow of information is blocked by the node $X_3$, which is also called a <i>collider</i>, because two or more arrows point to the node. A collider will usually block the flow of information between its parents, unless we conditions on the collider or its descendants. When we condition, the collider opens the flow of information between its parents.
     
-    The adjancent plots demonstrates this through an intetractive demo. A simple linear model is assumed between the three random variables:
+    The adjacent plots demonstrates this through an interactive demo. A simple linear model is assumed between the three random variables:
     $$
     X1 = \epsilon_1, \quad X2 = \epsilon_2, \quad X3 = 1.5X_1 + X2 + \epsilon_3
     $$
