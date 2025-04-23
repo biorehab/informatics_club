@@ -1203,3 +1203,93 @@ The last three BNs shown above are three important canonical graphs involving th
     document.getElementById("bSliderBN5").addEventListener("input", updatePlotBN5);
   });
 </script>
+
+Equiped with this basic understanding, we will now move onto a slightly more complex BN shown below.
+<center><img src="{{ '/assets/images/2025-03-31/graph6.svg' | url }}" alt="BN5" width=300></center>
+
+This BN has five random variables: $X_1$, $X_2$, $X_3$, $X_4$, and $X_5$. Can you write down the joint probability distribution for this BN?
+
+<details>
+  <summary>Click to see the answer</summary>
+    
+  $$
+  p(x_1, x_2, x_3, x_4, x_5) = p(x_1) p(x_2 \mid x_1) p(x_3 \mid x_1) p(x_4 \mid x_3, x_2) p(x_5 \mid x_4)
+  $$
+    
+  - $X_1$ has no parents
+  
+  - $X_2$ and $X_3$ have $X_1$ as a parent
+  
+  - $X_4$ has two parents $X_2$ and $X_3$
+  
+  - $X_5$ has a single parent $X_4$
+
+</details>
+
+What can you say about the conditional independence of the random variables in this BN? Can you list all of them?
+<details>
+  <summary>Click to see the answer</summary>
+  
+  - $X_2 \perp\\!\\!\\!\perp X_3 \mid X_1$ : $X_2$ and $X_3$ are conditionally independent given $X_1$.
+  
+  - $X_4 \perp\\!\\!\\!\perp X_1 \mid \\{ X_2, X_3 \\}$: $X_4$ is conditionally independent of $X_1$ given $X_2$ **AND** $X_3$. 
+  
+  - $X_5 \perp\\!\\!\\!\perp \\{X_1, X_2, X_3 \\} \mid X_4$: $X_5$ is conditionally independent of $X_1$, $X_2$, **AND** $X_3$ given $X_4$.
+  
+</details>
+
+Let's now simulate this network and see if the conditional independence we've lsited above holds. Note that this is not the proof for the correctness of the conditional independence, but it is a reasonable sanity check. You should be able to verify a conditional independence statement by simply using the joint distribution and computing the conditional probabilities. 
+
+
+<div class="bn-plot-area">
+    <div class="bn-controls">
+      <!-- X1 controls -->
+      <label>
+        <input type="checkbox" id="conditionCheckboxBN6X1">
+        $X_1$
+      </label>
+      <label>
+        <input type="range" id="bSliderBN6X1" min="-6" max="6" step="0.1" value="0">
+        <span id="bValueBN6X1">0.0</span>
+      </label>
+      <!-- X2 controls -->
+      <label>
+        <input type="checkbox" id="conditionCheckboxBN6X2">
+        $X_2$
+      </label>
+      <label>
+        <input type="range" id="bSliderBN6X2" min="-10" max="10" step="0.1" value="0">
+        <span id="bValueBN6X2">0.0</span>
+      </label>
+      <!-- X3 controls -->
+      <label>
+        <input type="checkbox" id="conditionCheckboxBN6X3">
+        $X_3$
+      </label>
+      <label>
+        <input type="range" id="bSliderBN6X3" min="-10" max="10" step="0.1" value="0">
+        <span id="bValueBN6X3">0.0</span>
+      </label>
+      <!-- X4 controls -->
+      <label>
+        <input type="checkbox" id="conditionCheckboxBN6X4">
+        $X_4$
+      </label>
+      <label>
+        <input type="range" id="bSliderBN6X4" min="-10" max="10" step="0.1" value="0">
+        <span id="bValueBN6X4">0.0</span>
+      </label>
+      <!-- X5 controls -->
+      <label>
+        <input type="checkbox" id="conditionCheckboxBN6X5">
+        $X_5$
+      </label>
+      <label>
+        <input type="range" id="bSliderBN6X5" min="-10" max="10" step="0.1" value="0">
+        <span id="bValueBN6X5">0.0</span>
+      </label>
+    </div>
+    <svg class="BNDemo" id="BN6Demo" width="600" height="600"></svg>
+</div>
+
+<script src="{{ '/assets/js/2025-03-31-bn6demo.js' | url }}" defer></script>

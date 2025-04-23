@@ -216,3 +216,24 @@ svg#BN5Demo  {
   margin-top: -10px;
   padding: 0px;
 }
+
+details {
+  margin: 0px;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #f9f9f9;
+  font-size: 1em;
+}
+
+summary {
+  cursor: pointer;
+  color: steelblue
+}
+
+svg#BN6Demo  {
+  width: 100%;
+  height: auto;
+  margin-top: -10px;
+  padding: 0px;
+}

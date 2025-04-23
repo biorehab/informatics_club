@@ -1,0 +1,179 @@
+// Generative model for BN6
+function BN6GenModel(N, x1=null) {
+    // Simulate the model.
+    const X1 = d3.range(N).map(() => x1 == null ? d3.randomNormal(0, 3)() : x1);
+    // X2 = 2 X1 + noise
+    const X2 = X1.map(x1 => 1 * x1 + d3.randomNormal(0, 2)());
+    // X3 = 0.1X1^3 + 0.2X1^2 + noise
+    const X3 = X1.map(x1 => -2 * x1 + d3.randomNormal(0, 2)());
+    // const X3 = X1.map(x1 => -0.01 * Math.pow(x1, 3) - 0.5 * x1 + d3.randomNormal(0, 2)());
+    // X4 = X3 + 0.5 * X2^2 + noise
+    const X4 = X2.map((x2, i) => 0.2 * x2 - 0.3 * X3[i] + d3.randomNormal(0, 2)());
+    // const X4 = X2.map((x2, i) => 0.01 * Math.pow(x2, 3) - 0.1 * Math.pow(X3[i], 2) + d3.randomNormal(0, 2)());
+    // X5 = 2 * X4 + noise
+    const X5 = X4.map(x4 => - 4 * x4 + d3.randomNormal(0, 3)());
+    return [
+        ["X1", "X2", "X3", "X4", "X5"],
+        X1.map((x1, i) => ({ X1: x1, X2: X2[i], X3: X3[i], X4: X4[i], X5: X5[i] }))
+    ];
+}
+
+// Read the conditioned variable status and values.
+function ReadConditionedMap(varNames) {
+    return Object.fromEntries(
+        varNames.map(name => {
+            const checked = document.getElementById(`conditionCheckboxBN6${name}`).checked;
+            const value = checked ? parseFloat(document.getElementById(`bSliderBN6${name}`).value) : null;
+            return [name, value];
+        })
+    );
+}
+
+// Filter the data based on the conditioning variable.
+function FilterData(data, conditionedValues, eps) {
+    return Object.entries(conditionedValues).reduce((filtered, [key, val]) => {
+        return val == null ? filtered : filtered.filter(d => Math.abs(d[key] - val) < eps);
+    }, data);
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const N = 5000;
+    const [variables, data] = BN6GenModel(N);
+
+    const svg = d3.select("#BN6Demo");
+    const width = +svg.attr("width");
+    const height = +svg.attr("height");
+    const size = 150;
+    const padding = 20;
+    const n = variables.length;
+
+    const scales = {};
+    variables.forEach(v => {
+        scales[v] = d3.scaleLinear()
+            .domain(d3.extent(data, d => d[v])).nice()
+            .range([padding / 2, size - padding / 2]);
+    });
+
+    const g = svg.append("g").attr("transform", `translate(40,40)`);
+
+    // Plot all points once.
+    // Create grid of scatterplot cells once
+    for (let i = 0; i < n; i++) {
+        const yi = variables[i];
+        const yAxis = d3.axisLeft(scales[yi]).ticks(4);
+        
+        for (let j = 0; j <= i; j++) {
+            const xj = variables[j];
+            const xAxis = d3.axisBottom(scales[xj]).ticks(4);
+            const cell = g.append("g")
+                          .attr("class", `cell cell-${i}-${j}`)
+                          .attr("data-x", xj)
+                          .attr("data-y", yi)
+                          .attr("transform", `translate(${j * size}, ${(i) * size})`);
+
+            // Axes
+            if (i === n - 1) {
+                cell.append("g")
+                    .attr("transform", `translate(0, ${size - padding / 2})`)
+                    .call(xAxis)
+                    .selectAll("text").style("font-size", "10px");
+
+                g.append("text")
+                 .attr("x", (j + 0.5) * size)
+                 .attr("y", 5 * size + 30)
+                 .attr("text-anchor", "middle")
+                 .style("font-size", "16px")
+                 .style("font-family", "Inter")
+                 .style("fill", "black")
+                 .text(xj);
+            }
+
+            if (j === 0) {
+                cell.append("g")
+                    .attr("transform", `translate(${padding / 2}, 0)`)
+                    .call(yAxis)
+                    .selectAll("text").style("font-size", "10px");
+
+                g.append("text")
+                    .attr("x", -30)
+                    .attr("y", (i + 0.5) * size)
+                    .attr("text-anchor", "middle")
+                    .style("font-size", "16px")
+                    .style("font-family", "Inter")
+                    .style("fill", "black")
+                    .text(yi);
+            }
+
+            // Draw base (unfiltered) points
+            cell.selectAll(".point-all")
+                .data(data)
+                .enter()
+                .append("circle")
+                .attr("class", "point-all")
+                .attr("cx", d => scales[xj](d[xj]))
+                .attr("cy", d => size - scales[yi](d[yi]))
+                .attr("r", 1.5)
+                .attr("fill", "steelblue")
+                .attr("opacity", 0.3);
+        }
+    }
+
+    // Plot filtered data
+    const updatePlotBN6 = () => {
+        const conditionedValues = ReadConditionedMap(variables);
+        const eps = 0.2;
+        // Disable all sliders that are not checked
+        variables.forEach(v => {
+            const checkbox = document.getElementById(`conditionCheckboxBN6${v}`).checked;
+            console.log(`Checkbox ${v} is ${checkbox}`);
+            const slider = document.getElementById(`bSliderBN6${v}`);
+            const bTarget = parseFloat(slider.value);
+            slider.disabled = !checkbox;
+            document.getElementById(`bValueBN6${v}`).textContent = checkbox ? bTarget.toFixed(1) : "";
+        });
+        
+        // If all checkboxes are unchecked, remove all filtered points
+        // We need to update only if any of the checkboxes are checked
+        const anyChecked = Object.values(conditionedValues).some(val => val != null);
+        if (!anyChecked) {
+            // If no checkboxes are checked, remove all filtered points
+            g.selectAll(".point-filtered").remove();
+            return;
+        }
+        // Filter data
+        const filteredData = FilterData(data, conditionedValues, eps);
+
+        // For each scatter cell, update the red filtered points
+        g.selectAll(".cell").each(function () {
+            const cell = d3.select(this);
+            const xi = cell.attr("data-x");
+            const yj = cell.attr("data-y");
+
+            // Remove old filtered points
+            cell.selectAll(".point-filtered").remove();
+
+            // Add new ones
+            cell.selectAll(".point-filtered")
+                .data(filteredData)
+                .enter()
+                .append("circle")
+                .attr("class", "point-filtered")
+                .attr("cx", d => scales[xi](d[xi]))
+                .attr("cy", d => size - scales[yj](d[yj]))
+                .attr("r", 1.5)
+                .attr("fill", "red")
+                .attr("opacity", 0.6);
+        });
+    };
+
+    // Initial draw
+    updatePlotBN6();
+
+    // Add even listeners.
+    variables.forEach(v => {
+        const checkbox = document.getElementById(`conditionCheckboxBN6${v}`);
+        const slider = document.getElementById(`bSliderBN6${v}`);
+        checkbox.addEventListener("change", updatePlotBN6);
+        slider.addEventListener("input", updatePlotBN6);
+    });
+});
