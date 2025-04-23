@@ -98,7 +98,7 @@ tags: ["blog"]
   });
 </script>
 
-Almost all real-world problems require us to deal with: (a) multiple variables with complex interactions, (b) each variable has some uncertainity associated with it, and (c) some decision making based on some partially observed or available information. Bayesian networks are a powerful tool that can help us represents such complex systems, and provide pricipled approaches for make informed decisions. In this post, we will provide a short introduction to Bayesian networks, and show how they can be used to model complex systems and make decisions under uncertainty. Bayesian networks are a type of probabilistic graphical model and are a stepping stone to causal inference --  an interesting, complex, and useful topic of interest to the author.
+Almost all real-world problems require us to deal with: (a) multiple variables with complex interactions, (b) each variable has some uncertainity associated with it, and (c) some decision making based on some partially observed or available information. Bayesian networks ?is a powerful tool that can help us represents such complex systems, and provide principled approach for make informed decisions. In this post, we will provide a short introduction to Bayesian networks, and show how they can be used to model complex systems and make decisions under uncertainty. Bayesian networks are a type of probabilistic graphical models and are a stepping stone to causal inference --  an interesting, complex, and useful topic of interest to the author.
 
 <h2 class="post-subtitle">Some basic probability concepts</h2>
 
@@ -126,7 +126,7 @@ $$
 
 The reader must note the following points.
 
-1. $p( x \vert y)$ can be thought of a function of $x$ for a given vaues of $y$.
+1. $p( x \vert y)$ can be thought of a function of $x$ for given values of $y$.
 2. $\sum_{x} p( x \\, \vert \\, y) = 1$, which mean that $p(x \\, \vert \\, y)$ is a valid probability distribution. This property is due to the normalization of the joint probability distribution by $p( y )$.
 3. $p(y) \neq 0$ is necessary because, if $p(y) = 0$ then then the random variable $Y$ cannot take on the value, so the conditional probability is not defined. Here is a simple example to understand conditional probability.
 
@@ -209,7 +209,7 @@ You can play around with the sliders above to compute the posterior probability 
 </ol>
 </div>
 
-Baye's rule can be used to update to obtain the full posterior probability distribution of a random variable we are interested in given some evidence. Suppose you find a coin on the street and we want to know if this is a fair coin. The coin looks like a regular coind so you believe that this coin is likely to be a fair coin, with the following prior probability distribution for the parameter $p$ - the probability of the coin landing heads up. Notice, here that $p$ is itself a random variable because of our uncertainity about its exact value. All we know is that its value is between 0 and 1. The Beta function is used to model the prior distribution of the parameter $p$. The Beta distribution is a continuous probability distribution defined on the interval $[0, 1]$. The Beta distribution is defined by two parameters $\alpha$ and $\beta$, which allow one to control the shape of the distribution. We toss the coin twenty times and depending on the number of head observed from this experiment, the posterior distribution changes. The following interactive demo shows how the prior (light red) and posterior (blue) distribution of the parameter $p$ changes as we observe more heads.
+Bayes' rule can be used to update and obtain the full posterior probability distribution of a random variable of interest, given some evidence. Suppose you find a coin on the street and we want to know if this is a fair coin. The coin looks like a regular coin. So you believe that this coin is likely to be a fair coin, with the following prior probability distribution for the parameter $p$ - the probability of the coin landing heads up. Notice, here that $p$ is itself a random variable because of our uncertainity about its exact value. All we know is that its value is between 0 and 1. The Beta function is used to model the prior distribution of the parameter $p$. The Beta distribution is a continuous probability distribution defined on the interval $[0, 1]$. The Beta distribution is defined by two parameters $\alpha$ and $\beta$, which allow one to control the shape of the distribution. We toss the coin twenty times and depending on the number of head observed from this experiment, the posterior distribution changes. The following interactive demo shows how the prior (light red) and posterior (blue) distribution of the parameter $p$ changes as we observe more heads.
 
 <div class="container" id="bayesrule-coin-demo">
     <!-- Left: Controls -->
@@ -397,11 +397,11 @@ Play around with the sliders above and observe the changes in the prior and post
 
 With that brief background on Baye's theorem we now head towards the main topic of this post.
 
-Let's assume that we are dealing with $n$ random variables $X_1, X_2, \ldots, X_n$ for the problem of interest. Given that the problem is stochastic in nature, the best piece of information we can have about the problem is the joint probability distribution of these random variables, i.e. $p\left( X_1, X_2, \cdots X_n\right)$. All other information that can be known about this problem can be derived from the joint probability distribution. If want to use a computer to compute the infomration of interest, we first need to be able to represent and store the joint probability distribution. That is the first issue we need to confront -  the representation of this joint probability distribution in a computer. Let's answers the following question to understand this issue:
+Let's assume that we are dealing with $n$ random variables $X_1, X_2, \ldots, X_n$ for the problem of interest. Given that the problem is stochastic in nature, the best piece of information we can have about the problem is the joint probability distribution of these random variables, i.e. $p\left( X_1, X_2, \cdots X_n\right)$. All other information that can be known about this problem can be derived from the joint probability distribution. If want to use a computer to compute the information of interest, we first need to be able to represent and store the joint probability distribution. That is the first issue we need to confront -  the representation of this joint probability distribution in a computer. Let's answer the following question to understand this issue:
 
 <div class="question-box">
 <ul class="question">
-  <li>How many parameters (or numbers) do you need to represent a discrete proability distribution of a random variable $X$ that takes on $k$ possible discrete values $x_1, x_2, x_3 \ldots x_k$?</li>
+  <li>How many parameters (or numbers) do you need to represent a discrete probability distribution of a random variable $X$ that takes on $k$ possible discrete values $x_1, x_2, x_3 \ldots x_k$?</li>
 </ul>
 </div>
 
@@ -409,7 +409,7 @@ It's $k-1$ numbers, which can be $p(x_1), p(x_1), \ldots p(x_{k-1})$. The last n
 
 <div class="question-box">
 <ul class="question">
-  <li>How many parameters do you need to represent a discrete joint proability distribution of a two binary random variable $X_1$ and $X_2$ that take on values $0$ or $1$?</li>
+  <li>How many parameters do you need to represent a discrete joint probability distribution of two binary random variables $X_1$ and $X_2$ that take on values $0$ or $1$?</li>
 </ul>
 </div>
 
@@ -423,11 +423,11 @@ You see the problem here. The number of parameters required grows exponentially 
 </ul>
 </div>
 
-For $n$ binary random variables, we said we will at most need $2^n - 1$ numbers to represent the probability distribution. This is when there is dependence between $n$ random variables, which requires all $2^n - 1$ numbers to caputure all the possible dependencies or interactions. However, if there is any sort of "independence" between one or more of the random variables, then the number of parameters requires to represent the joint probability distribution can be reduced. To put this idea on firm footing, let's first clearly defin the concept of independence in probability setting.
+For $n$ binary random variables, we said we will at most need $2^n - 1$ numbers to represent the probability distribution. This is when there is dependence between $n$ random variables, which requires all $2^n - 1$ numbers to caputure all the possible dependencies or interactions. However, if there is any sort of "independence" between one or more of the random variables, then the number of parameters requires to represent the joint probability distribution can be reduced. To put this idea on firm footing, let's first clearly define the concept of independence in probability setting.
 
 <b>Independence</b> 
 
-Two random variables $X$ and $Y$ are independent if the knowledge or information about one variables does not affect our knowledge about the other variable. This is most naturally expressed in terms of conditional probability. Two random variables are independent if the conditional probability distribution of one random variable given the other is equal to its marginal probability distribution. 
+Two random variables $X$ and $Y$ are independent if the knowledge or information about one variable does not affect our knowledge about the other variable. This is most naturally expressed in terms of conditional probability. Two random variables are independent if the conditional probability distribution of one random variable given the other is equal to its marginal probability distribution. 
 $$
 p(x \vert y) = p(x) \quad \forall x, y
 $$
@@ -446,17 +446,17 @@ Let's look at some exmaples to understand the concept of independence.
 
 <strong>Example 2:</strong> The age of a first year MS Bioengineering student and his/her grade in Applied Linear Algebra course are two random variables. The age of the student does not affect his/her grade in the course. Thus, these two random variables are independent. Similarly, the gender of the student and his/her grade in the course are independent.
 
-<strong>Example 3:</strong> A perosn's age and his/her blood group can be safely assumed to be independent random variables, i.e. 
+<strong>Example 3:</strong> A person's age and his/her blood group can be safely assumed to be independent random variables, i.e. 
 $$p(\text{Age} \vert \text{Blood Type}) = p(\text{Age}), \\,\\, \forall \text{Age}, \\,\text{Blood Type}$$
 The following is the demonstration of this from a real dataset from <a href="https://www.kaggle.com/datasets/prasad22/healthcare-dataset/versions/1?resource=download#">Kaggle</a> with data from 10000 subjects. The following plot shows the conditional probability distribution of the age of the subjects given their blood type, along with the marginal probability distribution of the age. We see that these distributions look essentially the same; they will never be exactly equal because of sampling noise. A $\chi^2$ test of independence on the data shows that the two random variables are independent.
 <!-- Image from the analysis folder with center alignment -->
 <img src="{{ '/assets/images/2025-03-31/age-bloodtype.svg' | url }}" alt="Independence" class="example-image" width="400" style="display: block; margin: 0 auto;">
 
-<strong>Example 4:</strong>Two Gaussian random variables $X$ and $Y$ are independent if and only if their joint distribution is given by the product of their marginals. If we randomly sample $X$ and $Y$ from a joint Gaussian distribution, we get a scatter plot as the following left plot, where there is appear to be no trend or correlation between the two random variables.
+<strong>Example 4:</strong>Two Gaussian random variables $X$ and $Y$ are independent if and only if their joint distribution is given by the product of their marginals. If we randomly sample $X$ and $Y$ from a joint Gaussian distribution, we get a scatter plot as the following left plot, where there appear to be no trend or correlation between the two random variables.
 <!-- Image from the analysis folder with center alignment -->
 <img src="{{ '/assets/images/2025-03-31/gaussrandvar.svg' | url }}" alt="Independence" class="example-image" width="500" style="display: block; margin: 0 auto;">
 
-On the other hand, the scatter plot on the right shows a case where the two random variables are dependent. Can you explain why these using the basic definition of independence?
+On the other hand, the scatter plot on the right shows a case where the two random variables are dependent. Can you explain why using the basic definition of independence?
 
 </div>
 
@@ -477,7 +477,7 @@ Let's look at some exmaples to understand the concept of independence.
 
 <div class="example-box">
 
-<strong>Example 5:</strong> Two repeated administration of a diagnostic test $T$ on a subject are not indepedent. The outcomes in the two tests $T_1$ (test 1) and $T_2$ (test 2) are random variables and they will be correlated. Let's simulate this and understand this. Let this diagnostic test be a binary test with a true positive rate of $0.9$ and a false positive rate of $0.05$. Let the prevalence of the disease of interst be $0.1$. We adminsitered this test twice on 1000 subjects who came to the hospital. Each of these patients either has or does not have the disease, which too is a randrom variable, which we call $D$. Comparing the outcomes of the two tests, we get the following joint probability distribution on the left. The right plot shows the conditional probability distribution of $T_2$, given the outcome of $T_1$.
+<strong>Example 5:</strong> Two repeated administration of a diagnostic test $T$ on a subject are not indepedent. The outcomes in the two tests $T_1$ (test 1) and $T_2$ (test 2) are random variables and they will be correlated. Let's simulate this and understand this. Let this diagnostic test be a binary test with a true positive rate of $0.9$ and a false positive rate of $0.05$. Let the prevalence of the disease of interest be $0.1$. We administered this test twice on 1000 subjects who came to the hospital. Each of these patients either has or does not have the disease, which too is a random variable, which we call $D$. Comparing the outcomes of the two tests, we get the following joint probability distribution on the left. The right plot shows the conditional probability distribution of $T_2$, given the outcome of $T_1$.
 <!-- Image from the analysis folder with center alignment -->
 <img src="{{ '/assets/images/2025-03-31/testretestcm1.svg' | url }}" alt="Independence" class="example-image" width="450" style="display: block; margin: 0 auto;">
 
