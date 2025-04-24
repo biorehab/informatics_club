@@ -493,7 +493,7 @@ One we know the disease status, we cannot learn anything about the results of $T
 
 <h2 class="post-subtitle">Representation of Multivariate Distributions</h2>
 
-We earlier saw that a joint distribution with $N$ binary random variables requires at most $2^{N}-1$ variables for its complete speicfication. This is the most general case, where each of the $N$ variables is dependent on other random variables. If these names these random variables $X_1, X_2, \ldots, X_N$, then the joint distribution can be written as the following,
+We earlier saw that a joint distribution with $N$ binary random variables requires at most $2^{N}-1$ variables for its complete speicfication. This is the most general case, where each of the $N$ variables is dependent on other random variables. This sentence is not clear!? If these names these random variables $X_1, X_2, \ldots, X_N$, then the joint distribution can be written as the following,
 $$
 p(x_1, x_2, \ldots, x_N) = p(x_N \vert x_{N-1}, x_{N-2}, \ldots, x_1) p(x_{N-1} \vert x_{N-2}, \ldots, x_1) \cdots p(x_{2} \vert x_1) p(x_1)
 $$
@@ -540,7 +540,7 @@ $$
 
 This is the simplest possible case. We only need $N$ parameters to represent the joint distribution.
 
-Often in practice, we neither have full independece or full dependence between the random variables. Conditional independence between variables betows structure to a joint distribution, allowing us to have a compact representation for joint probability distributions. 
+Often in practice, we neither have full independece or full dependence between the random variables. Conditional independence between variables betows bestows? structure to a joint distribution, allowing us to have a compact representation for joint probability distributions. 
 
 <h2 class="post-subtitle">Bayesian Networks</h2>
 
@@ -584,7 +584,7 @@ The following figures shown some examples of Bayesian networks (BNs) with three 
 </table>
 </div>
 
-The BNs shown above are five possible examples of BNs with three random variables. The following some graph therapy definitions that will be useful when talking about BNs:
+The BNs shown above are five possible examples of BNs with three random variables. The following are some graph therapy definitions that will be useful when talking about BNs:
 <ol>
   <li><b>Node:</b> The circles (with text) shown in the above graphs.</li>
   <li><b>Edge:</b> The arrows between two nodes of the graph. The arrows represent the conditional dependencies between the random variables; the direction of the arrow is often based on causal dependency, but this is not necessary in BN.
@@ -601,7 +601,7 @@ p(x_1, x_2, \ldots, x_N) = \prod_{i=1}^{N} p(x_i \vert \text{pa}(x_i))
 $$
 $\text{pa}(x_i)$ is the set of all parent nodes of node $x_i$. The number of parameters required to represent the joint distribution of a BN is equal to the sum of the number of parameters required to represent each conditional distribution. Assumning all random variables are binary, the number of parameters required to represent a conditional distribution $p(x_i \vert \text{pa}(x_i))$ is equal to $2^{\\#\text{pa}(x_i)} - 1$, where $\\#\text{pa}(x_i)$ is the number of parent nodes of node $x_i$.  
 
-We are now ready analyze the BNs shown above. 
+We are now ready to analyze the BNs shown above. 
 
 <table class="bn-table">
   <tr class="bn-row">
