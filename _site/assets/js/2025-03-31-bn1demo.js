@@ -3,9 +3,9 @@ function BN6GenModel(N) {
     // Simulate the model.
     const X1 = d3.range(N).map(() => d3.randomNormal(0, 3)());
     const X2 = X1.map(x1 => 2 * x1 + d3.randomNormal(0, 1)());
-    const X3 = X1.map(x1 => -0.025 * Math.pow(x1, 2) - x1 + d3.randomNormal(0, 2)());
-    const X4 = X2.map((x2, i) => 0.5 * x2 - 0.5 * X3[i] + d3.randomNormal(0, 2)());
-    const X5 = X4.map(x4 => 4 * Math.pow(x4, 1) + d3.randomNormal(0, 2)());
+    const X3 = X1.map(x1 => -1 * x1 + d3.randomNormal(0, 2)());
+    const X4 = X2.map((x2, i) => 0.5 * x2 - 0.5 * X3[i] + d3.randomNormal(0, 1)());
+    const X5 = X4.map(x4 => 3 * x4 + d3.randomNormal(0, 1)());
     return [
         ["X1", "X2", "X3", "X4", "X5"],
         X1.map((x1, i) => ({ X1: x1, X2: X2[i], X3: X3[i], X4: X4[i], X5: X5[i] }))

@@ -173,8 +173,10 @@ input[type="range"] {
 .bn-plot-area {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  /* align-items: flex-start; */
+  align-items: center;
   font-family: sans-serif;
+  /* border: 1px dashed red; */
 }
 
 .bn-controls {
@@ -232,8 +234,7 @@ summary {
 }
 
 svg#BN6Demo  {
-  width: 100%;
-  height: auto;
-  margin-top: -10px;
+  margin: 0px;
   padding: 0px;
+  /* border: 1px solid blue; */
 }

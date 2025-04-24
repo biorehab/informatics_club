@@ -3,9 +3,9 @@ function BN6GenModel(N) {
     // Simulate the model.
     const X1 = d3.range(N).map(() => d3.randomNormal(0, 3)());
     const X2 = X1.map(x1 => 2 * x1 + d3.randomNormal(0, 1)());
-    const X3 = X1.map(x1 => -1 * x1 + d3.randomNormal(0, 2)());
-    const X4 = X2.map((x2, i) => 0.5 * x2 - 0.5 * X3[i] + d3.randomNormal(0, 1)());
-    const X5 = X4.map(x4 => 3 * x4 + d3.randomNormal(0, 1)());
+    const X3 = X1.map(x1 => -0.025 * Math.pow(x1, 2) - x1 + d3.randomNormal(0, 2)());
+    const X4 = X2.map((x2, i) => 0.5 * x2 - 0.5 * X3[i] + d3.randomNormal(0, 2)());
+    const X5 = X4.map(x4 => 4 * Math.pow(x4, 1) + d3.randomNormal(0, 2)());
     return [
         ["X1", "X2", "X3", "X4", "X5"],
         X1.map((x1, i) => ({ X1: x1, X2: X2[i], X3: X3[i], X4: X4[i], X5: X5[i] }))
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const svg = d3.select("#BN6Demo");
     const width = +svg.attr("width");
     const height = +svg.attr("height");
-    const size = 150;
+    const size = 165;
     const padding = 20;
     const n = variables.length;
 
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           .attr("class", `cell cell-${i}-${j}`)
                           .attr("data-x", xj)
                           .attr("data-y", yi)
-                          .attr("transform", `translate(${j * size}, ${(i) * size})`);
+                          .attr("transform", `translate(${j * size}, ${i * size - 2.5 * padding})`);
 
             // Axes
             if (i === n - 1) {
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 g.append("text")
                  .attr("x", (j + 0.5) * size)
-                 .attr("y", 5 * size + 30)
+                 .attr("y", 5 * size - 1 * padding)
                  .attr("text-anchor", "middle")
                  .style("font-size", "16px")
                  .style("font-family", "Inter")
