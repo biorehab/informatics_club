@@ -152,7 +152,7 @@ $$</p>
 <p>$$
 p( x \, \vert \, y) = \frac{p( y \, \vert \, x) p(x)}{p(y)} \quad, p( y ) \neq 0
 $$</p>
-<p>This very simple rule has numerous applications, and in fact has an intuitive interpretation. The rule tells us how to update our belief or the uncertainity about an event $x$ given some evidence $y$. $p(x)$ is called the <i>prior</i> probability, which is a measure of belief about the event $x$ without any other information. $p(y \, \vert \, x)$ is the <i>likelihood</i> of the evidence $y$ given $x$, which is out belief about observing the data or information $y$ if event $x$ happens. $p(y)$ is the <i>marginal likelihood</i> of the evidence, and $p(x \, \vert \, y)$ is the <i>posterior</i> probability of $x$ given $y$. The posterior probability is our updated belief about the event $x$ given the evidence $y$.</p>
+<p>This very simple rule has numerous applications, and in fact has an intuitive interpretation. The rule tells us how to update our belief or the uncertainity about an event $x$ given some evidence $y$. $p(x)$ is called the <i>prior</i> probability, which is a measure of belief about the event $x$ without any other information. $p(y \, \vert \, x)$ is the <i>likelihood</i> of the evidence $y$ given $x$, which is our belief about observing the data or information $y$ if event $x$ happens. $p(y)$ is the <i>marginal likelihood</i> of the evidence, and $p(x \, \vert \, y)$ is the <i>posterior</i> probability of $x$ given $y$. The posterior probability is our updated belief about the event $x$ given the evidence $y$.</p>
 <h3 class="post-subsubtitle">Baye's Rule Interactive Demo</h3>
 <p>Let's look at an interactive demonstration of Baye's rule. The following interactive demo of a commonly used &quot;medical&quot; example of the Baye's rule. We have a subject who take a test $T$ for a disease $D$. The test outcome and the disease state are binary random variables; the test outcome is positive (1) or negative (0), and the subject can either have (1) or not have (0) the disease. The disease has an incidence rate of $p(D = 1)$ in the population - the <i>prior probability</i>. The test for the disease is not perfect; it has a some known <i>true positive rate</i> $p(T = 1 \, \vert \, D = 1)$ and a <i>false positive rate</i> $p(T = 1 \, \vert \, D = 0)$. The following demo allows us to compute the <i>posterior probability</i> of the subject having the disease after we know the test result, i.e., $p( D = 1 \, \vert \, T = 1)$ or $p( D = 1 \, \vert \, T = 0)$. In the following interactive demo, you can change the prior probability of the disease, the true positive rate, the false positive rate, and the test result to see how the posterior probability changes.</p>
 <div id="bayes-rule-discrete-demo">
@@ -1211,6 +1211,8 @@ $$</p>
     <svg class="BNDemo" id="BN6Demo" width="600" height="600"></svg>
 </div>
 <script src="/informatics_club/assets/js/2025-03-31-bn6demo.js" defer></script>
+<p>In progress ...</p>
+
         </div>
       </div>
     </main>
