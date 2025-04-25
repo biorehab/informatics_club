@@ -31,39 +31,46 @@ function FilterData(data, conditionedValues, eps) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    const N = 10000;
+    const N = 7500;
     const [variables, data] = BN6GenModel(N);
 
     const svg = d3.select("#BN6Demo");
     const width = +svg.attr("width");
     const height = +svg.attr("height");
-    const size = 165;
+    const size = 190;
     const padding = 20;
     const n = variables.length;
 
-    const scales = {};
+    const xScales = {};
+    const yScales = {};
+
     variables.forEach(v => {
-        scales[v] = d3.scaleLinear()
-            .domain(d3.extent(data, d => d[v])).nice()
-            .range([size - padding / 2, padding / 2]);
+        const extent = d3.extent(data, d => d[v]);
+        xScales[v] = d3.scaleLinear()
+            .domain(extent).nice()
+            .range([padding / 2, size - padding / 2]);
+
+        yScales[v] = d3.scaleLinear()
+            .domain(extent).nice()
+            .range([size - padding / 2, padding / 2]); // flipped for SVG
     });
 
     const g = svg.append("g").attr("transform", `translate(40,40)`);
 
     // Plot all points once.
     // Create grid of scatterplot cells once
-    for (let i = 0; i < n; i++) {
+    for (let i = 1; i < n; i++) {
         const yi = variables[i];
-        const yAxis = d3.axisLeft(scales[yi]).ticks(4);
+        const yAxis = d3.axisLeft(yScales[yi]).ticks(4);
         
-        for (let j = 0; j <= i; j++) {
+        for (let j = 0; j < i; j++) {
             const xj = variables[j];
-            const xAxis = d3.axisBottom(scales[xj]).ticks(4);
+            const xAxis = d3.axisBottom(xScales[xj]).ticks(4);
             const cell = g.append("g")
                           .attr("class", `cell cell-${i}-${j}`)
                           .attr("data-x", xj)
                           .attr("data-y", yi)
-                          .attr("transform", `translate(${j * size}, ${i * size - 2.5 * padding})`);
+                          .attr("transform", `translate(${j * size}, ${(i - 1) * size - 2 * padding})`);
 
             // Axes
             if (i === n - 1) {
@@ -74,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 g.append("text")
                  .attr("x", (j + 0.5) * size)
-                 .attr("y", 5 * size - 1 * padding)
+                 .attr("y", 4 * size - 1 * padding)
                  .attr("text-anchor", "middle")
                  .style("font-size", "16px")
                  .style("font-family", "Inter")
@@ -90,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 g.append("text")
                     .attr("x", -30)
-                    .attr("y", (i + 0.5) * size)
+                    .attr("y", (i - 0.75) * size)
                     .attr("text-anchor", "middle")
                     .style("font-size", "16px")
                     .style("font-family", "Inter")
@@ -104,11 +111,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 .enter()
                 .append("circle")
                 .attr("class", "point-all")
-                .attr("cx", d => scales[xj](d[xj]))
-                .attr("cy", d => size - scales[yi](d[yi]))
+                .attr("cx", d => xScales[xj](d[xj]))
+                .attr("cy", d => yScales[yi](d[yi]))
                 .attr("r", 1.5)
                 .attr("fill", "steelblue")
-                .attr("opacity", 0.3);
+                .attr("opacity", 0.1);
             
             // Display the correlation coefficient
             if (i !== j) {
@@ -169,8 +176,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 .enter()
                 .append("circle")
                 .attr("class", "point-filtered")
-                .attr("cx", d => scales[xi](d[xi]))
-                .attr("cy", d => size - scales[yj](d[yj]))
+                .attr("cx", d => xScales[xi](d[xi]))
+                .attr("cy", d => yScales[yj](d[yj]))
                 .attr("r", 1.5)
                 .attr("fill", "red")
                 .attr("opacity", 0.6);
